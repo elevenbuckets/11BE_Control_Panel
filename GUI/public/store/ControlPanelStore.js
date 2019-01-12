@@ -73,15 +73,24 @@ class ControlPanelStore extends _reflux2.default.Store {
 
 			this.controlPanel.linkAccount(this.state.address).then(r => {
 				this.setState({ passManaged: { [this.state.address]: r.result } });
-				(0, _loopasync2.default)(['ETH', ...this.state.tokenList], WalletActions.statusUpdate, 1);
+				(0, _loopasync2.default)(['ETH', ...this.state.tokenList], _ControlPanelActions2.default.statusUpdate, 1);
 			}).catch(err => {
 				console.trace(err);
 				//this.setState({address: null});
-				//WalletActions.finishUpdate();
+				//ControlPanelActions.finishUpdate();
 			});
 		};
-
 		this.controlPanel.handleStats = stats => {
+			if (stats.connected === false) {
+				return this.setState({ connected: false });
+			} else if (stats.blockHeight === 0) {
+				return this.setState({ wait4peers: true, connected: true });
+			} else if (stats.blockHeight !== stats.highestBlock) {
+				return this.setState({ syncInProgress: true, connected: true, wait4peers: false });
+			} else {
+				this.setState(_extends({}, stats, { wait4peers: false, syncInProgress: false }));
+			}
+
 			this.controlPanel.allAccounts().then(addrs => {
 				if (addrs.length !== this.state.accounts.length) this.setState({ accounts: addrs });
 
@@ -93,7 +102,7 @@ class ControlPanelStore extends _reflux2.default.Store {
 			});
 
 			this.controlPanel.gasPriceEst().then(est => {
-				this.setState(_extends({}, stats, { gasPriceInfo: est, gasPrice: est[this.state.gasPriceOption] }));
+				this.setState({ gasPriceInfo: est, gasPrice: est[this.state.gasPriceOption] });
 			});
 		};
 
@@ -122,7 +131,7 @@ class ControlPanelStore extends _reflux2.default.Store {
 			this.setState({ address: address, lesDelay: true, tokenBalance: [], showingBlock: 0 }); // is this correct ???
 			(0, _Utils.createCanvasWithAddress)(canvas, this.state.address);
 			this.retryTimer = setTimeout(() => {
-				return WalletActions.startUpdate(address, canvas);
+				return _ControlPanelActions2.default.startUpdate(address, canvas);
 			}, 997);
 			return;
 		}
@@ -142,12 +151,12 @@ class ControlPanelStore extends _reflux2.default.Store {
 
 		stage = stage.then(r => {
 			this.setState({ passManaged: { [this.state.address]: r.result } });
-			(0, _loopasync2.default)(['ETH', ...this.state.tokenList], WalletActions.statusUpdate, 1);
+			(0, _loopasync2.default)(['ETH', ...this.state.tokenList], _ControlPanelActions2.default.statusUpdate, 1);
 		}).catch(err => {
 			console.trace(err);
 			//this.setState({address: null});
 			//createCanvasWithAddress(canvas, '0x');
-			//WalletActions.finishUpdate();
+			//ControlPanelActions.finishUpdate();
 		});
 	}
 
@@ -162,7 +171,7 @@ class ControlPanelStore extends _reflux2.default.Store {
 					this._tokenBalance = [...new Set(a)];
 				}
 				this._count++;
-				if (this._count == this._target) WalletActions.finishUpdate();
+				if (this._count == this._target) _ControlPanelActions2.default.finishUpdate();
 			});
 		} else {
 			this.controlPanel.addrEtherBalance(this.state.address).then(b => {
@@ -170,7 +179,7 @@ class ControlPanelStore extends _reflux2.default.Store {
 				let stats = { [symbol]: b9 };
 				this._balances = _extends({}, this._balances, stats);
 				this._count++;
-				if (this._count == this._target) WalletActions.finishUpdate();
+				if (this._count == this._target) _ControlPanelActions2.default.finishUpdate();
 			});
 		}
 	}
