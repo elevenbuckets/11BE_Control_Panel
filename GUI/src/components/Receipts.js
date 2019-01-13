@@ -39,8 +39,9 @@ class Receipts extends Reflux.Component {
     getAmount(receipt) {
         if (Constants.Web3 === receipt.type && Constants.ETH === receipt.contract) {
             return this.controlPanel.toEth(this.controlPanel.hex2num(receipt.value),
-                this.controlPanel.TokenList[Constants.ETH].decimals).toFixed(9);
+                18).toFixed(9);
         } else if (Constants.Token === receipt.type) {
+            // TODO: update the TokenList 
             return this.controlPanel.toEth(this.controlPanel.hex2num(receipt.amount),
                 this.controlPanel.TokenList[receipt.contract].decimals).toFixed(9);
         }
@@ -48,6 +49,7 @@ class Receipts extends Reflux.Component {
     }
 
     getGasPrice = (receipt) => {
+        let gasPrice = receipt.gasPrice? receipt.gasPrice :0;
         return this.controlPanel.toEth(this.controlPanel.hex2num(receipt.gasPrice), 9).toFixed(9);
     }
 

@@ -210,9 +210,49 @@ class ControlPanelStore extends _reflux2.default.Store {
 
 	onNewJobs(obj) {
 		this.setState({ Qs: [obj.qid, ...this.state.Qs] });
-		this.controlPanel.getReceipts(obj.qid).then(data => {
-			this.setState({ receipts: _extends({ [obj.qid]: data }, this.state.receipts) });
+		// this.controlPanel.getReceipts(obj.qid).then(data => {
+		// 	this.setState({ receipts: { [obj.qid]: data, ...this.state.receipts } });
+		// })
+
+		this.controlPanel.syncRcdQ(obj.qid).then(data => {
+			let r = {
+				Q: obj.qid,
+				data: data
+			};
+			_ControlPanelActions2.default.updateReceipts(r);
+			return this.controlPanel.getReceipts(obj.qid).then(data => {
+				return { data, Q: obj.qid };
+			});
+		}).then(r => {
+			console.log("Receipts:");
+			console.log(r.data);
+			_ControlPanelActions2.default.updateReceipts(r);
 		});
+	}
+
+	onUpdateReceipts(r) {
+		let data = r.data;
+		if (typeof this.state.receipts[r.Q] !== "undefined") {
+			data = this.merge(["transactionHash", "tx"], r.data, this.state.receipts[r.Q]);
+		}
+
+		data.map(d => {
+			if (!d.tx) {
+				d.tx = "0x0000000000000000000000000000000000000000000000000000000000000000";
+			}
+		});
+
+		this.setState({ receipts: _extends({}, this.state.receipts, { [r.Q]: data }) });
+	}
+
+	merge(keys, receipt, rcdq) {
+		let oout = [];
+		rcdq.map(rc => {
+			receipt.map(o => {
+				if (o[keys[0]] === rc[keys[1]]) oout = [...oout, _extends({}, rc, o)];
+			});
+		});
+		return oout;
 	}
 }
 

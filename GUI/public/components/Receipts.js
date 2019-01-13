@@ -39,6 +39,7 @@ class Receipts extends _reflux2.default.Component {
         };
 
         this.getGasPrice = receipt => {
+            let gasPrice = receipt.gasPrice ? receipt.gasPrice : 0;
             return this.controlPanel.toEth(this.controlPanel.hex2num(receipt.gasPrice), 9).toFixed(9);
         };
 
@@ -128,8 +129,9 @@ class Receipts extends _reflux2.default.Component {
 
     getAmount(receipt) {
         if (_Constants2.default.Web3 === receipt.type && _Constants2.default.ETH === receipt.contract) {
-            return this.controlPanel.toEth(this.controlPanel.hex2num(receipt.value), this.controlPanel.TokenList[_Constants2.default.ETH].decimals).toFixed(9);
+            return this.controlPanel.toEth(this.controlPanel.hex2num(receipt.value), 18).toFixed(9);
         } else if (_Constants2.default.Token === receipt.type) {
+            // TODO: update the TokenList 
             return this.controlPanel.toEth(this.controlPanel.hex2num(receipt.amount), this.controlPanel.TokenList[receipt.contract].decimals).toFixed(9);
         }
         return receipt.amount;

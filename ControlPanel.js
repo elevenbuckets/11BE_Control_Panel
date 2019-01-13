@@ -95,6 +95,10 @@ class ControlPanel extends BladeIronClient {
 			return this.client.call('addrTokenBalance', [TokenSymbol, address]);
 		}
 
+		this.syncRcdQ = (qid) =>{
+			return this.client.call('syncRcdQ', [qid]);
+		}
+
 		this.subscribeNewJobs = (handler = null) =>{
 			console.log("subcribing the newJobs Event...");
 			this.client.subscribe('newJobs');
