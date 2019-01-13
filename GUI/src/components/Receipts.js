@@ -41,9 +41,8 @@ class Receipts extends Reflux.Component {
             return this.controlPanel.toEth(this.controlPanel.hex2num(receipt.value),
                 18).toFixed(9);
         } else if (Constants.Token === receipt.type) {
-            // TODO: update the TokenList 
             return this.controlPanel.toEth(this.controlPanel.hex2num(receipt.amount),
-                this.controlPanel.TokenList[receipt.contract].decimals).toFixed(9);
+                this.controlPanel.TokenInfo[receipt.contract].decimals).toFixed(9);
         }
         return receipt.amount;
     }

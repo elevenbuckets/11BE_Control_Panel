@@ -131,8 +131,7 @@ class Receipts extends _reflux2.default.Component {
         if (_Constants2.default.Web3 === receipt.type && _Constants2.default.ETH === receipt.contract) {
             return this.controlPanel.toEth(this.controlPanel.hex2num(receipt.value), 18).toFixed(9);
         } else if (_Constants2.default.Token === receipt.type) {
-            // TODO: update the TokenList 
-            return this.controlPanel.toEth(this.controlPanel.hex2num(receipt.amount), this.controlPanel.TokenList[receipt.contract].decimals).toFixed(9);
+            return this.controlPanel.toEth(this.controlPanel.hex2num(receipt.amount), this.controlPanel.TokenInfo[receipt.contract].decimals).toFixed(9);
         }
         return receipt.amount;
     }
