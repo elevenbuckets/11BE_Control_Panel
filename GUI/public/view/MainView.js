@@ -36,12 +36,13 @@ var _ReceiptsView = require('./ReceiptsView');
 
 var _ReceiptsView2 = _interopRequireDefault(_ReceiptsView);
 
+var _TokenSettingsView = require('./TokenSettingsView');
+
+var _TokenSettingsView2 = _interopRequireDefault(_TokenSettingsView);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Views
-
-
-// Reflux store
+// Reflux actions
 class MainView extends _reflux2.default.Component {
 	constructor(props) {
 		super(props);
@@ -63,6 +64,9 @@ class MainView extends _reflux2.default.Component {
 		console.log("subscribing New jobs in Mainview");
 		this.controlPanel.client.subscribe('newJobs');
 		this.controlPanel.client.on('newJobs', this.handleNewJobs);
+		this.state = {
+			currentView: "Receipts"
+		};
 	}
 
 	render() {
@@ -143,12 +147,15 @@ class MainView extends _reflux2.default.Component {
 				_react2.default.createElement(
 					'div',
 					{ className: 'content' },
-					_react2.default.createElement(_ReceiptsView2.default, null)
+					this.state.currentView == "TokenSettings" ? _react2.default.createElement(_TokenSettingsView2.default, null) : _react2.default.createElement(_ReceiptsView2.default, null)
 				)
 			);
 		}
 	}
 }
 
-// Reflux actions
+// Views
+
+
+// Reflux store
 exports.default = MainView;

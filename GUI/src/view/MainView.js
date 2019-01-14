@@ -15,6 +15,7 @@ import ControlPanelActions from '../action/ControlPanelActions';
 // Views
 import SideBarView from './SideBarView'
 import ReceiptsView from './ReceiptsView';
+import TokenSettingsView from './TokenSettingsView';
 
 class MainView extends Reflux.Component {
 	constructor(props) {
@@ -24,6 +25,9 @@ class MainView extends Reflux.Component {
 		console.log("subscribing New jobs in Mainview");
 		this.controlPanel.client.subscribe('newJobs');
 		this.controlPanel.client.on('newJobs', this.handleNewJobs);
+		this.state = {
+			currentView: "Receipts"
+		}
 	}
 
 	updateState = (key, e) => {
@@ -89,7 +93,8 @@ class MainView extends Reflux.Component {
 				<div className="wrapper">
 					<SideBarView />
 					<div className="content">
-						<ReceiptsView />
+						{this.state.currentView == "TokenSettings" ? <TokenSettingsView />
+							: <ReceiptsView />}
 					</div>
 				</div>
 			)
