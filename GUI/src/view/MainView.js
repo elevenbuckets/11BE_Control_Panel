@@ -26,7 +26,7 @@ class MainView extends Reflux.Component {
 		this.controlPanel.client.subscribe('newJobs');
 		this.controlPanel.client.on('newJobs', this.handleNewJobs);
 		this.state = {
-			currentView: "Receipts"
+			currentView: "TokenSettings"
 		}
 	}
 

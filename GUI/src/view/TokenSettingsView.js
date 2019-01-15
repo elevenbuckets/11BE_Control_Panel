@@ -138,6 +138,40 @@ class TokenSettingsView extends Reflux.Component {
     getTokenDisplay = () => {
         return this.state.tokenDisplay;
     }
+
+	changeTokenFilter = (field, event) => {
+		let filter = { ...this.state.tokenFilter, [field]: event.target.value }
+		if (event.target.value == "") {
+			delete filter[field];
+		}
+
+		this.filterTokens(filter);
+		this.setState({ tokenFilter: filter });
+
+    }
+    
+    filterTokens = (filter) => {
+		setTimeout(()=>{
+			if (Object.keys(filter).length === 0) {
+				this.setState({ filteredTokens: [] });
+				return;
+			}
+			let filterTokens = Object.keys(this.state.availableTokens).map((key) => {
+				return { symbol: key, ...this.state.availableTokens[key] }
+			})
+			filterTokens = filterTokens.filter(q => {
+				return Object.keys(filter).reduce((match, key) => {
+					if (typeof (q[key]) === "boolean") {
+						return match && (q[key] ? "Yes" : "No").includes(filter[key]);
+					}
+					return match && q[key].toString().toLowerCase().includes(filter[key].toLowerCase());
+				}, true)
+			})
+			this.setState({ filteredTokens: filterTokens });
+		})
+		
+	}
+
     selectedTokensCanBeDeleted = () => {
 		if (this.state.selectedTokens.length === 0) {
 			return false;
@@ -145,6 +179,65 @@ class TokenSettingsView extends Reflux.Component {
 			return this.state.selectedTokens.reduce((match, token) => {
 				return match && (this.state.availableTokens[token].category != "default")
 			}, true)
+		}
+    }
+
+    addToken = tokenToAdd => {
+		this.setState({ availableTokens: { ...this.state.availableTokens, [tokenToAdd.symbol]: tokenToAdd.token } });
+
+		// udpate the tokenList in wallet
+		this.wallet.TokenList = {
+			...this.wallet.TokenList, [tokenToAdd.symbol]:
+				{ addr: tokenToAdd.token.addr, name: tokenToAdd.token.name, decimals: tokenToAdd.token.decimals }
+		}
+
+		// udpate the tokens in configuration file
+		const castIronFields = ["datadir", "rpcAddr", "ipcPath", "defaultGasPrice", "gasOracleAPI",
+			"condition", "networkID", "tokens", "watchTokens", "passVault"];
+		this.cfgobj = remote.getGlobal('cfgobj');
+		let json = require(path.join(this.cfgobj.configDir, "config.json"))
+		let availableTokensFromCustomer = json.tokens;
+		let castIronWriter = ConfigWriterService.getFileWriter(path.join(this.cfgobj.configDir, "config.json"), castIronFields);
+		availableTokensFromCustomer = {
+			...availableTokensFromCustomer, [tokenToAdd.symbol]:
+				{ addr: tokenToAdd.token.addr, name: tokenToAdd.token.name, decimals: tokenToAdd.token.decimals }
+		};
+
+		this.filterTokens(this.state.tokenFilter);
+
+		//TODO: change it to use addKeyValue in future
+		json.tokens = availableTokensFromCustomer;
+		castIronWriter.writeJSON(json);
+    }
+    
+    handleClickAddToken = () => {
+		this.addToken(this.state.tokenToAdd);
+		this.setState({
+			tokenToAdd: {
+				symbol: '',
+				token: {
+					addr: '',
+					name: '',
+					decimals: "",
+					category: 'Customized',
+					watched: false
+				}
+			}
+		});
+	}
+
+	checkToken = (token, event) => {
+		if (event.target.checked) {
+			if (!this.state.selectedTokens.includes(token)) {
+				this.setState({ selectedTokens: [...this.state.selectedTokens, token] })
+			}
+		} else {
+			if (this.state.selectedTokens.includes(token)) {
+				let selectedTokens = [...this.state.selectedTokens];
+				selectedTokens.splice(selectedTokens.indexOf(token), 1);
+				this.setState({ selectedTokens: selectedTokens })
+			}
+
 		}
     }
     
@@ -246,7 +339,18 @@ class TokenSettingsView extends Reflux.Component {
 		//TODO: change it to use addKeyValue in future
 		json.watchTokens = watchTokens;
 		castIronWriter.writeJSON(json);
-	} 
+    } 
+    
+    changeNewTokenField = (field, e) => {
+		let tokenToAdd = this.state.tokenToAdd;
+		if (field === "symbol") {
+			tokenToAdd[field] = e.target.value;
+		} else {
+			tokenToAdd.token[field] = e.target.value;
+		}
+
+		this.setState({ tokenToAdd: tokenToAdd })
+	}
 
     render() {
         console.log("in TokenSettingsView render()");
