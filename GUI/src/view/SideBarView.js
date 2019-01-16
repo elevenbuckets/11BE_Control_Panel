@@ -32,7 +32,8 @@ class SideBarView extends Reflux.Component {
 		return (
             <div className="sidebar">
             <input type="button" className="sidebarButton" value="Receipts"/>
-            <input type="button" className="sidebarButton" value="Token Settings"/>
+			<input type="button" className="sidebarButton" value="Token Settings"/>
+			<input type="button" className="sidebarButton" value="App Launcher"/>
             </div>
 		)
 

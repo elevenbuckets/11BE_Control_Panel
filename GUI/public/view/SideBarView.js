@@ -52,7 +52,8 @@ class SideBarView extends _reflux2.default.Component {
 			'div',
 			{ className: 'sidebar' },
 			_react2.default.createElement('input', { type: 'button', className: 'sidebarButton', value: 'Receipts' }),
-			_react2.default.createElement('input', { type: 'button', className: 'sidebarButton', value: 'Token Settings' })
+			_react2.default.createElement('input', { type: 'button', className: 'sidebarButton', value: 'Token Settings' }),
+			_react2.default.createElement('input', { type: 'button', className: 'sidebarButton', value: 'App Launcher' })
 		);
 	}
 }

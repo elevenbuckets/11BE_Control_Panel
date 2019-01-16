@@ -16,6 +16,7 @@ import ControlPanelActions from '../action/ControlPanelActions';
 import SideBarView from './SideBarView'
 import ReceiptsView from './ReceiptsView';
 import TokenSettingsView from './TokenSettingsView';
+import AppLauncherView from './AppLauncherView'
 
 class MainView extends Reflux.Component {
 	constructor(props) {
@@ -27,7 +28,7 @@ class MainView extends Reflux.Component {
 		this.controlPanel.client.on('newJobs', this.handleNewJobs);
 		this.controlPanel.syncTokenInfo();
 		this.state = {
-			currentView: "TokenSettings"
+			currentView: "AppLauncher"
 		}
 	}
 
@@ -95,7 +96,7 @@ class MainView extends Reflux.Component {
 					<SideBarView />
 					<div className="content">
 						{this.state.currentView == "TokenSettings" ? <TokenSettingsView />
-							: <ReceiptsView />}
+							: this.state.currentView == "AppLauncher" ? <AppLauncherView/>: <ReceiptsView />}
 					</div>
 				</div>
 			)
