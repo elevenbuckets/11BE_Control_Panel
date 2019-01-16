@@ -25,6 +25,7 @@ class MainView extends Reflux.Component {
 		console.log("subscribing New jobs in Mainview");
 		this.controlPanel.client.subscribe('newJobs');
 		this.controlPanel.client.on('newJobs', this.handleNewJobs);
+		this.controlPanel.syncTokenInfo();
 		this.state = {
 			currentView: "TokenSettings"
 		}

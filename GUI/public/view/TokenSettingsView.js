@@ -31,7 +31,7 @@ class TokenSettingsView extends _reflux2.default.Component {
 		super(props);
 
 		this.initializeAvaibleTokens = () => {
-			let availableTokensFromCastIron = _extends({}, CastIronService.wallet.defaultTokenList);
+			let availableTokensFromCastIron = _extends({}, this.controlPanel.TokenInfo);
 
 			Object.keys(availableTokensFromCastIron).map(key => {
 				availableTokensFromCastIron[key] = _extends({}, availableTokensFromCastIron[key], {
@@ -40,13 +40,16 @@ class TokenSettingsView extends _reflux2.default.Component {
 			});
 
 			// Now the custom tokens info is in config.json, may refactor it to its own file in future
-			this.cfgobj = _electron.remote.getGlobal('cfgobj');
-			let availableTokensFromCustomer = require(path.join(this.cfgobj.configDir, "config.json")).tokens;
-			Object.keys(availableTokensFromCustomer).map(key => {
-				availableTokensFromCustomer[key] = _extends({}, availableTokensFromCustomer[key], {
-					category: "Customized", watched: this.state.tokenList.includes(key)
-				});
-			});
+			// this.cfgobj = remote.getGlobal('cfgobj');
+			// let availableTokensFromCustomer = require(path.join(this.cfgobj.configDir, "config.json")).tokens;
+			// Object.keys(availableTokensFromCustomer).map((key) => {
+			// 	availableTokensFromCustomer[key] = {
+			// 		...availableTokensFromCustomer[key],
+			// 		category: "Customized", watched: this.state.tokenList.includes(key)
+			// 	}
+			// })
+
+			let availableTokensFromCustomer = {};
 
 			this.state.availableTokens = _extends({}, availableTokensFromCastIron, availableTokensFromCustomer);
 		};
