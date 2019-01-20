@@ -43,6 +43,10 @@ class SideBarView extends _reflux2.default.Component {
 			return _reactDom2.default.findDOMNode(this.refs.Accounts).firstChild;
 		};
 
+		this.updateView = view => {
+			this.props.updateView(view);
+		};
+
 		this.store = _ControlPanelStore2.default;
 	}
 
@@ -51,9 +55,9 @@ class SideBarView extends _reflux2.default.Component {
 		return _react2.default.createElement(
 			'div',
 			{ className: 'sidebar' },
-			_react2.default.createElement('input', { type: 'button', className: 'sidebarButton', value: 'Receipts' }),
-			_react2.default.createElement('input', { type: 'button', className: 'sidebarButton', value: 'Token Settings' }),
-			_react2.default.createElement('input', { type: 'button', className: 'sidebarButton', value: 'App Launcher' })
+			_react2.default.createElement('input', { type: 'button', className: 'sidebarButton', value: 'Receipts', onClick: this.updateView }),
+			_react2.default.createElement('input', { type: 'button', className: 'sidebarButton', value: 'TokenSettings', onClick: this.updateView }),
+			_react2.default.createElement('input', { type: 'button', className: 'sidebarButton', value: 'AppLauncher', onClick: this.updateView })
 		);
 	}
 }

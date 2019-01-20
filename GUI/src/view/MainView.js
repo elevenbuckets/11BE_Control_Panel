@@ -93,7 +93,7 @@ class MainView extends Reflux.Component {
 			document.body.style.background = "#f4f0fa";
 			return (
 				<div className="wrapper">
-					<SideBarView />
+					<SideBarView updateView={this.updateState.bind(this, "currentView")} />
 					<div className="content">
 						{this.state.currentView == "TokenSettings" ? <TokenSettingsView />
 							: this.state.currentView == "AppLauncher" ? <AppLauncherView/>: <ReceiptsView />}

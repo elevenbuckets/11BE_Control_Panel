@@ -27,13 +27,17 @@ class SideBarView extends Reflux.Component {
 		return ReactDOM.findDOMNode(this.refs.Accounts).firstChild;
 	}
 
+	updateView = view =>{
+		this.props.updateView(view);
+	}
+
 	render() {
 		console.log("In MainView render()");
 		return (
             <div className="sidebar">
-            <input type="button" className="sidebarButton" value="Receipts"/>
-			<input type="button" className="sidebarButton" value="Token Settings"/>
-			<input type="button" className="sidebarButton" value="App Launcher"/>
+            <input type="button" className="sidebarButton" value="Receipts" onClick={this.updateView}/>
+			<input type="button" className="sidebarButton" value="TokenSettings" onClick={this.updateView}/>
+			<input type="button" className="sidebarButton" value="AppLauncher" onClick={this.updateView}/>
             </div>
 		)
 
