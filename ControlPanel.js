@@ -1,6 +1,6 @@
 'use strict';
 
-const fs   = require('fs');
+const fs = require('fs');
 const path = require('path');
 const ethUtils = require('ethereumjs-utils');
 
@@ -8,109 +8,107 @@ const ethUtils = require('ethereumjs-utils');
 const BladeIronClient = require('bladeiron_api');
 
 class ControlPanel extends BladeIronClient {
-        constructor(rpcport, rpchost, options)
-        {
-                super(rpcport, rpchost, options);
+	constructor(rpcport, rpchost, options) {
+		super(rpcport, rpchost, options);
 		this.TokenList = this.configs.tokens; // just a list;
 		this.TokenInfo = {};
 		this.newJobsHandler = null;
+		this.topDir = null;
 
-		this.toWei = (eth, decimals) => this.toBigNumber(String(eth)).times(this.toBigNumber(10 ** decimals)).floor(); 
+		this.toWei = (eth, decimals) => this.toBigNumber(String(eth)).times(this.toBigNumber(10 ** decimals)).floor();
 		this.toEth = (wei, decimals) => this.toBigNumber(String(wei)).div(this.toBigNumber(10 ** decimals));
-		this.hex2num = (hex) => this.toBigNumber(String(hex)).toString();		
+		this.hex2num = (hex) => this.toBigNumber(String(hex)).toString();
 
-		this.watchTokens = () => 
-		{
+		this.watchTokens = () => {
 			return this.client.call('hotGroups', this.TokenList);
 		}
 
-		this.unwatchTokens = (tokenSymbol) =>
-		{
+		this.unwatchTokens = (tokenSymbol) => {
 			this.TokenList = this.TokenList.filter((t) => { return t !== tokenSymbol; });
 
 			return this.watchTokens();
 		}
 
-		this.syncTokenInfo = () => 
-		{
+		this.addToken = (symbol, name = symbol) => (ctrAddr) => (decimals) =>{
+			return this.client.call("addToken", [symbol, name, ctrAddr, decimals]);
+		}
+
+		this.removeToken = (symbol) =>{
+			return this.client.call("removeToken", symbol);
+		}
+
+		this.syncTokenInfo = () => {
 			return this.client.call('hotGroupInfo').then((info) => {
 				this.TokenInfo = info;
 
 				return true;
 			})
-			.catch((err) => {
-				console.trace(err);
-				return false;
-			})
+				.catch((err) => {
+					console.trace(err);
+					return false;
+				})
 		}
 
-		this.setGasPrice = (priceInWei) => 
-		{
+		this.setGasPrice = (priceInWei) => {
 			return this.client.call('setGasPrice', priceInWei);
 		}
 
-		this.setGWeiGasPrice = (priceInGWei) =>
-		{
+		this.setGWeiGasPrice = (priceInGWei) => {
 			let priceInWei = this.toWei(priceInGWei, 9);
 
 			return this.setGasPrice(priceInWei);
 		}
 
-		this.gasPriceEst = () => 
-		{
+		this.gasPriceEst = () => {
 			return this.client.call('gasPriceEst');
 		}
 
-		this.launchGUI = () => 
-		{
+		this.launchGUI = () => {
 			const gui = Promise.resolve();
 
-			return gui.then(() => 
-			{
+			return gui.then(() => {
 				const spawn = require('child_process').spawn;
-		                let cwd = process.cwd(); 
-		                let topdir = path.join(cwd, 'dapps', this.appName, 'GUI');
-		                let configDir = require(path.join(cwd, '.local', 'bootstrap_config.json')).configDir;
-		
-		                const subprocess = spawn(path.join(topdir,'node_modules','.bin','electron'), ['.'], {
-		                  cwd: topdir,
-		                  env: {DISPLAY: process.env.DISPLAY, XAUTHORITY: process.env.XAUTHORITY, configDir },
-		                  detached: true,
-		                  stdio: 'ignore'
-		                });
-		
-		                subprocess.unref();
+				let cwd = process.cwd();
+				let topdir = path.join(cwd, 'dapps', this.appName, 'GUI');
+				let configDir = require(path.join(cwd, '.local', 'bootstrap_config.json')).configDir;
+
+				const subprocess = spawn(path.join(topdir, 'node_modules', '.bin', 'electron'), ['.'], {
+					cwd: topdir,
+					env: { DISPLAY: process.env.DISPLAY, XAUTHORITY: process.env.XAUTHORITY, configDir },
+					detached: true,
+					stdio: 'ignore'
+				});
+
+				subprocess.unref();
 
 				return true;
 			})
 		}
 
-		this.addrEtherBalance = (address) => 
-		{
+		this.addrEtherBalance = (address) => {
 			return this.client.call('addrEtherBalance', [address]);
 		}
 
-		this.addrTokenBalance = (TokenSymbol) => (address) => 
-		{
+		this.addrTokenBalance = (TokenSymbol) => (address) => {
 			return this.client.call('addrTokenBalance', [TokenSymbol, address]);
 		}
 
-		this.syncRcdQ = (qid) =>{
+		this.syncRcdQ = (qid) => {
 			return this.client.call('syncRcdQ', [qid]);
 		}
 
-		this.subscribeNewJobs = (handler = null) =>{
+		this.subscribeNewJobs = (handler = null) => {
 			console.log("subcribing the newJobs Event...");
 			this.client.subscribe('newJobs');
 			this.newJobsHandler = handler;
-            this.client.on('newJobs', this.newJobsDispatcher);  
+			this.client.on('newJobs', this.newJobsDispatcher);
 		}
 
-		this.newJobsDispatcher = (obj) =>{
+		this.newJobsDispatcher = (obj) => {
 			console.log("Getting newJob events")
-			if(!this.newJobsHandler){
+			if (!this.newJobsHandler) {
 				console.log("No valid handler for newJobs events")
-			}else{
+			} else {
 				this.newJobsHandler(obj)
 			}
 		}
