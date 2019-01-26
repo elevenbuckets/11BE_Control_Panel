@@ -34,7 +34,7 @@ class ControlPanel extends BladeIronClient {
 		}
 
 		this.removeToken = (symbol) =>{
-			return this.client.call("removeToken", symbol);
+			return this.client.call("removeToken", [symbol]);
 		}
 
 		this.syncTokenInfo = () => {

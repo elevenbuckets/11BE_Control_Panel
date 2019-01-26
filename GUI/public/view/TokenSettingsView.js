@@ -431,16 +431,14 @@ var _initialiseProps = function () {
 		if (this.state.selectedTokens.length === 0) {
 			return false;
 		} else {
-			return this.state.selectedTokens.reduce((match, token) => {
-				return match && this.state.availableTokens[token].category != "default";
-			}, true);
+			return true;
 		}
 	};
 
 	this.addToken = tokenToAdd => {
 		this.setState({ availableTokens: _extends({}, this.state.availableTokens, { [tokenToAdd.symbol]: tokenToAdd.token }) });
 
-		// udpate the tokenList in wallet
+		// udpate the tokenList in BladeIron Server
 		this.controlPanel.addToken(tokenToAdd.symbol, tokenToAdd.token.name)(tokenToAdd.token.addr)(tokenToAdd.token.decimals);
 
 		// udpate the tokens in configuration file
@@ -490,36 +488,31 @@ var _initialiseProps = function () {
 	this.handleClickDeleteToken = () => {
 
 		let selectedTokens = this.state.selectedTokens;
-		let availableTokens = this.state.availableTokens;
+		let stateAvailableTokens = this.state.availableTokens;
 		this.state.selectedTokens.map(tokenSymbol => {
-			delete availableTokens[tokenSymbol];
+			delete stateAvailableTokens[tokenSymbol];
 		});
 
-		// udpate the tokenList in wallet
-		let tokenList = _extends({}, this.wallet.TokenList);
+		// udpate the tokenList in BladeIron Server
 		this.state.selectedTokens.map(tokenSymbol => {
-			delete tokenList[tokenSymbol];
+			this.controlPanel.removeToken(tokenSymbol);
 		});
 
-		this.wallet.TokenList = tokenList;
-		this.setState({ availableTokens: availableTokens, selectedTokens: [] });
-		CastIronActions.selectedTokenUpdate('');
+		this.setState({ availableTokens: stateAvailableTokens, selectedTokens: [] });
 
 		// udpate the tokens in configuration file
-		const castIronFields = ["datadir", "rpcAddr", "ipcPath", "defaultGasPrice", "gasOracleAPI", "condition", "networkID", "tokens", "watchTokens", "passVault"];
-		this.cfgobj = _electron.remote.getGlobal('cfgobj');
-		let json = require(path.join(this.cfgobj.configDir, "config.json"));
-		let availableTokensFromCustomer = json.tokens;
-		let castIronWriter = ConfigWriterService.getFileWriter(path.join(this.cfgobj.configDir, "config.json"), castIronFields);
+		let json = require(this.tokenConfigsFile);
+		let availableTokens = json[this.controlPanel.networkID];
+		let configWriter = new _ConfigJSONFileWriter2.default(this.tokenConfigsFile);
 		selectedTokens.map(tokenSymbol => {
-			delete availableTokensFromCustomer[tokenSymbol];
+			delete availableTokens[tokenSymbol];
 		});
 
 		this.filterTokens(this.state.tokenFilter);
 
 		//TODO: change it to use addKeyValue in future
-		json.tokens = availableTokensFromCustomer;
-		castIronWriter.writeJSON(json);
+		json[this.controlPanel.networkID] = availableTokens;
+		configWriter.writeJSON(json);
 	};
 
 	this.handleClickWatchToken = () => {
