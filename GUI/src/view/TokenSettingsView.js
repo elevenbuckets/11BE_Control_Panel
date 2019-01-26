@@ -29,7 +29,8 @@ class TokenSettingsView extends Reflux.Component {
 			selectedTokens: [],
 			tokenFilter: {},
 			filteredTokens: [],
-			tokenDisplay: []
+			tokenDisplay: [],
+			watchedTokenSymbolList:  ["RTKA", "RTKB", "RNT"]
 		}
 
 		this.storeKeys = [
@@ -100,7 +101,7 @@ class TokenSettingsView extends Reflux.Component {
 						<td width='10%'>{token.name}</td>
 						<td width='10%'>{token.decimals}</td>
 						<td width='10%'>{token.category}</td>
-						<td width='10%'>{token.watched ? "Yes" : "No"}</td>
+						<td width='10%'>{this.state.watchedTokenSymbolList.includes(key) ? "Yes" : "No"}</td>
 
 					</tr>
 				);
@@ -119,7 +120,7 @@ class TokenSettingsView extends Reflux.Component {
 						<td width='10%'>{token.name}</td>
 						<td width='10%'>{token.decimals}</td>
 						<td width='10%'>{token.category}</td>
-						<td width='10%'>{token.watched ? "Yes" : "No"}</td>
+						<td width='10%'>{this.state.watchedTokenSymbolList.includes(token.symbol) ? "Yes" : "No"}</td>
 
 					</tr>
 				);
@@ -261,30 +262,33 @@ class TokenSettingsView extends Reflux.Component {
 		selectedTokens.map((token) => {
 			let availableTokens = this.state.availableTokens;
 			if (!availableTokens[token].watched) {
-				CastIronActions.watchedTokenUpdate("Add", token);
+				// CastIronActions.watchedTokenUpdate("Add", token);
 				availableTokens[token].watched = true;
 			}
 			this.setState({ availableTokens: availableTokens });
 		})
+		let watchedTokenSymbolList = [...this.state.watchedTokenSymbolList];
+		watchedTokenSymbolList = [...watchedTokenSymbolList, ...selectedTokens];
+		this.controlPanel.watchTokens(watchedTokenSymbolList);
 
-		this.setState({ selectedTokens: [] });
+		this.setState({ selectedTokens: [], watchedTokenSymbolList: watchedTokenSymbolList });
 
-		// udpate the tokens in configuration file
-		const castIronFields = ["datadir", "rpcAddr", "ipcPath", "defaultGasPrice", "gasOracleAPI",
-			"condition", "networkID", "tokens", "watchTokens", "passVault"];
-		this.cfgobj = remote.getGlobal('cfgobj');
-		let json = require(path.join(this.cfgobj.configDir, "config.json"))
-		let watchTokens = json.watchTokens;
-		let castIronWriter = ConfigWriterService.getFileWriter(path.join(this.cfgobj.configDir, "config.json"), castIronFields);
-		watchTokens = [...watchTokens, ...selectedTokens];
+		// // udpate the tokens in configuration file
+		// const castIronFields = ["datadir", "rpcAddr", "ipcPath", "defaultGasPrice", "gasOracleAPI",
+		// 	"condition", "networkID", "tokens", "watchTokens", "passVault"];
+		// this.cfgobj = remote.getGlobal('cfgobj');
+		// let json = require(path.join(this.cfgobj.configDir, "config.json"))
+		// let watchTokens = json.watchTokens;
+		// let castIronWriter = ConfigWriterService.getFileWriter(path.join(this.cfgobj.configDir, "config.json"), castIronFields);
+		// watchTokens = [...watchTokens, ...selectedTokens];
 
-		this.filterTokens(this.state.tokenFilter);
-		CastIronActions.selectedTokenUpdate('');
-		CastIronActions.infoUpdate();
+		// this.filterTokens(this.state.tokenFilter);
+		// CastIronActions.selectedTokenUpdate('');
+		// CastIronActions.infoUpdate();
 
-		//TODO: change it to use addKeyValue in future
-		json.watchTokens = watchTokens;
-		castIronWriter.writeJSON(json);
+		// //TODO: change it to use addKeyValue in future
+		// json.watchTokens = watchTokens;
+		// castIronWriter.writeJSON(json);
 
 
 	}

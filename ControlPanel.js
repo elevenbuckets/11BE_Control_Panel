@@ -19,14 +19,12 @@ class ControlPanel extends BladeIronClient {
 		this.toEth = (wei, decimals) => this.toBigNumber(String(wei)).div(this.toBigNumber(10 ** decimals));
 		this.hex2num = (hex) => this.toBigNumber(String(hex)).toString();
 
-		this.watchTokens = () => {
-			return this.client.call('hotGroups', this.TokenList);
+		this.watchTokens = (tokenSymbolList) => {
+			return this.client.call('watchTokens', tokenSymbolList);
 		}
 
-		this.unwatchTokens = (tokenSymbol) => {
-			this.TokenList = this.TokenList.filter((t) => { return t !== tokenSymbol; });
-
-			return this.watchTokens();
+		this.unwatchTokens = (tokenSymbolList) => {
+			return this.client.call('unwatchTokens', tokenSymbolList);;
 		}
 
 		this.addToken = (symbol, name = symbol) => (ctrAddr) => (decimals) =>{
@@ -36,6 +34,7 @@ class ControlPanel extends BladeIronClient {
 		this.removeToken = (symbol) =>{
 			return this.client.call("removeToken", [symbol]);
 		}
+
 
 		this.syncTokenInfo = () => {
 			return this.client.call('hotGroupInfo').then((info) => {
