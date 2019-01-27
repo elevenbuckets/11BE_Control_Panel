@@ -30,8 +30,12 @@ class MainView extends Reflux.Component {
 		this.state = {
 			currentView: "AppLauncher"
 		}
+		
 	}
-
+	componentDidMount = () => {
+		this.controlPanel.watchTokens(this.controlPanel.TokenList);
+		ControlPanelActions.watchedTokenUpdate(this.controlPanel.TokenList);
+	}
 	updateState = (key, e) => {
 		this.setState({ [key]: e.target.value });
 	}

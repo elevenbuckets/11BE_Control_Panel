@@ -29,7 +29,7 @@ class ControlPanelStore extends Reflux.Store {
 				syncInProgress: false,
 				Qs: [],
 				receipts: {},
-				watchedTokenSymbolList:  ["RTKA", "RTKB", "RNT"]
+				watchedTokenSymbolList:  []
 			}
 
 		this.listenables = ControlPanelActions;

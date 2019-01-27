@@ -52,7 +52,7 @@ class ControlPanelStore extends _reflux2.default.Store {
 			syncInProgress: false,
 			Qs: [],
 			receipts: {},
-			watchedTokenSymbolList: ["RTKA", "RTKB", "RNT"]
+			watchedTokenSymbolList: ["RTKA"]
 		};
 
 		this.listenables = _ControlPanelActions2.default;

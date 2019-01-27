@@ -54,6 +54,11 @@ class MainView extends _reflux2.default.Component {
 	constructor(props) {
 		super(props);
 
+		this.componentDidMount = () => {
+			this.controlPanel.watchTokens(this.controlPanel.TokenList);
+			_ControlPanelActions2.default.watchedTokenUpdate(this.controlPanel.TokenList);
+		};
+
 		this.updateState = (key, e) => {
 			this.setState({ [key]: e.target.value });
 		};
@@ -76,6 +81,7 @@ class MainView extends _reflux2.default.Component {
 			currentView: "AppLauncher"
 		};
 	}
+
 
 	render() {
 		console.log("In MainView render(); syncInProgress = " + this.state.syncInProgress);
