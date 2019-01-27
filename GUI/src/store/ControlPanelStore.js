@@ -102,6 +102,8 @@ class ControlPanelStore extends Reflux.Store {
 		this._target;
 		this.retryTimer;
 		this.controlPanel.handleStats({}); // Init
+		this.controlPanel.watchTokens(this.controlPanel.TokenList);
+		ControlPanelActions.watchedTokenUpdate(this.controlPanel.TokenList);
 	}
 
 	// Reflux Action responses

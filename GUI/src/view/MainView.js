@@ -26,16 +26,13 @@ class MainView extends Reflux.Component {
 		console.log("subscribing New jobs in Mainview");
 		this.controlPanel.client.subscribe('newJobs');
 		this.controlPanel.client.on('newJobs', this.handleNewJobs);
-		this.controlPanel.syncTokenInfo();
+		// this.controlPanel.syncTokenInfo();
 		this.state = {
 			currentView: "AppLauncher"
 		}
 		
 	}
-	componentDidMount = () => {
-		this.controlPanel.watchTokens(this.controlPanel.TokenList);
-		ControlPanelActions.watchedTokenUpdate(this.controlPanel.TokenList);
-	}
+	
 	updateState = (key, e) => {
 		this.setState({ [key]: e.target.value });
 	}

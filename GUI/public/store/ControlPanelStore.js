@@ -52,7 +52,7 @@ class ControlPanelStore extends _reflux2.default.Store {
 			syncInProgress: false,
 			Qs: [],
 			receipts: {},
-			watchedTokenSymbolList: ["RTKA"]
+			watchedTokenSymbolList: []
 		};
 
 		this.listenables = _ControlPanelActions2.default;
@@ -123,6 +123,8 @@ class ControlPanelStore extends _reflux2.default.Store {
 		this._target;
 		this.retryTimer;
 		this.controlPanel.handleStats({}); // Init
+		this.controlPanel.watchTokens(this.controlPanel.TokenList);
+		_ControlPanelActions2.default.watchedTokenUpdate(this.controlPanel.TokenList);
 	}
 
 	// Reflux Action responses

@@ -54,11 +54,6 @@ class MainView extends _reflux2.default.Component {
 	constructor(props) {
 		super(props);
 
-		this.componentDidMount = () => {
-			this.controlPanel.watchTokens(this.controlPanel.TokenList);
-			_ControlPanelActions2.default.watchedTokenUpdate(this.controlPanel.TokenList);
-		};
-
 		this.updateState = (key, e) => {
 			this.setState({ [key]: e.target.value });
 		};
@@ -76,12 +71,11 @@ class MainView extends _reflux2.default.Component {
 		console.log("subscribing New jobs in Mainview");
 		this.controlPanel.client.subscribe('newJobs');
 		this.controlPanel.client.on('newJobs', this.handleNewJobs);
-		this.controlPanel.syncTokenInfo();
+		// this.controlPanel.syncTokenInfo();
 		this.state = {
 			currentView: "AppLauncher"
 		};
 	}
-
 
 	render() {
 		console.log("In MainView render(); syncInProgress = " + this.state.syncInProgress);
