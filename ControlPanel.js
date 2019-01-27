@@ -19,6 +19,22 @@ class ControlPanel extends BladeIronClient {
 		this.toEth = (wei, decimals) => this.toBigNumber(String(wei)).div(this.toBigNumber(10 ** decimals));
 		this.hex2num = (hex) => this.toBigNumber(String(hex)).toString();
 
+		this.connectRPC = () => {
+			try {
+				this.client = new rpc('ws://' + this.rpchost + ':' + this.rpcport + '/controlPanel');
+
+				const __ready = (resolve, reject) => {
+					if (this.client.ready) return resolve(true);
+					this.client.on('open', () => { resolve(true) });
+				}
+
+				return new Promise(__ready);
+			} catch (err) {
+				console.log(err);
+				return Promise.reject(false);
+			}
+		}
+
 		this.watchTokens = (tokenSymbolList) => {
 			return this.client.call('watchTokens', tokenSymbolList);
 		}
@@ -27,11 +43,11 @@ class ControlPanel extends BladeIronClient {
 			return this.client.call('unwatchTokens', tokenSymbolList);;
 		}
 
-		this.addToken = (symbol, name = symbol) => (ctrAddr) => (decimals) =>{
+		this.addToken = (symbol, name = symbol) => (ctrAddr) => (decimals) => {
 			return this.client.call("addToken", [symbol, name, ctrAddr, decimals]);
 		}
 
-		this.removeToken = (symbol) =>{
+		this.removeToken = (symbol) => {
 			return this.client.call("removeToken", [symbol]);
 		}
 
