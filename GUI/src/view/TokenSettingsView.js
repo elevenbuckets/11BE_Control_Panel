@@ -86,7 +86,9 @@ class TokenSettingsView extends Reflux.Component {
 	setTokenDisplayAsyc = () => {
 
 		setTimeout(() => {
-			let tokenDisplay = this.state.filteredTokens.length === 0 ? Object.keys(this.state.availableTokens).map((key) => {
+			let tokenDisplay = this.state.filteredTokens.length === 0 ? Object.keys(this.state.availableTokens).filter(key => {
+				return key != "ETH"
+			}).map((key) => {
 				let token = this.state.availableTokens[key];
 				return (
 					<tr>
@@ -106,7 +108,9 @@ class TokenSettingsView extends Reflux.Component {
 
 					</tr>
 				);
-			}) : this.state.filteredTokens.map((token) => {
+			}) : this.state.filteredTokens.filter(token => {
+				return token.symbol != "ETH"
+			}).map((token) => {
 				return (
 					<tr>
 						<td
@@ -272,7 +276,7 @@ class TokenSettingsView extends Reflux.Component {
 		watchedTokenSymbolList = [...watchedTokenSymbolList, ...selectedTokens];
 		this.controlPanel.watchTokens(watchedTokenSymbolList);
 
-		this.setState({ selectedTokens: []});
+		this.setState({ selectedTokens: [] });
 		ControlPanelActions.watchedTokenUpdate(watchedTokenSymbolList)
 
 		// // udpate the tokens in configuration file
@@ -309,13 +313,13 @@ class TokenSettingsView extends Reflux.Component {
 			}
 			this.setState({ availableTokens: availableTokens });
 		})
-		
+
 		this.controlPanel.watchTokens(watchedTokenSymbolList);
 
-		this.setState({ selectedTokens: []});
+		this.setState({ selectedTokens: [] });
 		ControlPanelActions.watchedTokenUpdate(watchedTokenSymbolList)
 
-		
+
 
 		// // udpate the tokens in configuration file
 		// const castIronFields = ["datadir", "rpcAddr", "ipcPath", "defaultGasPrice", "gasOracleAPI",

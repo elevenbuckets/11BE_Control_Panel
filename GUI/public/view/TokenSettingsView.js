@@ -78,7 +78,9 @@ class TokenSettingsView extends _reflux2.default.Component {
 		this.setTokenDisplayAsyc = () => {
 
 			setTimeout(() => {
-				let tokenDisplay = this.state.filteredTokens.length === 0 ? Object.keys(this.state.availableTokens).map(key => {
+				let tokenDisplay = this.state.filteredTokens.length === 0 ? Object.keys(this.state.availableTokens).filter(key => {
+					return key != "ETH";
+				}).map(key => {
 					let token = this.state.availableTokens[key];
 					return _react2.default.createElement(
 						'tr',
@@ -125,7 +127,9 @@ class TokenSettingsView extends _reflux2.default.Component {
 							this.state.watchedTokenSymbolList.includes(key) ? "Yes" : "No"
 						)
 					);
-				}) : this.state.filteredTokens.map(token => {
+				}) : this.state.filteredTokens.filter(token => {
+					return token.symbol != "ETH";
+				}).map(token => {
 					return _react2.default.createElement(
 						'tr',
 						null,
