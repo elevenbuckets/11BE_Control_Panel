@@ -28,13 +28,358 @@ var _ControlPanelStore = require('../store/ControlPanelStore');
 
 var _ControlPanelStore2 = _interopRequireDefault(_ControlPanelStore);
 
+var _ControlPanelActions = require('../action/ControlPanelActions');
+
+var _ControlPanelActions2 = _interopRequireDefault(_ControlPanelActions);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 class TokenSettingsView extends _reflux2.default.Component {
 	constructor(props) {
 		super(props);
 
-		_initialiseProps.call(this);
+		this.initializeAvaibleTokens = () => {
+			let tokenConfigs = require(this.tokenConfigsFile);
+			let availableTokens = tokenConfigs[this.controlPanel.networkID];
+			Object.keys(availableTokens).map(key => {
+				availableTokens[key] = _extends({}, availableTokens[key], {
+					category: "default", watched: this.state.tokenList.includes(key)
+				});
+			});
+
+			this.state.availableTokens = _extends({}, availableTokens);
+		};
+
+		this.componentDidUpdate = (prevProps, prevState) => {
+			if (prevState.availableTokens != this.state.availableTokens || prevState.filteredTokens != this.state.filteredTokens || prevState.selectedTokens != this.state.selectedTokens) {
+				this.setTokenDisplayAsyc();
+			}
+			return true;
+		};
+
+		this.componentDidMount = () => {
+			console.log("Settings: Starting initializing token...");
+			setTimeout(this.initializeAvaibleTokens);
+			this.setTokenDisplayAsyc();
+			console.log("Settings: Finished initializing token.");
+		};
+
+		this.handleTokenActionUpdate = action => {
+			if (this.state.tokenAction === "Search") {
+				this.setState({ tokenFilter: {}, filteredTokens: [] });
+			}
+			if (this.state.tokenAction === action) {
+				this.setState({ tokenAction: "" });
+			} else {
+				this.setState({ tokenAction: action });
+			}
+		};
+
+		this.setTokenDisplayAsyc = () => {
+
+			setTimeout(() => {
+				let tokenDisplay = this.state.filteredTokens.length === 0 ? Object.keys(this.state.availableTokens).map(key => {
+					let token = this.state.availableTokens[key];
+					return _react2.default.createElement(
+						'tr',
+						null,
+						_react2.default.createElement(
+							'td',
+							{
+								width: '10%' },
+							_react2.default.createElement('input', {
+								name: 'check',
+								type: 'checkbox',
+								checked: this.state.selectedTokens.includes(key),
+								onChange: this.checkToken.bind(this, key),
+								style: { width: "16px", height: "16px" } })
+						),
+						_react2.default.createElement(
+							'td',
+							{ width: '10%' },
+							key
+						),
+						_react2.default.createElement(
+							'td',
+							{ width: '40%' },
+							token.addr
+						),
+						_react2.default.createElement(
+							'td',
+							{ width: '10%' },
+							token.name
+						),
+						_react2.default.createElement(
+							'td',
+							{ width: '10%' },
+							token.decimals
+						),
+						_react2.default.createElement(
+							'td',
+							{ width: '10%' },
+							token.category
+						),
+						_react2.default.createElement(
+							'td',
+							{ width: '10%' },
+							this.state.watchedTokenSymbolList.includes(key) ? "Yes" : "No"
+						)
+					);
+				}) : this.state.filteredTokens.map(token => {
+					return _react2.default.createElement(
+						'tr',
+						null,
+						_react2.default.createElement(
+							'td',
+							{
+								width: '10%' },
+							_react2.default.createElement('input', {
+								name: 'check',
+								type: 'checkbox',
+								checked: this.state.selectedTokens.includes(token.symbol),
+								onChange: this.checkToken.bind(this, token.symbol),
+								style: { width: "16px", height: "16px" } })
+						),
+						_react2.default.createElement(
+							'td',
+							{ width: '10%' },
+							token.symbol
+						),
+						_react2.default.createElement(
+							'td',
+							{ width: '40%' },
+							token.addr
+						),
+						_react2.default.createElement(
+							'td',
+							{ width: '10%' },
+							token.name
+						),
+						_react2.default.createElement(
+							'td',
+							{ width: '10%' },
+							token.decimals
+						),
+						_react2.default.createElement(
+							'td',
+							{ width: '10%' },
+							token.category
+						),
+						_react2.default.createElement(
+							'td',
+							{ width: '10%' },
+							this.state.watchedTokenSymbolList.includes(token.symbol) ? "Yes" : "No"
+						)
+					);
+				});
+
+				this.setState({ tokenDisplay: tokenDisplay });
+			});
+		};
+
+		this.getTokenDisplay = () => {
+			return this.state.tokenDisplay;
+		};
+
+		this.changeTokenFilter = (field, event) => {
+			let filter = _extends({}, this.state.tokenFilter, { [field]: event.target.value });
+			if (event.target.value == "") {
+				delete filter[field];
+			}
+
+			this.filterTokens(filter);
+			this.setState({ tokenFilter: filter });
+		};
+
+		this.filterTokens = filter => {
+			setTimeout(() => {
+				if (Object.keys(filter).length === 0) {
+					this.setState({ filteredTokens: [] });
+					return;
+				}
+				let filterTokens = Object.keys(this.state.availableTokens).map(key => {
+					return _extends({ symbol: key }, this.state.availableTokens[key]);
+				});
+				filterTokens = filterTokens.filter(q => {
+					return Object.keys(filter).reduce((match, key) => {
+						if (typeof q[key] === "boolean") {
+							return match && (q[key] ? "Yes" : "No").includes(filter[key]);
+						}
+						return match && q[key].toString().toLowerCase().includes(filter[key].toLowerCase());
+					}, true);
+				});
+				this.setState({ filteredTokens: filterTokens });
+			});
+		};
+
+		this.selectedTokensCanBeDeleted = () => {
+			if (this.state.selectedTokens.length === 0) {
+				return false;
+			} else {
+				return true;
+			}
+		};
+
+		this.addToken = tokenToAdd => {
+			this.setState({ availableTokens: _extends({}, this.state.availableTokens, { [tokenToAdd.symbol]: tokenToAdd.token }) });
+
+			// udpate the tokenList in BladeIron Server
+			this.controlPanel.addToken(tokenToAdd.symbol, tokenToAdd.token.name)(tokenToAdd.token.addr)(tokenToAdd.token.decimals);
+
+			// udpate the tokens in configuration file
+			let json = require(this.tokenConfigsFile);
+			let availableTokens = json[this.controlPanel.networkID];
+			let configWriter = new _ConfigJSONFileWriter2.default(this.tokenConfigsFile);
+			availableTokens = _extends({}, availableTokens, { [tokenToAdd.symbol]: { addr: tokenToAdd.token.addr, name: tokenToAdd.token.name, decimals: tokenToAdd.token.decimals }
+			});
+
+			this.filterTokens(this.state.tokenFilter);
+
+			//TODO: change it to use addKeyValue in future
+			json[this.controlPanel.networkID] = availableTokens;
+			configWriter.writeJSON(json);
+		};
+
+		this.handleClickAddToken = () => {
+			this.addToken(this.state.tokenToAdd);
+			this.setState({
+				tokenToAdd: {
+					symbol: '',
+					token: {
+						addr: '',
+						name: '',
+						decimals: "",
+						category: 'Customized',
+						watched: false
+					}
+				}
+			});
+		};
+
+		this.checkToken = (token, event) => {
+			if (event.target.checked) {
+				if (!this.state.selectedTokens.includes(token)) {
+					this.setState({ selectedTokens: [...this.state.selectedTokens, token] });
+				}
+			} else {
+				if (this.state.selectedTokens.includes(token)) {
+					let selectedTokens = [...this.state.selectedTokens];
+					selectedTokens.splice(selectedTokens.indexOf(token), 1);
+					this.setState({ selectedTokens: selectedTokens });
+				}
+			}
+		};
+
+		this.handleClickDeleteToken = () => {
+
+			let selectedTokens = this.state.selectedTokens;
+			let stateAvailableTokens = this.state.availableTokens;
+			this.state.selectedTokens.map(tokenSymbol => {
+				delete stateAvailableTokens[tokenSymbol];
+			});
+
+			// udpate the tokenList in BladeIron Server
+			this.state.selectedTokens.map(tokenSymbol => {
+				this.controlPanel.removeToken(tokenSymbol);
+			});
+
+			this.setState({ availableTokens: stateAvailableTokens, selectedTokens: [] });
+
+			// udpate the tokens in configuration file
+			let json = require(this.tokenConfigsFile);
+			let availableTokens = json[this.controlPanel.networkID];
+			let configWriter = new _ConfigJSONFileWriter2.default(this.tokenConfigsFile);
+			selectedTokens.map(tokenSymbol => {
+				delete availableTokens[tokenSymbol];
+			});
+
+			this.filterTokens(this.state.tokenFilter);
+
+			//TODO: change it to use addKeyValue in future
+			json[this.controlPanel.networkID] = availableTokens;
+			configWriter.writeJSON(json);
+		};
+
+		this.handleClickWatchToken = () => {
+			let selectedTokens = this.state.selectedTokens;
+			selectedTokens.map(token => {
+				let availableTokens = this.state.availableTokens;
+				if (!availableTokens[token].watched) {
+					// CastIronActions.watchedTokenUpdate("Add", token);
+					availableTokens[token].watched = true;
+				}
+				this.setState({ availableTokens: availableTokens });
+			});
+			let watchedTokenSymbolList = [...this.state.watchedTokenSymbolList];
+			watchedTokenSymbolList = [...watchedTokenSymbolList, ...selectedTokens];
+			this.controlPanel.watchTokens(watchedTokenSymbolList);
+
+			this.setState({ selectedTokens: [] });
+			_ControlPanelActions2.default.watchedTokenUpdate(watchedTokenSymbolList);
+
+			// // udpate the tokens in configuration file
+			// const castIronFields = ["datadir", "rpcAddr", "ipcPath", "defaultGasPrice", "gasOracleAPI",
+			// 	"condition", "networkID", "tokens", "watchTokens", "passVault"];
+			// this.cfgobj = remote.getGlobal('cfgobj');
+			// let json = require(path.join(this.cfgobj.configDir, "config.json"))
+			// let watchTokens = json.watchTokens;
+			// let castIronWriter = ConfigWriterService.getFileWriter(path.join(this.cfgobj.configDir, "config.json"), castIronFields);
+			// watchTokens = [...watchTokens, ...selectedTokens];
+
+			// this.filterTokens(this.state.tokenFilter);
+			// CastIronActions.selectedTokenUpdate('');
+			// CastIronActions.infoUpdate();
+
+			// //TODO: change it to use addKeyValue in future
+			// json.watchTokens = watchTokens;
+			// castIronWriter.writeJSON(json);
+
+		};
+
+		this.handleClickUnWatchToken = () => {
+			let selectedTokens = this.state.selectedTokens;
+			let watchedTokenSymbolList = [...this.state.watchedTokenSymbolList];
+			selectedTokens.map(token => {
+				let availableTokens = this.state.availableTokens;
+				if (availableTokens[token].watched) {
+					// CastIronActions.watchedTokenUpdate("Remove", token);
+					availableTokens[token].watched = false;
+				}
+				if (watchedTokenSymbolList.includes(token)) {
+					watchedTokenSymbolList.splice(watchedTokenSymbolList.indexOf(token), 1);
+				}
+				this.setState({ availableTokens: availableTokens });
+			});
+
+			this.controlPanel.watchTokens(watchedTokenSymbolList);
+
+			this.setState({ selectedTokens: [] });
+			_ControlPanelActions2.default.watchedTokenUpdate(watchedTokenSymbolList);
+
+			// // udpate the tokens in configuration file
+			// const castIronFields = ["datadir", "rpcAddr", "ipcPath", "defaultGasPrice", "gasOracleAPI",
+			// 	"condition", "networkID", "tokens", "watchTokens", "passVault"];
+			// let castIronWriter = ConfigWriterService.getFileWriter(path.join(this.cfgobj.configDir, "config.json"), castIronFields);
+
+			// this.filterTokens(this.state.tokenFilter);
+			// CastIronActions.selectedTokenUpdate('');
+			// CastIronActions.infoUpdate();
+
+			// //TODO: change it to use addKeyValue in future
+			// json.watchTokens = watchTokens;
+			// castIronWriter.writeJSON(json);
+		};
+
+		this.changeNewTokenField = (field, e) => {
+			let tokenToAdd = this.state.tokenToAdd;
+			if (field === "symbol") {
+				tokenToAdd[field] = e.target.value;
+			} else {
+				tokenToAdd.token[field] = e.target.value;
+			}
+
+			this.setState({ tokenToAdd: tokenToAdd });
+		};
 
 		this.store = _ControlPanelStore2.default;
 		this.state = {
@@ -53,11 +398,10 @@ class TokenSettingsView extends _reflux2.default.Component {
 			selectedTokens: [],
 			tokenFilter: {},
 			filteredTokens: [],
-			tokenDisplay: [],
-			watchedTokenSymbolList: ["RTKA", "RTKB", "RNT"]
+			tokenDisplay: []
 		};
 
-		this.storeKeys = ["tokenList"];
+		this.storeKeys = ["tokenList", "watchedTokenSymbolList"];
 		this.controlPanel = _electron.remote.getGlobal("controlPanel");
 		let path = require("path");
 		this.tokenConfigsFile = path.join(this.controlPanel.topDir, "Tokens.json");
@@ -252,346 +596,5 @@ class TokenSettingsView extends _reflux2.default.Component {
 		);
 	}
 }
-
-var _initialiseProps = function () {
-	this.initializeAvaibleTokens = () => {
-		let tokenConfigs = require(this.tokenConfigsFile);
-		let availableTokens = tokenConfigs[this.controlPanel.networkID];
-		Object.keys(availableTokens).map(key => {
-			availableTokens[key] = _extends({}, availableTokens[key], {
-				category: "default", watched: this.state.tokenList.includes(key)
-			});
-		});
-
-		this.state.availableTokens = _extends({}, availableTokens);
-	};
-
-	this.componentDidUpdate = (prevProps, prevState) => {
-		if (prevState.availableTokens != this.state.availableTokens || prevState.filteredTokens != this.state.filteredTokens || prevState.selectedTokens != this.state.selectedTokens) {
-			this.setTokenDisplayAsyc();
-		}
-		return true;
-	};
-
-	this.componentDidMount = () => {
-		console.log("Settings: Starting initializing token...");
-		setTimeout(this.initializeAvaibleTokens);
-		this.setTokenDisplayAsyc();
-		console.log("Settings: Finished initializing token.");
-	};
-
-	this.handleTokenActionUpdate = action => {
-		if (this.state.tokenAction === "Search") {
-			this.setState({ tokenFilter: {}, filteredTokens: [] });
-		}
-		if (this.state.tokenAction === action) {
-			this.setState({ tokenAction: "" });
-		} else {
-			this.setState({ tokenAction: action });
-		}
-	};
-
-	this.setTokenDisplayAsyc = () => {
-
-		setTimeout(() => {
-			let tokenDisplay = this.state.filteredTokens.length === 0 ? Object.keys(this.state.availableTokens).map(key => {
-				let token = this.state.availableTokens[key];
-				return _react2.default.createElement(
-					'tr',
-					null,
-					_react2.default.createElement(
-						'td',
-						{
-							width: '10%' },
-						_react2.default.createElement('input', {
-							name: 'check',
-							type: 'checkbox',
-							checked: this.state.selectedTokens.includes(key),
-							onChange: this.checkToken.bind(this, key),
-							style: { width: "16px", height: "16px" } })
-					),
-					_react2.default.createElement(
-						'td',
-						{ width: '10%' },
-						key
-					),
-					_react2.default.createElement(
-						'td',
-						{ width: '40%' },
-						token.addr
-					),
-					_react2.default.createElement(
-						'td',
-						{ width: '10%' },
-						token.name
-					),
-					_react2.default.createElement(
-						'td',
-						{ width: '10%' },
-						token.decimals
-					),
-					_react2.default.createElement(
-						'td',
-						{ width: '10%' },
-						token.category
-					),
-					_react2.default.createElement(
-						'td',
-						{ width: '10%' },
-						this.state.watchedTokenSymbolList.includes(key) ? "Yes" : "No"
-					)
-				);
-			}) : this.state.filteredTokens.map(token => {
-				return _react2.default.createElement(
-					'tr',
-					null,
-					_react2.default.createElement(
-						'td',
-						{
-							width: '10%' },
-						_react2.default.createElement('input', {
-							name: 'check',
-							type: 'checkbox',
-							checked: this.state.selectedTokens.includes(token.symbol),
-							onChange: this.checkToken.bind(this, token.symbol),
-							style: { width: "16px", height: "16px" } })
-					),
-					_react2.default.createElement(
-						'td',
-						{ width: '10%' },
-						token.symbol
-					),
-					_react2.default.createElement(
-						'td',
-						{ width: '40%' },
-						token.addr
-					),
-					_react2.default.createElement(
-						'td',
-						{ width: '10%' },
-						token.name
-					),
-					_react2.default.createElement(
-						'td',
-						{ width: '10%' },
-						token.decimals
-					),
-					_react2.default.createElement(
-						'td',
-						{ width: '10%' },
-						token.category
-					),
-					_react2.default.createElement(
-						'td',
-						{ width: '10%' },
-						this.state.watchedTokenSymbolList.includes(token.symbol) ? "Yes" : "No"
-					)
-				);
-			});
-
-			this.setState({ tokenDisplay: tokenDisplay });
-		});
-	};
-
-	this.getTokenDisplay = () => {
-		return this.state.tokenDisplay;
-	};
-
-	this.changeTokenFilter = (field, event) => {
-		let filter = _extends({}, this.state.tokenFilter, { [field]: event.target.value });
-		if (event.target.value == "") {
-			delete filter[field];
-		}
-
-		this.filterTokens(filter);
-		this.setState({ tokenFilter: filter });
-	};
-
-	this.filterTokens = filter => {
-		setTimeout(() => {
-			if (Object.keys(filter).length === 0) {
-				this.setState({ filteredTokens: [] });
-				return;
-			}
-			let filterTokens = Object.keys(this.state.availableTokens).map(key => {
-				return _extends({ symbol: key }, this.state.availableTokens[key]);
-			});
-			filterTokens = filterTokens.filter(q => {
-				return Object.keys(filter).reduce((match, key) => {
-					if (typeof q[key] === "boolean") {
-						return match && (q[key] ? "Yes" : "No").includes(filter[key]);
-					}
-					return match && q[key].toString().toLowerCase().includes(filter[key].toLowerCase());
-				}, true);
-			});
-			this.setState({ filteredTokens: filterTokens });
-		});
-	};
-
-	this.selectedTokensCanBeDeleted = () => {
-		if (this.state.selectedTokens.length === 0) {
-			return false;
-		} else {
-			return true;
-		}
-	};
-
-	this.addToken = tokenToAdd => {
-		this.setState({ availableTokens: _extends({}, this.state.availableTokens, { [tokenToAdd.symbol]: tokenToAdd.token }) });
-
-		// udpate the tokenList in BladeIron Server
-		this.controlPanel.addToken(tokenToAdd.symbol, tokenToAdd.token.name)(tokenToAdd.token.addr)(tokenToAdd.token.decimals);
-
-		// udpate the tokens in configuration file
-		let json = require(this.tokenConfigsFile);
-		let availableTokens = json[this.controlPanel.networkID];
-		let configWriter = new _ConfigJSONFileWriter2.default(this.tokenConfigsFile);
-		availableTokens = _extends({}, availableTokens, { [tokenToAdd.symbol]: { addr: tokenToAdd.token.addr, name: tokenToAdd.token.name, decimals: tokenToAdd.token.decimals }
-		});
-
-		this.filterTokens(this.state.tokenFilter);
-
-		//TODO: change it to use addKeyValue in future
-		json[this.controlPanel.networkID] = availableTokens;
-		configWriter.writeJSON(json);
-	};
-
-	this.handleClickAddToken = () => {
-		this.addToken(this.state.tokenToAdd);
-		this.setState({
-			tokenToAdd: {
-				symbol: '',
-				token: {
-					addr: '',
-					name: '',
-					decimals: "",
-					category: 'Customized',
-					watched: false
-				}
-			}
-		});
-	};
-
-	this.checkToken = (token, event) => {
-		if (event.target.checked) {
-			if (!this.state.selectedTokens.includes(token)) {
-				this.setState({ selectedTokens: [...this.state.selectedTokens, token] });
-			}
-		} else {
-			if (this.state.selectedTokens.includes(token)) {
-				let selectedTokens = [...this.state.selectedTokens];
-				selectedTokens.splice(selectedTokens.indexOf(token), 1);
-				this.setState({ selectedTokens: selectedTokens });
-			}
-		}
-	};
-
-	this.handleClickDeleteToken = () => {
-
-		let selectedTokens = this.state.selectedTokens;
-		let stateAvailableTokens = this.state.availableTokens;
-		this.state.selectedTokens.map(tokenSymbol => {
-			delete stateAvailableTokens[tokenSymbol];
-		});
-
-		// udpate the tokenList in BladeIron Server
-		this.state.selectedTokens.map(tokenSymbol => {
-			this.controlPanel.removeToken(tokenSymbol);
-		});
-
-		this.setState({ availableTokens: stateAvailableTokens, selectedTokens: [] });
-
-		// udpate the tokens in configuration file
-		let json = require(this.tokenConfigsFile);
-		let availableTokens = json[this.controlPanel.networkID];
-		let configWriter = new _ConfigJSONFileWriter2.default(this.tokenConfigsFile);
-		selectedTokens.map(tokenSymbol => {
-			delete availableTokens[tokenSymbol];
-		});
-
-		this.filterTokens(this.state.tokenFilter);
-
-		//TODO: change it to use addKeyValue in future
-		json[this.controlPanel.networkID] = availableTokens;
-		configWriter.writeJSON(json);
-	};
-
-	this.handleClickWatchToken = () => {
-		let selectedTokens = this.state.selectedTokens;
-		selectedTokens.map(token => {
-			let availableTokens = this.state.availableTokens;
-			if (!availableTokens[token].watched) {
-				// CastIronActions.watchedTokenUpdate("Add", token);
-				availableTokens[token].watched = true;
-			}
-			this.setState({ availableTokens: availableTokens });
-		});
-		let watchedTokenSymbolList = [...this.state.watchedTokenSymbolList];
-		watchedTokenSymbolList = [...watchedTokenSymbolList, ...selectedTokens];
-		this.controlPanel.watchTokens(watchedTokenSymbolList);
-
-		this.setState({ selectedTokens: [], watchedTokenSymbolList: watchedTokenSymbolList });
-
-		// // udpate the tokens in configuration file
-		// const castIronFields = ["datadir", "rpcAddr", "ipcPath", "defaultGasPrice", "gasOracleAPI",
-		// 	"condition", "networkID", "tokens", "watchTokens", "passVault"];
-		// this.cfgobj = remote.getGlobal('cfgobj');
-		// let json = require(path.join(this.cfgobj.configDir, "config.json"))
-		// let watchTokens = json.watchTokens;
-		// let castIronWriter = ConfigWriterService.getFileWriter(path.join(this.cfgobj.configDir, "config.json"), castIronFields);
-		// watchTokens = [...watchTokens, ...selectedTokens];
-
-		// this.filterTokens(this.state.tokenFilter);
-		// CastIronActions.selectedTokenUpdate('');
-		// CastIronActions.infoUpdate();
-
-		// //TODO: change it to use addKeyValue in future
-		// json.watchTokens = watchTokens;
-		// castIronWriter.writeJSON(json);
-
-	};
-
-	this.handleClickUnWatchToken = () => {
-		this.cfgobj = _electron.remote.getGlobal('cfgobj');
-		let json = require(path.join(this.cfgobj.configDir, "config.json"));
-		let watchTokens = json.watchTokens;
-		let selectedTokens = this.state.selectedTokens;
-		selectedTokens.map(token => {
-			let availableTokens = this.state.availableTokens;
-			if (availableTokens[token].watched) {
-				CastIronActions.watchedTokenUpdate("Remove", token);
-				availableTokens[token].watched = false;
-				if (watchTokens.includes(token)) {
-					watchTokens.splice(watchTokens.indexOf(token), 1);
-				}
-			}
-			this.setState({ availableTokens: availableTokens });
-		});
-		this.setState({ selectedTokens: [] });
-
-		// udpate the tokens in configuration file
-		const castIronFields = ["datadir", "rpcAddr", "ipcPath", "defaultGasPrice", "gasOracleAPI", "condition", "networkID", "tokens", "watchTokens", "passVault"];
-		let castIronWriter = ConfigWriterService.getFileWriter(path.join(this.cfgobj.configDir, "config.json"), castIronFields);
-
-		this.filterTokens(this.state.tokenFilter);
-		CastIronActions.selectedTokenUpdate('');
-		CastIronActions.infoUpdate();
-
-		//TODO: change it to use addKeyValue in future
-		json.watchTokens = watchTokens;
-		castIronWriter.writeJSON(json);
-	};
-
-	this.changeNewTokenField = (field, e) => {
-		let tokenToAdd = this.state.tokenToAdd;
-		if (field === "symbol") {
-			tokenToAdd[field] = e.target.value;
-		} else {
-			tokenToAdd.token[field] = e.target.value;
-		}
-
-		this.setState({ tokenToAdd: tokenToAdd });
-	};
-};
 
 exports.default = TokenSettingsView;

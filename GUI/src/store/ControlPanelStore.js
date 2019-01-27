@@ -28,7 +28,8 @@ class ControlPanelStore extends Reflux.Store {
 				showingBlock: 0,
 				syncInProgress: false,
 				Qs: [],
-				receipts: {}
+				receipts: {},
+				watchedTokenSymbolList:  ["RTKA", "RTKB", "RNT"]
 			}
 
 		this.listenables = ControlPanelActions;
@@ -227,7 +228,11 @@ class ControlPanelStore extends Reflux.Store {
         let oout = [];
         rcdq.map((rc) => { receipt.map((o) => { if (o[keys[0]] === rc[keys[1]]) oout = [...oout, { ...rc, ...o }] }) });
         return oout;
-    }
+	}
+	
+	onWatchedTokenUpdate = (tokenSymbolList) =>{
+		this.setState({watchedTokenSymbolList : tokenSymbolList});
+	} 
 }
 
 export default ControlPanelStore;

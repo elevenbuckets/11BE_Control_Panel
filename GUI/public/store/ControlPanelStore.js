@@ -28,6 +28,10 @@ class ControlPanelStore extends _reflux2.default.Store {
 	constructor() {
 		super();
 
+		this.onWatchedTokenUpdate = tokenSymbolList => {
+			this.setState({ watchedTokenSymbolList: tokenSymbolList });
+		};
+
 		this.state = {
 			tokenBalance: [],
 			passManaged: {},
@@ -47,7 +51,8 @@ class ControlPanelStore extends _reflux2.default.Store {
 			showingBlock: 0,
 			syncInProgress: false,
 			Qs: [],
-			receipts: {}
+			receipts: {},
+			watchedTokenSymbolList: ["RTKA", "RTKB", "RNT"]
 		};
 
 		this.listenables = _ControlPanelActions2.default;
@@ -254,6 +259,7 @@ class ControlPanelStore extends _reflux2.default.Store {
 		});
 		return oout;
 	}
+
 }
 
 exports.default = ControlPanelStore;
