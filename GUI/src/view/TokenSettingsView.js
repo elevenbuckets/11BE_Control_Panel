@@ -314,7 +314,7 @@ class TokenSettingsView extends Reflux.Component {
 			this.setState({ availableTokens: availableTokens });
 		})
 
-		this.controlPanel.watchTokens(watchedTokenSymbolList);
+		this.controlPanel.unwatchTokens(selectedTokens);
 
 		this.setState({ selectedTokens: [] });
 		ControlPanelActions.watchedTokenUpdate(watchedTokenSymbolList)

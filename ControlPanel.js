@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const ethUtils = require('ethereumjs-utils');
+const rpc = require('rpc-websockets').Client;
 
 // 11BE BladeIron Client API
 const BladeIronClient = require('bladeiron_api');
@@ -40,7 +41,7 @@ class ControlPanel extends BladeIronClient {
 		}
 
 		this.unwatchTokens = (tokenSymbolList) => {
-			return this.client.call('unwatchTokens', tokenSymbolList);;
+			return this.client.call('unwatchTokens', tokenSymbolList);
 		}
 
 		this.addToken = (symbol, name = symbol) => (ctrAddr) => (decimals) => {

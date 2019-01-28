@@ -23,9 +23,8 @@ class MainView extends Reflux.Component {
 		super(props);
 		this.store = ControlPanelStore;
 		this.controlPanel = remote.getGlobal("controlPanel");
-		console.log("subscribing New jobs in Mainview");
-		this.controlPanel.client.subscribe('newJobs');
-		this.controlPanel.client.on('newJobs', this.handleNewJobs);
+		// this.controlPanel.client.subscribe('newJobs');
+		// this.controlPanel.client.on('newJobs', this.handleNewJobs);
 		// this.controlPanel.syncTokenInfo();
 		this.state = {
 			currentView: "AppLauncher"
@@ -41,9 +40,9 @@ class MainView extends Reflux.Component {
 		return ReactDOM.findDOMNode(this.refs.Accounts).firstChild;
 	}
 
-	handleNewJobs = (obj) => {
-		ControlPanelActions.newJobs(obj);
-	}
+	// handleNewJobs = (obj) => {
+	// 	ControlPanelActions.newJobs(obj);
+	// }
 
 	render() {
 		console.log("In MainView render(); syncInProgress = " + this.state.syncInProgress);

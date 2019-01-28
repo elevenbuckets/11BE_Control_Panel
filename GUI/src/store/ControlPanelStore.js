@@ -29,7 +29,7 @@ class ControlPanelStore extends Reflux.Store {
 				syncInProgress: false,
 				Qs: [],
 				receipts: {},
-				watchedTokenSymbolList:  []
+				watchedTokenSymbolList: []
 			}
 
 		this.listenables = ControlPanelActions;
@@ -98,12 +98,19 @@ class ControlPanelStore extends Reflux.Store {
 			})
 		})
 
+
+		handleNewJobs = (obj) => {
+			ControlPanelActions.newJobs(obj);
+		}
+
 		this._count;
 		this._target;
 		this.retryTimer;
 		this.controlPanel.handleStats({}); // Init
 		this.controlPanel.watchTokens(this.controlPanel.TokenList);
 		ControlPanelActions.watchedTokenUpdate(this.controlPanel.TokenList);
+		this.controlPanel.client.subscribe('newJobs');
+		this.controlPanel.client.on('newJobs', this.handleNewJobs);
 	}
 
 	// Reflux Action responses
@@ -197,7 +204,7 @@ class ControlPanelStore extends Reflux.Store {
 		// 	this.setState({ receipts: { [obj.qid]: data, ...this.state.receipts } });
 		// })
 
-		this.controlPanel.syncRcdQ(obj.qid).then(data =>{
+		this.controlPanel.syncRcdQ(obj.qid).then(data => {
 			let r = {
 				Q: obj.qid,
 				data: data
@@ -205,36 +212,36 @@ class ControlPanelStore extends Reflux.Store {
 			ControlPanelActions.updateReceipts(r)
 			return this.controlPanel.getReceipts(obj.qid).then((data) => { return { data, Q: obj.qid } })
 		}).then((r) => {
-            console.log("Receipts:")
-            console.log(r.data);
-            ControlPanelActions.updateReceipts(r);
-        })
+			console.log("Receipts:")
+			console.log(r.data);
+			ControlPanelActions.updateReceipts(r);
+		})
 	}
 
 	onUpdateReceipts(r) {
-        let data = r.data;
-        if (typeof (this.state.receipts[r.Q]) !== "undefined") {
-            data = this.merge(["transactionHash", "tx"], r.data, this.state.receipts[r.Q]);
-        }
+		let data = r.data;
+		if (typeof (this.state.receipts[r.Q]) !== "undefined") {
+			data = this.merge(["transactionHash", "tx"], r.data, this.state.receipts[r.Q]);
+		}
 
-        data.map((d) => {
-            if (!d.tx) {
-                d.tx = "0x0000000000000000000000000000000000000000000000000000000000000000";
-            }
-        })
+		data.map((d) => {
+			if (!d.tx) {
+				d.tx = "0x0000000000000000000000000000000000000000000000000000000000000000";
+			}
+		})
 
-        this.setState({ receipts: { ...this.state.receipts, ...{ [r.Q]: data } } })
+		this.setState({ receipts: { ...this.state.receipts, ...{ [r.Q]: data } } })
 	}
-	
+
 	merge(keys, receipt, rcdq) {
-        let oout = [];
-        rcdq.map((rc) => { receipt.map((o) => { if (o[keys[0]] === rc[keys[1]]) oout = [...oout, { ...rc, ...o }] }) });
-        return oout;
+		let oout = [];
+		rcdq.map((rc) => { receipt.map((o) => { if (o[keys[0]] === rc[keys[1]]) oout = [...oout, { ...rc, ...o }] }) });
+		return oout;
 	}
-	
-	onWatchedTokenUpdate = (tokenSymbolList) =>{
-		this.setState({watchedTokenSymbolList : tokenSymbolList});
-	} 
+
+	onWatchedTokenUpdate = (tokenSymbolList) => {
+		this.setState({ watchedTokenSymbolList: tokenSymbolList });
+	}
 }
 
 export default ControlPanelStore;

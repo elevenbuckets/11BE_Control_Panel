@@ -355,7 +355,7 @@ class TokenSettingsView extends _reflux2.default.Component {
 				this.setState({ availableTokens: availableTokens });
 			});
 
-			this.controlPanel.watchTokens(watchedTokenSymbolList);
+			this.controlPanel.unwatchTokens(selectedTokens);
 
 			this.setState({ selectedTokens: [] });
 			_ControlPanelActions2.default.watchedTokenUpdate(watchedTokenSymbolList);
