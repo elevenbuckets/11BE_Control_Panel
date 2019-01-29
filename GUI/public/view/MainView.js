@@ -62,20 +62,19 @@ class MainView extends _reflux2.default.Component {
 			return _reactDom2.default.findDOMNode(this.refs.Accounts).firstChild;
 		};
 
-		this.handleNewJobs = obj => {
-			_ControlPanelActions2.default.newJobs(obj);
-		};
-
 		this.store = _ControlPanelStore2.default;
 		this.controlPanel = _electron.remote.getGlobal("controlPanel");
-		console.log("subscribing New jobs in Mainview");
-		this.controlPanel.client.subscribe('newJobs');
-		this.controlPanel.client.on('newJobs', this.handleNewJobs);
+		// this.controlPanel.client.subscribe('newJobs');
+		// this.controlPanel.client.on('newJobs', this.handleNewJobs);
 		// this.controlPanel.syncTokenInfo();
 		this.state = {
 			currentView: "AppLauncher"
 		};
 	}
+
+	// handleNewJobs = (obj) => {
+	// 	ControlPanelActions.newJobs(obj);
+	// }
 
 	render() {
 		console.log("In MainView render(); syncInProgress = " + this.state.syncInProgress);

@@ -59,11 +59,11 @@ class ControlPanelStore extends _reflux2.default.Store {
 		this.controlPanel = _electron.remote.getGlobal('controlPanel');
 
 		// Token info initialization, when updating watch tokens, do the same below
-		this.controlPanel.watchTokens().then(() => {
-			return this.controlPanel.syncTokenInfo();
-		}).then(() => {
-			this.setState({ tokenList: this.controlPanel.TokenList });
-		});
+		// this.controlPanel.watchTokens().then(() => {
+		// 	return this.controlPanel.syncTokenInfo();
+		// }).then(() => {
+		// 	this.setState({ tokenList: this.controlPanel.TokenList })
+		// })
 
 		this.controlPanel.client.subscribe('ethstats');
 		this.setState({ gasPrice: this.controlPanel.configs.defaultGasPrice });
@@ -96,15 +96,15 @@ class ControlPanelStore extends _reflux2.default.Store {
 				this.setState(_extends({}, stats, { wait4peers: false, syncInProgress: false }));
 			}
 
-			this.controlPanel.allAccounts().then(addrs => {
-				if (addrs.length !== this.state.accounts.length) this.setState({ accounts: addrs });
+			// this.controlPanel.allAccounts().then((addrs) => {
+			// 	if (addrs.length !== this.state.accounts.length) this.setState({ accounts: addrs });
 
-				if (this.state.address !== null) {
-					return this.addressUpdate();
-				} else {
-					this.setState({ balances: { 'ETH': 0 }, selected_token_name: '' });
-				}
-			});
+			// 	if (this.state.address !== null) {
+			// 		return this.addressUpdate();
+			// 	} else {
+			// 		this.setState({ balances: { 'ETH': 0 }, selected_token_name: '' });
+			// 	}
+			// });
 
 			this.controlPanel.gasPriceEst().then(est => {
 				this.setState({ gasPriceInfo: est, gasPrice: est[this.state.gasPriceOption] });
@@ -113,11 +113,9 @@ class ControlPanelStore extends _reflux2.default.Store {
 
 		this.controlPanel.client.on('ethstats', this.controlPanel.handleStats);
 
-		this.controlPanel.watchTokens().then(rc => {
-			this.controlPanel.syncTokenInfo().then(info => {
-				this.setState({ tokenList: this.controlPanel.TokenList });
-			});
-		});
+		this.handleNewJobs = obj => {
+			_ControlPanelActions2.default.newJobs(obj);
+		};
 
 		this._count;
 		this._target;
@@ -125,6 +123,8 @@ class ControlPanelStore extends _reflux2.default.Store {
 		this.controlPanel.handleStats({}); // Init
 		this.controlPanel.watchTokens(this.controlPanel.TokenList);
 		_ControlPanelActions2.default.watchedTokenUpdate(this.controlPanel.TokenList);
+		this.controlPanel.client.subscribe('newJobs');
+		this.controlPanel.client.on('newJobs', this.handleNewJobs);
 	}
 
 	// Reflux Action responses
