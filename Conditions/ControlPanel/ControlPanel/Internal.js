@@ -1,6 +1,6 @@
 module.exports =
 {
-	ControlPanel_removeTokens_internal: (addr, jobObj) =>
+	ControlPanel_removeTokens_internal(addr, jobObj)
 	{
 		try {
 			let removedTokenList = jobObj.args;

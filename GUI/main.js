@@ -27,7 +27,7 @@ const createWindow = () => {
 	  controlPanel.connectRPC()
 	  .then((rc) => {
 	    	console.log(`DEBUG: connected`);
-		return controlPanel.init(); 
+		return controlPanel.init('Internal'); 
 	  })
 	  .then(() => {
 	    win = new BrowserWindow({minWidth: 1183, minHeight: 480, resizable: true, icon: path.join(__dirname, 'public', 'assets', 'icon', '11be_logo.png')});
