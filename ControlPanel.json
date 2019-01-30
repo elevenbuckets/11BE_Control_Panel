@@ -1,7 +1,7 @@
 {
    "appName": "ControlPanel",
-   "artifactDir": "/home/liang/Liang_Learn/11Be/BladeIron_cli_test/dapps/Wallet",
-   "conditionDir": "/home/liang/Liang_Learn/11Be/BladeIron_cli_test/dapps/Wallet",
+   "artifactDir": "/home/liang/Liang_Learn/11Be/BladeIron_cli_test/dapps/ControlPanel/ABI",
+   "conditionDir": "/home/liang/Liang_Learn/11Be/BladeIron_cli_test/dapps/ControlPanel/Conditions",
    "contracts": [{"ctrName": "ControlPanel", "conditions": ["Internal"] }],
    "account": "0xaf7400787c54422be8b44154b1273661f1259ccd",
    "networkID": 4,

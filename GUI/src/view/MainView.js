@@ -4,7 +4,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
-import { remote } from 'electron'
 
 // Reflux store
 import ControlPanelStore from '../store/ControlPanelStore';
@@ -21,8 +20,8 @@ import AppLauncherView from './AppLauncherView'
 class MainView extends Reflux.Component {
 	constructor(props) {
 		super(props);
-		this.store = ControlPanelStore;
-		this.controlPanel = remote.getGlobal("controlPanel");
+		// this.store = ControlPanelStore;
+		// this.controlPanel = remote.getGlobal("controlPanel");
 		// this.controlPanel.client.subscribe('newJobs');
 		// this.controlPanel.client.on('newJobs', this.handleNewJobs);
 		// this.controlPanel.syncTokenInfo();
@@ -39,10 +38,6 @@ class MainView extends Reflux.Component {
 	passAccRef = () => {
 		return ReactDOM.findDOMNode(this.refs.Accounts).firstChild;
 	}
-
-	// handleNewJobs = (obj) => {
-	// 	ControlPanelActions.newJobs(obj);
-	// }
 
 	render() {
 		console.log("In MainView render(); syncInProgress = " + this.state.syncInProgress);

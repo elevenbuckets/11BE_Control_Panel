@@ -18,8 +18,6 @@ var _reflux = require('reflux');
 
 var _reflux2 = _interopRequireDefault(_reflux);
 
-var _electron = require('electron');
-
 var _ControlPanelStore = require('../store/ControlPanelStore');
 
 var _ControlPanelStore2 = _interopRequireDefault(_ControlPanelStore);
@@ -53,6 +51,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 class MainView extends _reflux2.default.Component {
 	constructor(props) {
 		super(props);
+		// this.store = ControlPanelStore;
+		// this.controlPanel = remote.getGlobal("controlPanel");
+		// this.controlPanel.client.subscribe('newJobs');
+		// this.controlPanel.client.on('newJobs', this.handleNewJobs);
+		// this.controlPanel.syncTokenInfo();
 
 		this.updateState = (key, e) => {
 			this.setState({ [key]: e.target.value });
@@ -62,19 +65,10 @@ class MainView extends _reflux2.default.Component {
 			return _reactDom2.default.findDOMNode(this.refs.Accounts).firstChild;
 		};
 
-		this.store = _ControlPanelStore2.default;
-		this.controlPanel = _electron.remote.getGlobal("controlPanel");
-		// this.controlPanel.client.subscribe('newJobs');
-		// this.controlPanel.client.on('newJobs', this.handleNewJobs);
-		// this.controlPanel.syncTokenInfo();
 		this.state = {
 			currentView: "AppLauncher"
 		};
 	}
-
-	// handleNewJobs = (obj) => {
-	// 	ControlPanelActions.newJobs(obj);
-	// }
 
 	render() {
 		console.log("In MainView render(); syncInProgress = " + this.state.syncInProgress);

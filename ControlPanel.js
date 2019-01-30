@@ -22,7 +22,8 @@ class ControlPanel extends BladeIronClient {
 
 		this.connectRPC = () => {
 			try {
-				this.client = new rpc('ws://' + this.rpchost + ':' + this.rpcport + '/controlPanel');
+				// this.client = new rpc('ws://' + this.rpchost + ':' + this.rpcport + '/controlPanel');
+				this.client = new rpc('ws://' + this.rpchost + ':' + this.rpcport);
 
 				const __ready = (resolve, reject) => {
 					if (this.client.ready) return resolve(true);

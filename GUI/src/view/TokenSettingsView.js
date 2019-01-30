@@ -274,10 +274,15 @@ class TokenSettingsView extends Reflux.Component {
 		})
 		let watchedTokenSymbolList = [...this.state.watchedTokenSymbolList];
 		watchedTokenSymbolList = [...watchedTokenSymbolList, ...selectedTokens];
-		this.controlPanel.watchTokens(watchedTokenSymbolList);
 
-		this.setState({ selectedTokens: [] });
-		ControlPanelActions.watchedTokenUpdate(watchedTokenSymbolList)
+		this.controlPanel.watchTokens(watchedTokenSymbolList).then((rc) => {
+			this.controlPanel.syncTokenInfo().then((info) =>{
+				ControlPanelActions.watchedTokenUpdate(Object.keys(this.controlPanel.TokenInfo));
+				this.setState({ selectedTokens: [] });
+			})
+		})
+
+		
 
 		// // udpate the tokens in configuration file
 		// const castIronFields = ["datadir", "rpcAddr", "ipcPath", "defaultGasPrice", "gasOracleAPI",
@@ -314,10 +319,14 @@ class TokenSettingsView extends Reflux.Component {
 			this.setState({ availableTokens: availableTokens });
 		})
 
-		this.controlPanel.unwatchTokens(selectedTokens);
+		this.controlPanel.unwatchTokens(selectedTokens).then((rc) => {
+			this.controlPanel.syncTokenInfo().then((info) =>{
+				ControlPanelActions.watchedTokenUpdate(Object.keys(this.controlPanel.TokenInfo));
+				this.setState({ selectedTokens: [] });
+			})
+		})
 
-		this.setState({ selectedTokens: [] });
-		ControlPanelActions.watchedTokenUpdate(watchedTokenSymbolList)
+		
 
 
 

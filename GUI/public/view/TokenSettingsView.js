@@ -316,10 +316,13 @@ class TokenSettingsView extends _reflux2.default.Component {
 			});
 			let watchedTokenSymbolList = [...this.state.watchedTokenSymbolList];
 			watchedTokenSymbolList = [...watchedTokenSymbolList, ...selectedTokens];
-			this.controlPanel.watchTokens(watchedTokenSymbolList);
 
-			this.setState({ selectedTokens: [] });
-			_ControlPanelActions2.default.watchedTokenUpdate(watchedTokenSymbolList);
+			this.controlPanel.watchTokens(watchedTokenSymbolList).then(rc => {
+				this.controlPanel.syncTokenInfo().then(info => {
+					_ControlPanelActions2.default.watchedTokenUpdate(Object.keys(this.controlPanel.TokenInfo));
+					this.setState({ selectedTokens: [] });
+				});
+			});
 
 			// // udpate the tokens in configuration file
 			// const castIronFields = ["datadir", "rpcAddr", "ipcPath", "defaultGasPrice", "gasOracleAPI",
@@ -355,10 +358,12 @@ class TokenSettingsView extends _reflux2.default.Component {
 				this.setState({ availableTokens: availableTokens });
 			});
 
-			this.controlPanel.unwatchTokens(selectedTokens);
-
-			this.setState({ selectedTokens: [] });
-			_ControlPanelActions2.default.watchedTokenUpdate(watchedTokenSymbolList);
+			this.controlPanel.unwatchTokens(selectedTokens).then(rc => {
+				this.controlPanel.syncTokenInfo().then(info => {
+					_ControlPanelActions2.default.watchedTokenUpdate(Object.keys(this.controlPanel.TokenInfo));
+					this.setState({ selectedTokens: [] });
+				});
+			});
 
 			// // udpate the tokens in configuration file
 			// const castIronFields = ["datadir", "rpcAddr", "ipcPath", "defaultGasPrice", "gasOracleAPI",

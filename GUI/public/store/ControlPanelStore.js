@@ -58,13 +58,6 @@ class ControlPanelStore extends _reflux2.default.Store {
 		this.listenables = _ControlPanelActions2.default;
 		this.controlPanel = _electron.remote.getGlobal('controlPanel');
 
-		// Token info initialization, when updating watch tokens, do the same below
-		// this.controlPanel.watchTokens().then(() => {
-		// 	return this.controlPanel.syncTokenInfo();
-		// }).then(() => {
-		// 	this.setState({ tokenList: this.controlPanel.TokenList })
-		// })
-
 		this.controlPanel.client.subscribe('ethstats');
 		this.setState({ gasPrice: this.controlPanel.configs.defaultGasPrice });
 
@@ -121,8 +114,12 @@ class ControlPanelStore extends _reflux2.default.Store {
 		this._target;
 		this.retryTimer;
 		this.controlPanel.handleStats({}); // Init
-		this.controlPanel.watchTokens(this.controlPanel.TokenList);
-		_ControlPanelActions2.default.watchedTokenUpdate(this.controlPanel.TokenList);
+		this.controlPanel.watchTokens(this.controlPanel.TokenList).then(rc => {
+			this.controlPanel.syncTokenInfo().then(info => {
+				_ControlPanelActions2.default.watchedTokenUpdate(Object.keys(this.controlPanel.TokenInfo));
+			});
+		});
+
 		this.controlPanel.client.subscribe('newJobs');
 		this.controlPanel.client.on('newJobs', this.handleNewJobs);
 	}
