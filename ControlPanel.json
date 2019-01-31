@@ -1,13 +1,1 @@
-{
-   "appName": "ControlPanel",
-   "artifactDir": "/home/liang/Liang_Learn/11Be/BladeIron_cli_test/dapps/ControlPanel/ABI",
-   "conditionDir": "/home/liang/Liang_Learn/11Be/BladeIron_cli_test/dapps/ControlPanel/Conditions",
-   "contracts": [{"ctrName": "ControlPanel", "conditions": ["Internal"] }],
-   "account": "0xaf7400787c54422be8b44154b1273661f1259ccd",
-   "networkID": 4,
-   "version": "1.0",
-   "condType": "Internal",
-   "tokens": ["RTKA", "RTKB", "RNT"],
-   "defaultGasPrice": "11830000000",
-   "GUI": "/home/liang/Liang_Learn/11Be/BladeIron_cli_test/dapps/ControlPanel/GUI/main.js" 
-}
+{"appName":"ControlPanel","artifactDir":"/home/liang/Liang_Learn/11Be/BladeIron_cli_test/dapps/ControlPanel/ABI","conditionDir":"/home/liang/Liang_Learn/11Be/BladeIron_cli_test/dapps/ControlPanel/Conditions","contracts":[{"ctrName":"ControlPanel","conditions":["Internal"]}],"account":"0xaf7400787c54422be8b44154b1273661f1259ccd","networkID":4,"version":"1.0","condType":"Internal","tokens":["RTKA","RTKB","RNT"],"defaultGasPrice":"11830000000","GUI":"/home/liang/Liang_Learn/11Be/BladeIron_cli_test/dapps/ControlPanel/GUI/main.js"}

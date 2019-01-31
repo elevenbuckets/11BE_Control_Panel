@@ -40,6 +40,7 @@ class TokenSettingsView extends Reflux.Component {
 		this.controlPanel = remote.getGlobal("controlPanel");
 		let path = require("path");
 		this.tokenConfigsFile = path.join(this.controlPanel.topDir, "Tokens.json");
+		this.controlPanelJsonFile = path.join(process.cwd(), "..", "ControlPanel.json");
 	}
 
 	initializeAvaibleTokens = () => {
@@ -285,8 +286,17 @@ class TokenSettingsView extends Reflux.Component {
 			this.controlPanel.syncTokenInfo().then((info) => {
 				ControlPanelActions.watchedTokenUpdate(Object.keys(this.controlPanel.TokenInfo));
 				this.setState({ selectedTokens: [] });
+				// udpate the watched tokens in configuration file
+				let json = require(this.controlPanelJsonFile)
+				let configWriter = new ConfigWriter(this.controlPanelJsonFile);
+
+				//TODO: change it to use addKeyValue in future
+				json.tokens = (Object.keys(this.controlPanel.TokenInfo));
+				configWriter.writeJSON(json);
 			})
 		})
+
+
 
 
 
@@ -329,6 +339,13 @@ class TokenSettingsView extends Reflux.Component {
 			this.controlPanel.syncTokenInfo().then((info) => {
 				ControlPanelActions.watchedTokenUpdate(Object.keys(this.controlPanel.TokenInfo));
 				this.setState({ selectedTokens: [] });
+				// udpate the watched tokens in configuration file
+				let json = require(this.controlPanelJsonFile)
+				let configWriter = new ConfigWriter(this.controlPanelJsonFile);
+
+				//TODO: change it to use addKeyValue in future
+				json.tokens = (Object.keys(this.controlPanel.TokenInfo));
+				configWriter.writeJSON(json);
 			})
 		})
 

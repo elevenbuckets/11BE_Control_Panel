@@ -322,6 +322,13 @@ class TokenSettingsView extends _reflux2.default.Component {
 				this.controlPanel.syncTokenInfo().then(info => {
 					_ControlPanelActions2.default.watchedTokenUpdate(Object.keys(this.controlPanel.TokenInfo));
 					this.setState({ selectedTokens: [] });
+					// udpate the watched tokens in configuration file
+					let json = require(this.controlPanelJsonFile);
+					let configWriter = new _ConfigJSONFileWriter2.default(this.controlPanelJsonFile);
+
+					//TODO: change it to use addKeyValue in future
+					json.tokens = Object.keys(this.controlPanel.TokenInfo);
+					configWriter.writeJSON(json);
 				});
 			});
 
@@ -363,6 +370,13 @@ class TokenSettingsView extends _reflux2.default.Component {
 				this.controlPanel.syncTokenInfo().then(info => {
 					_ControlPanelActions2.default.watchedTokenUpdate(Object.keys(this.controlPanel.TokenInfo));
 					this.setState({ selectedTokens: [] });
+					// udpate the watched tokens in configuration file
+					let json = require(this.controlPanelJsonFile);
+					let configWriter = new _ConfigJSONFileWriter2.default(this.controlPanelJsonFile);
+
+					//TODO: change it to use addKeyValue in future
+					json.tokens = Object.keys(this.controlPanel.TokenInfo);
+					configWriter.writeJSON(json);
 				});
 			});
 
@@ -415,6 +429,7 @@ class TokenSettingsView extends _reflux2.default.Component {
 		this.controlPanel = _electron.remote.getGlobal("controlPanel");
 		let path = require("path");
 		this.tokenConfigsFile = path.join(this.controlPanel.topDir, "Tokens.json");
+		this.controlPanelJsonFile = path.join(process.cwd(), "..", "ControlPanel.json");
 	}
 
 	render() {
