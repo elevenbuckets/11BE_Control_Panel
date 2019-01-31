@@ -331,24 +331,6 @@ class TokenSettingsView extends _reflux2.default.Component {
 					configWriter.writeJSON(json);
 				});
 			});
-
-			// // udpate the tokens in configuration file
-			// const castIronFields = ["datadir", "rpcAddr", "ipcPath", "defaultGasPrice", "gasOracleAPI",
-			// 	"condition", "networkID", "tokens", "watchTokens", "passVault"];
-			// this.cfgobj = remote.getGlobal('cfgobj');
-			// let json = require(path.join(this.cfgobj.configDir, "config.json"))
-			// let watchTokens = json.watchTokens;
-			// let castIronWriter = ConfigWriterService.getFileWriter(path.join(this.cfgobj.configDir, "config.json"), castIronFields);
-			// watchTokens = [...watchTokens, ...selectedTokens];
-
-			// this.filterTokens(this.state.tokenFilter);
-			// CastIronActions.selectedTokenUpdate('');
-			// CastIronActions.infoUpdate();
-
-			// //TODO: change it to use addKeyValue in future
-			// json.watchTokens = watchTokens;
-			// castIronWriter.writeJSON(json);
-
 		};
 
 		this.handleClickUnWatchToken = () => {
@@ -379,19 +361,6 @@ class TokenSettingsView extends _reflux2.default.Component {
 					configWriter.writeJSON(json);
 				});
 			});
-
-			// // udpate the tokens in configuration file
-			// const castIronFields = ["datadir", "rpcAddr", "ipcPath", "defaultGasPrice", "gasOracleAPI",
-			// 	"condition", "networkID", "tokens", "watchTokens", "passVault"];
-			// let castIronWriter = ConfigWriterService.getFileWriter(path.join(this.cfgobj.configDir, "config.json"), castIronFields);
-
-			// this.filterTokens(this.state.tokenFilter);
-			// CastIronActions.selectedTokenUpdate('');
-			// CastIronActions.infoUpdate();
-
-			// //TODO: change it to use addKeyValue in future
-			// json.watchTokens = watchTokens;
-			// castIronWriter.writeJSON(json);
 		};
 
 		this.changeNewTokenField = (field, e) => {

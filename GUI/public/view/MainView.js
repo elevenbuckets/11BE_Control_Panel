@@ -139,6 +139,14 @@ class MainView extends _reflux2.default.Component {
 					)
 				)
 			);
+		} else if (this.state.unlocked === false) {
+			document.body.style.background = "url(./assets/blockwall.png)";
+			return _react2.default.createElement(
+				'div',
+				{ className: 'container locked' },
+				_react2.default.createElement(States, null),
+				_react2.default.createElement(Login, null)
+			);
 		} else {
 			document.body.style.background = "#f4f0fa";
 			return _react2.default.createElement(

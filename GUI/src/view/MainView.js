@@ -28,9 +28,9 @@ class MainView extends Reflux.Component {
 		this.state = {
 			currentView: "AppLauncher"
 		}
-		
+
 	}
-	
+
 	updateState = (key, e) => {
 		this.setState({ [key]: e.target.value });
 	}
@@ -83,6 +83,14 @@ class MainView extends Reflux.Component {
 					</div>
 				</div>
 			);
+		} else if (this.state.unlocked === false) {
+			document.body.style.background = "url(./assets/blockwall.png)";
+			return (
+				<div className="container locked">
+					<States />
+					<Login />
+				</div>
+			);
 		}
 		else {
 			document.body.style.background = "#f4f0fa";
@@ -91,7 +99,7 @@ class MainView extends Reflux.Component {
 					<SideBarView updateView={this.updateState.bind(this, "currentView")} />
 					<div className="content">
 						{this.state.currentView == "TokenSettings" ? <TokenSettingsView />
-							: this.state.currentView == "AppLauncher" ? <AppLauncherView/>: <ReceiptsView />}
+							: this.state.currentView == "AppLauncher" ? <AppLauncherView /> : <ReceiptsView />}
 					</div>
 				</div>
 			)

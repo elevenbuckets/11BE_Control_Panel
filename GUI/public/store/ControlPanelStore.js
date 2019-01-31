@@ -50,6 +50,7 @@ class ControlPanelStore extends _reflux2.default.Store {
 			tokenList: [],
 			showingBlock: 0,
 			syncInProgress: false,
+			unlocked: true,
 			Qs: [],
 			receipts: {},
 			watchedTokenSymbolList: []

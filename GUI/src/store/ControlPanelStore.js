@@ -27,6 +27,7 @@ class ControlPanelStore extends Reflux.Store {
 				tokenList: [],
 				showingBlock: 0,
 				syncInProgress: false,
+				unlocked: true,
 				Qs: [],
 				receipts: {},
 				watchedTokenSymbolList: []
