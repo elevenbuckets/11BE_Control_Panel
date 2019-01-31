@@ -225,23 +225,24 @@ class TokenSettingsView extends _reflux2.default.Component {
 		};
 
 		this.addToken = tokenToAdd => {
-			this.setState({ availableTokens: _extends({}, this.state.availableTokens, { [tokenToAdd.symbol]: tokenToAdd.token }) });
 
 			// udpate the tokenList in BladeIron Server
-			this.controlPanel.addToken(tokenToAdd.symbol, tokenToAdd.token.name)(tokenToAdd.token.addr)(tokenToAdd.token.decimals);
+			this.controlPanel.addToken(tokenToAdd.symbol, tokenToAdd.token.name)(tokenToAdd.token.addr)(tokenToAdd.token.decimals).then(() => {
+				this.setState({ availableTokens: _extends({}, this.state.availableTokens, { [tokenToAdd.symbol]: tokenToAdd.token }) });
 
-			// udpate the tokens in configuration file
-			let json = require(this.tokenConfigsFile);
-			let availableTokens = json[this.controlPanel.networkID];
-			let configWriter = new _ConfigJSONFileWriter2.default(this.tokenConfigsFile);
-			availableTokens = _extends({}, availableTokens, { [tokenToAdd.symbol]: { addr: tokenToAdd.token.addr, name: tokenToAdd.token.name, decimals: tokenToAdd.token.decimals }
+				// udpate the tokens in configuration file
+				let json = require(this.tokenConfigsFile);
+				let availableTokens = json[this.controlPanel.networkID];
+				let configWriter = new _ConfigJSONFileWriter2.default(this.tokenConfigsFile);
+				availableTokens = _extends({}, availableTokens, { [tokenToAdd.symbol]: { addr: tokenToAdd.token.addr, name: tokenToAdd.token.name, decimals: tokenToAdd.token.decimals }
+				});
+
+				this.filterTokens(this.state.tokenFilter);
+
+				//TODO: change it to use addKeyValue in future
+				json[this.controlPanel.networkID] = availableTokens;
+				configWriter.writeJSON(json);
 			});
-
-			this.filterTokens(this.state.tokenFilter);
-
-			//TODO: change it to use addKeyValue in future
-			json[this.controlPanel.networkID] = availableTokens;
-			configWriter.writeJSON(json);
 		};
 
 		this.handleClickAddToken = () => {
@@ -278,30 +279,30 @@ class TokenSettingsView extends _reflux2.default.Component {
 
 			let selectedTokens = this.state.selectedTokens;
 			let stateAvailableTokens = this.state.availableTokens;
-			this.state.selectedTokens.map(tokenSymbol => {
-				delete stateAvailableTokens[tokenSymbol];
-			});
 
 			// udpate the tokenList in BladeIron Server
-			this.state.selectedTokens.map(tokenSymbol => {
-				this.controlPanel.removeToken(tokenSymbol);
+			let qPromises = this.state.selectedTokens.map(tokenSymbol => {
+				this.controlPanel.removeToken(tokenSymbol).then(() => {
+					delete stateAvailableTokens[tokenSymbol];
+				});
 			});
 
-			this.setState({ availableTokens: stateAvailableTokens, selectedTokens: [] });
+			Promise.all(qPromises).then(() => {
+				this.setState({ availableTokens: stateAvailableTokens, selectedTokens: [] });
+				// udpate the tokens in configuration file
+				let json = require(this.tokenConfigsFile);
+				let availableTokens = json[this.controlPanel.networkID];
+				let configWriter = new _ConfigJSONFileWriter2.default(this.tokenConfigsFile);
+				selectedTokens.map(tokenSymbol => {
+					delete availableTokens[tokenSymbol];
+				});
 
-			// udpate the tokens in configuration file
-			let json = require(this.tokenConfigsFile);
-			let availableTokens = json[this.controlPanel.networkID];
-			let configWriter = new _ConfigJSONFileWriter2.default(this.tokenConfigsFile);
-			selectedTokens.map(tokenSymbol => {
-				delete availableTokens[tokenSymbol];
+				this.filterTokens(this.state.tokenFilter);
+
+				//TODO: change it to use addKeyValue in future
+				json[this.controlPanel.networkID] = availableTokens;
+				configWriter.writeJSON(json);
 			});
-
-			this.filterTokens(this.state.tokenFilter);
-
-			//TODO: change it to use addKeyValue in future
-			json[this.controlPanel.networkID] = availableTokens;
-			configWriter.writeJSON(json);
 		};
 
 		this.handleClickWatchToken = () => {

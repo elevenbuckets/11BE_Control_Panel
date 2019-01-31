@@ -181,25 +181,29 @@ class TokenSettingsView extends Reflux.Component {
 	}
 
 	addToken = tokenToAdd => {
-		this.setState({ availableTokens: { ...this.state.availableTokens, [tokenToAdd.symbol]: tokenToAdd.token } });
+
 
 		// udpate the tokenList in BladeIron Server
-		this.controlPanel.addToken(tokenToAdd.symbol, tokenToAdd.token.name)(tokenToAdd.token.addr)(tokenToAdd.token.decimals);
+		this.controlPanel.addToken(tokenToAdd.symbol, tokenToAdd.token.name)(tokenToAdd.token.addr)(tokenToAdd.token.decimals).then(() => {
+			this.setState({ availableTokens: { ...this.state.availableTokens, [tokenToAdd.symbol]: tokenToAdd.token } });
 
-		// udpate the tokens in configuration file
-		let json = require(this.tokenConfigsFile)
-		let availableTokens = json[this.controlPanel.networkID];
-		let configWriter = new ConfigWriter(this.tokenConfigsFile);
-		availableTokens = {
-			...availableTokens, [tokenToAdd.symbol]:
-				{ addr: tokenToAdd.token.addr, name: tokenToAdd.token.name, decimals: tokenToAdd.token.decimals }
-		};
+			// udpate the tokens in configuration file
+			let json = require(this.tokenConfigsFile)
+			let availableTokens = json[this.controlPanel.networkID];
+			let configWriter = new ConfigWriter(this.tokenConfigsFile);
+			availableTokens = {
+				...availableTokens, [tokenToAdd.symbol]:
+					{ addr: tokenToAdd.token.addr, name: tokenToAdd.token.name, decimals: tokenToAdd.token.decimals }
+			};
 
-		this.filterTokens(this.state.tokenFilter);
+			this.filterTokens(this.state.tokenFilter);
 
-		//TODO: change it to use addKeyValue in future
-		json[this.controlPanel.networkID] = availableTokens;
-		configWriter.writeJSON(json);
+			//TODO: change it to use addKeyValue in future
+			json[this.controlPanel.networkID] = availableTokens;
+			configWriter.writeJSON(json);
+		})
+
+
 	}
 
 	handleClickAddToken = () => {
@@ -237,31 +241,33 @@ class TokenSettingsView extends Reflux.Component {
 
 		let selectedTokens = this.state.selectedTokens;
 		let stateAvailableTokens = this.state.availableTokens;
-		this.state.selectedTokens.map((tokenSymbol) => {
-			delete stateAvailableTokens[tokenSymbol];
-		})
 
 		// udpate the tokenList in BladeIron Server
-		this.state.selectedTokens.map((tokenSymbol) => {
-			this.controlPanel.removeToken(tokenSymbol);
+		let qPromises = this.state.selectedTokens.map((tokenSymbol) => {
+			this.controlPanel.removeToken(tokenSymbol).then(() => {
+				delete stateAvailableTokens[tokenSymbol];
+
+			})
 		})
 
-		this.setState({ availableTokens: stateAvailableTokens, selectedTokens: [] });
+		Promise.all(qPromises).then(() => {
+			this.setState({ availableTokens: stateAvailableTokens, selectedTokens: [] });
+			// udpate the tokens in configuration file
+			let json = require(this.tokenConfigsFile);
+			let availableTokens = json[this.controlPanel.networkID];
+			let configWriter = new ConfigWriter(this.tokenConfigsFile);
+			selectedTokens.map((tokenSymbol) => {
+				delete availableTokens[tokenSymbol];
+			})
 
-		// udpate the tokens in configuration file
-		let json = require(this.tokenConfigsFile);
-		let availableTokens = json[this.controlPanel.networkID];
-		let configWriter = new ConfigWriter(this.tokenConfigsFile);
-		selectedTokens.map((tokenSymbol) => {
-			delete availableTokens[tokenSymbol];
+			this.filterTokens(this.state.tokenFilter);
+
+			//TODO: change it to use addKeyValue in future
+			json[this.controlPanel.networkID] = availableTokens;
+			configWriter.writeJSON(json);
 		})
-
-		this.filterTokens(this.state.tokenFilter);
-
-		//TODO: change it to use addKeyValue in future
-		json[this.controlPanel.networkID] = availableTokens;
-		configWriter.writeJSON(json);
 	}
+
 	handleClickWatchToken = () => {
 		let selectedTokens = this.state.selectedTokens;
 		selectedTokens.map((token) => {
@@ -276,13 +282,13 @@ class TokenSettingsView extends Reflux.Component {
 		watchedTokenSymbolList = [...watchedTokenSymbolList, ...selectedTokens];
 
 		this.controlPanel.watchTokens(watchedTokenSymbolList).then((rc) => {
-			this.controlPanel.syncTokenInfo().then((info) =>{
+			this.controlPanel.syncTokenInfo().then((info) => {
 				ControlPanelActions.watchedTokenUpdate(Object.keys(this.controlPanel.TokenInfo));
 				this.setState({ selectedTokens: [] });
 			})
 		})
 
-		
+
 
 		// // udpate the tokens in configuration file
 		// const castIronFields = ["datadir", "rpcAddr", "ipcPath", "defaultGasPrice", "gasOracleAPI",
@@ -320,13 +326,13 @@ class TokenSettingsView extends Reflux.Component {
 		})
 
 		this.controlPanel.unwatchTokens(selectedTokens).then((rc) => {
-			this.controlPanel.syncTokenInfo().then((info) =>{
+			this.controlPanel.syncTokenInfo().then((info) => {
 				ControlPanelActions.watchedTokenUpdate(Object.keys(this.controlPanel.TokenInfo));
 				this.setState({ selectedTokens: [] });
 			})
 		})
 
-		
+
 
 
 
