@@ -50,7 +50,8 @@ class ControlPanelStore extends _reflux2.default.Store {
 			tokenList: [],
 			showingBlock: 0,
 			syncInProgress: false,
-			unlocked: true,
+			unlocked: false,
+			configured: true,
 			Qs: [],
 			receipts: {},
 			watchedTokenSymbolList: []
@@ -123,6 +124,9 @@ class ControlPanelStore extends _reflux2.default.Store {
 
 		this.controlPanel.client.subscribe('newJobs');
 		this.controlPanel.client.on('newJobs', this.handleNewJobs);
+		this.controlPanel.hasPass().then(data => {
+			this.setState({ unlocked: data });
+		});
 	}
 
 	// Reflux Action responses
@@ -193,6 +197,15 @@ class ControlPanelStore extends _reflux2.default.Store {
 		this.setState({ lesDelay: false, balances: this._balances, tokenBalance: this._tokenBalance, showingBlock: this.state.blockHeight });
 		this._balances = { 'ETH': 0 };
 		this._tokenBalance = [];
+	}
+
+	onMasterUpdate(value) {
+
+		this.controlPanel.client.call('unlock', [value]).then(rc => {
+			this.controlPanel.hasPass().then(data => {
+				this.setState({ unlocked: data });
+			});
+		});
 	}
 
 	onSelectedTokenUpdate(value) {

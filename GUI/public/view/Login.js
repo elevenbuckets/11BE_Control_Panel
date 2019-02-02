@@ -14,10 +14,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDropdown = require('react-dropdown');
-
-var _reactDropdown2 = _interopRequireDefault(_reactDropdown);
-
 var _fs = require('fs');
 
 var _fs2 = _interopRequireDefault(_fs);
@@ -26,21 +22,19 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
-var _CastIronStore = require('../store/CastIronStore');
+var _Accounts = require('accMgr/Accounts');
 
-var _CastIronStore2 = _interopRequireDefault(_CastIronStore);
+var _Accounts2 = _interopRequireDefault(_Accounts);
 
-var _CastIronActions = require('../action/CastIronActions');
+var _electron = require('electron');
 
-var _CastIronActions2 = _interopRequireDefault(_CastIronActions);
+var _ControlPanelStore = require('../store/ControlPanelStore');
 
-var _AcctMgrService = require('../service/AcctMgrService');
+var _ControlPanelStore2 = _interopRequireDefault(_ControlPanelStore);
 
-var _AcctMgrService2 = _interopRequireDefault(_AcctMgrService);
+var _ControlPanelActions = require('../action/ControlPanelActions');
 
-var _CastIronService = require('../service/CastIronService');
-
-var _CastIronService2 = _interopRequireDefault(_CastIronService);
+var _ControlPanelActions2 = _interopRequireDefault(_ControlPanelActions);
 
 var _AlertModal = require('../components/AlertModal');
 
@@ -50,13 +44,14 @@ var _AlertModalUser = require('../common/AlertModalUser');
 
 var _AlertModalUser2 = _interopRequireDefault(_AlertModalUser);
 
-var _GenSheets = require('./GenSheets');
-
-var _GenSheets2 = _interopRequireDefault(_GenSheets);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Reflux action
+// Singleton service
+
+// Modals
+
+
+// Reflux store
 class Login extends _AlertModalUser2.default {
 	constructor(props) {
 		super(props);
@@ -74,7 +69,7 @@ class Login extends _AlertModalUser2.default {
 		};
 
 		this.handleChange = event => {
-			_CastIronActions2.default.startUpdate(event.value, this.refs.canvas);
+			_ControlPanelActions2.default.startUpdate(event.value, this.refs.canvas);
 		};
 
 		this.handleToggle = event => {
@@ -82,22 +77,22 @@ class Login extends _AlertModalUser2.default {
 			let sb = pt ? 'none' : 'inline-block';
 			let pf = pt ? '100px' : '283px';
 			this.setState({ ptoggle: pt, pfield: pf, sbutton: sb });
-			_CastIronActions2.default.masterUpdate(this.refs.mp.value);
+			_ControlPanelActions2.default.masterUpdate(this.refs.mp.value);
 		};
 
 		this.handleGasPriceSelect = event => {
-			_CastIronActions2.default.gasPriceOptionSelect(event.currentTarget.defaultValue);
+			_ControlPanelActions2.default.gasPriceOptionSelect(event.currentTarget.defaultValue);
 		};
 
 		this.handleCustomGasPriceUpdate = price => {
-			_CastIronActions2.default.customGasPriceUpdate(price);
+			_ControlPanelActions2.default.customGasPriceUpdate(price);
 		};
 
 		this.handleEnter = event => {
 			if (event.keyCode === 13) {
 				let variable = this.refs.mp.value;
 				this.refs.mp.value = '';
-				_CastIronActions2.default.masterUpdate(variable);
+				_ControlPanelActions2.default.masterUpdate(variable);
 			}
 		};
 
@@ -242,7 +237,7 @@ class Login extends _AlertModalUser2.default {
 						)
 					)
 				);
-			} else if (this.state.configured && _fs2.default.existsSync(this.wallet.archfile) === false) {
+			} else if (this.state.configured && _fs2.default.existsSync(this.controlPanel.cfgObjs.geth.passVault) === false) {
 				// create new buttercup archive using one time password input
 				return _react2.default.createElement(
 					'div',
@@ -336,7 +331,7 @@ class Login extends _AlertModalUser2.default {
 			}
 		};
 
-		this.store = _CastIronStore2.default;
+		this.store = _ControlPanelStore2.default;
 		this.state = {
 			reveal: false,
 			ptoggle: true,
@@ -345,21 +340,12 @@ class Login extends _AlertModalUser2.default {
 			sbutton: 'none'
 		};
 
-		this.wallet = _CastIronService2.default.wallet;
-		this.accMgr = _AcctMgrService2.default.accMgr;
+		this.controlPanel = _electron.remote.getGlobal("controlPanel");
+		this.accMgr = new _Accounts2.default(this.controlPanel.topDir);
 		this.variable = undefined;
 	}
 
 }
 
-// Views
-
-
-// Modals
-
-
-// Singleton service
-
-
-// Reflux store
+// Reflux action
 exports.default = Login;

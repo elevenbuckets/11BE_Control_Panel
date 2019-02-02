@@ -900,6 +900,120 @@ h6 {
   animation-delay: 0.3s;
 }
 
+.locked {
+  grid-template-columns: 1fr;
+  grid-template-rows: 20px 1fr;
+  grid-template-areas: 
+  "state"
+  "list";
+}
+
+.state {
+  position: relative;
+  width: 100%;
+  grid-area: state;
+  display: grid;
+}
+
+.sunlocked {
+  grid-template-columns: 2fr 2fr 3fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: 
+  "tblockheight tblockstamp tlocaltime tgasprice"
+  "blockheight  blockstamp localtime  gasprice";
+}
+
+.slocked {
+  grid-template-columns: 120px 1fr 120px 1fr 120px 3fr 120px 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: 
+  "tblockheight blockheight tblockstamp blockstamp tlocaltime localtime tgasprice gasprice";
+}
+
+.tblockheight {
+  border: 2px solid white;
+  border-right: 0px;
+  border-radius: 0px;
+  grid-area: tblockheight;
+  background-color: rgb(34, 169, 202);
+  height: 100%;
+  width: 100%;
+}
+
+.tblockstamp {
+  width: 100%;
+  border: 2px solid white;
+  border-right: 0px;
+  border-left: 1px solid white;
+  border-radius: 0px;
+  grid-area: tblockstamp;
+  background-color: rgb(34, 169, 202);
+  height: 100%;
+}
+
+.tlocaltime {
+  width: 100%;
+  border: 2px solid white;
+  border-right: 0px;
+  border-left: 1px solid white;
+  border-radius: 0px;
+  grid-area: tlocaltime;
+  background-color: rgb(34, 169, 202);
+  height: 100%;
+}
+
+.tgasprice {
+  width: 100%;
+  border: 2px solid white;
+  border-right: 0px;
+  border-left: 1px solid white;
+  border-radius: 0px;
+  grid-area: tgasprice;
+  background-color: rgb(34, 169, 202);
+  height: 100%;
+}
+
+.blockheight {
+  width: 100%;
+  border: 2px solid white;
+  border-left: 0px;
+  border-right: 1px solid white;
+  border-radius: 0px;
+  grid-area: blockheight;
+  height: 100%;
+}
+
+.blockstamp {
+  width: 100%;
+  border: 2px solid white;
+  border-left: 0px;
+  border-right: 1px solid white;
+  border-radius: 0px;
+  grid-area: blockstamp;
+  height: 100%;
+}
+
+.localtime {
+  width: 100%;
+  border: 2px solid white;
+  border-left: 0px;
+  border-right: 1px solid white;
+  border-radius: 0px;
+  grid-area: localtime;
+  height: 100%;
+}
+
+.gasprice {
+  width: 100%;
+  border: 2px solid white;
+  border-left: 0px;
+  border-right: 2px solid white;
+  border-radius: 0px;
+  grid-area: gasprice;
+  height: 100%;
+}
+
+
 @-webkit-keyframes dot {
     0% { opacity: 0; }
    50% { opacity: 0; }

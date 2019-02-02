@@ -3,31 +3,28 @@
 // Third-parties
 import Reflux from 'reflux';
 import React from 'react';
-import Dropdown from 'react-dropdown';
 import fs from 'fs';
 import path from 'path';
+import Accounts from 'accMgr/Accounts';
+import { remote } from 'electron';
 
 // Reflux store
-import CastIronStore from "../store/CastIronStore";
+import ControlPanelStore from "../store/ControlPanelStore";
 
 // Reflux action
-import CastIronActions from '../action/CastIronActions';
+import ControlPanelActions from '../action/ControlPanelActions';
 
 // Singleton service
-import AcctMgrService from "../service/AcctMgrService";
-import CastIronService from "../service/CastIronService";
 
 // Modals
 import AlertModal from '../components/AlertModal';
 import AlertModalUser from '../common/AlertModalUser';
 
-// Views
-import GenSheets from './GenSheets';
 
 class Login extends AlertModalUser {
 	constructor(props) {
 		super(props);
-		this.store = CastIronStore;
+		this.store = ControlPanelStore;
 		this.state = {
 			reveal: false,
 			ptoggle: true,
@@ -36,8 +33,8 @@ class Login extends AlertModalUser {
 			sbutton: 'none'
 		};
 
-		this.wallet = CastIronService.wallet;
-		this.accMgr = AcctMgrService.accMgr;
+		this.controlPanel = remote.getGlobal("controlPanel");
+		this.accMgr = new Accounts(this.controlPanel.topDir);
 		this.variable = undefined;
 	}
 
@@ -52,7 +49,7 @@ class Login extends AlertModalUser {
 	}
 
 	handleChange = (event) => {
-		CastIronActions.startUpdate(event.value, this.refs.canvas);
+		ControlPanelActions.startUpdate(event.value, this.refs.canvas);
 	}
 
 	handleToggle = (event) => {
@@ -60,22 +57,22 @@ class Login extends AlertModalUser {
 		let sb = pt ? 'none' : 'inline-block';
 		let pf = pt ? '100px' : '283px';
 		this.setState({ ptoggle: pt, pfield: pf, sbutton: sb });
-		CastIronActions.masterUpdate(this.refs.mp.value);
+		ControlPanelActions.masterUpdate(this.refs.mp.value);
 	}
 
 	handleGasPriceSelect = (event) => {
-		CastIronActions.gasPriceOptionSelect(event.currentTarget.defaultValue);
+		ControlPanelActions.gasPriceOptionSelect(event.currentTarget.defaultValue);
 	}
 
 	handleCustomGasPriceUpdate = (price) => {
-		CastIronActions.customGasPriceUpdate(price);
+		ControlPanelActions.customGasPriceUpdate(price);
 	}
 
 	handleEnter = (event) => {
 		if (event.keyCode === 13) {
 			let variable = this.refs.mp.value;
 			this.refs.mp.value = '';
-			CastIronActions.masterUpdate(variable);
+			ControlPanelActions.masterUpdate(variable);
 		}
 	}
 
@@ -176,7 +173,7 @@ class Login extends AlertModalUser {
 					</table>
 				</div>
 			)
-		} else if (this.state.configured && fs.existsSync(this.wallet.archfile) === false) {
+		} else if (this.state.configured && fs.existsSync(this.controlPanel.cfgObjs.geth.passVault) === false) {
 			// create new buttercup archive using one time password input
 			return (
 				<div className="item list">

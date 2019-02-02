@@ -18,6 +18,7 @@ controlPanel.topDir = confdir;
 const cfgObjs = {};
 cfgObjs.geth = require(path.join(confdir, 'config.json'));
 cfgObjs.ipfs = require(path.join(confdir, 'ipfsserv.json'));
+controlPanel.cfgObjs = cfgObjs;
 
 // electron window global object
 let win;

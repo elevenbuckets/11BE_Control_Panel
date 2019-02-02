@@ -15,12 +15,14 @@ import ControlPanelActions from '../action/ControlPanelActions';
 import SideBarView from './SideBarView'
 import ReceiptsView from './ReceiptsView';
 import TokenSettingsView from './TokenSettingsView';
-import AppLauncherView from './AppLauncherView'
+import AppLauncherView from './AppLauncherView';
+import States from './States';
+import Login from './Login';
 
 class MainView extends Reflux.Component {
 	constructor(props) {
 		super(props);
-		// this.store = ControlPanelStore;
+		this.store = ControlPanelStore;
 		// this.controlPanel = remote.getGlobal("controlPanel");
 		// this.controlPanel.client.subscribe('newJobs');
 		// this.controlPanel.client.on('newJobs', this.handleNewJobs);

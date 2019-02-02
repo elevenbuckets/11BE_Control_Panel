@@ -3,15 +3,15 @@
 // Third-parties
 import Reflux from 'reflux';
 import React from 'react';
+import { remote } from 'electron';
 
 // Reflux store
-import CastIronStore from "../store/CastIronStore";
+import ControlPanelStore from "../store/ControlPanelStore";
 
 // Reflux action
-import CastIronActions from '../action/CastIronActions'
+import ControlPanelActions from '../action/ControlPanelActions'
 
 // Singleton service
-import castIronService from "../service/CastIronService";
 
 // constants utilities
 import Constants from '../util/Constants';
@@ -19,15 +19,14 @@ import Constants from '../util/Constants';
 class States extends Reflux.Component {
     constructor(props) {
         super(props);
-        this.store = CastIronStore;
-        this.wallet = castIronService.wallet;
+        this.store = ControlPanelStore;
 
         this.state = {
             unixTime: 123213,
             localTime: null,
             defaultGasPrice: 20
         }
-
+        this.controlPanel = remote.getGlobal("controlPanel");
         this.getDashInfo = this.getDashInfo.bind(this);
     }
 
@@ -100,7 +99,7 @@ class States extends Reflux.Component {
     }
 
     handleClick() {
-        CastIronActions.changeView("Receipts");
+        ControlPanelActions.changeView("Receipts");
     }
 
     render = () => {
@@ -114,7 +113,7 @@ class States extends Reflux.Component {
                     <div className="item blockheight"><p id="cbh" >{this.state.blockHeight}</p></div>
                     <div className="item blockstamp"><p id="cbs">{this.state.blockTime}</p></div>
                     <div className="item localtime"><p id="clt">{String(this.state.localTime).substring(0,24)}</p></div>
-                    <div className="item gasprice"><p id="cgp">{this.wallet.toEth(this.wallet.gasPrice, 9).toString()}</p></div>
+                    <div className="item gasprice"><p id="cgp">{20}</p></div>
                 </div>
             )
         } else {
@@ -127,7 +126,7 @@ class States extends Reflux.Component {
                     <div className="item blockheight" style={{borderLeft: "2px solid white"}}><p id="cbh" >{this.state.blockHeight}</p></div>
                     <div className="item blockstamp"><p id="cbs">{this.state.blockTime}</p></div>
                     <div className="item localtime"><p id="clt">{String(this.state.localTime).substring(0,24)}</p></div>
-                    <div className="item gasprice"><p id="cgp">{this.wallet.toEth(this.wallet.gasPrice, 9).toString()}</p></div>
+                    <div className="item gasprice"><p id="cgp">{20}</p></div>
                 </div>
             )
         }

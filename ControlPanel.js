@@ -129,6 +129,10 @@ class ControlPanel extends BladeIronClient {
 				this.newJobsHandler(obj)
 			}
 		}
+
+		this.hasPass = () =>{
+			return this.client.call("hasPass");
+		}
 	}
 }
 

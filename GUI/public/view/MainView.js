@@ -42,6 +42,14 @@ var _AppLauncherView = require('./AppLauncherView');
 
 var _AppLauncherView2 = _interopRequireDefault(_AppLauncherView);
 
+var _States = require('./States');
+
+var _States2 = _interopRequireDefault(_States);
+
+var _Login = require('./Login');
+
+var _Login2 = _interopRequireDefault(_Login);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Views
@@ -51,11 +59,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 class MainView extends _reflux2.default.Component {
 	constructor(props) {
 		super(props);
-		// this.store = ControlPanelStore;
-		// this.controlPanel = remote.getGlobal("controlPanel");
-		// this.controlPanel.client.subscribe('newJobs');
-		// this.controlPanel.client.on('newJobs', this.handleNewJobs);
-		// this.controlPanel.syncTokenInfo();
 
 		this.updateState = (key, e) => {
 			this.setState({ [key]: e.target.value });
@@ -65,6 +68,11 @@ class MainView extends _reflux2.default.Component {
 			return _reactDom2.default.findDOMNode(this.refs.Accounts).firstChild;
 		};
 
+		this.store = _ControlPanelStore2.default;
+		// this.controlPanel = remote.getGlobal("controlPanel");
+		// this.controlPanel.client.subscribe('newJobs');
+		// this.controlPanel.client.on('newJobs', this.handleNewJobs);
+		// this.controlPanel.syncTokenInfo();
 		this.state = {
 			currentView: "AppLauncher"
 		};
@@ -144,8 +152,8 @@ class MainView extends _reflux2.default.Component {
 			return _react2.default.createElement(
 				'div',
 				{ className: 'container locked' },
-				_react2.default.createElement(States, null),
-				_react2.default.createElement(Login, null)
+				_react2.default.createElement(_States2.default, null),
+				_react2.default.createElement(_Login2.default, null)
 			);
 		} else {
 			document.body.style.background = "#f4f0fa";

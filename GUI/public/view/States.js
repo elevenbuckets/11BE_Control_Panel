@@ -14,17 +14,15 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _CastIronStore = require('../store/CastIronStore');
+var _electron = require('electron');
 
-var _CastIronStore2 = _interopRequireDefault(_CastIronStore);
+var _ControlPanelStore = require('../store/ControlPanelStore');
 
-var _CastIronActions = require('../action/CastIronActions');
+var _ControlPanelStore2 = _interopRequireDefault(_ControlPanelStore);
 
-var _CastIronActions2 = _interopRequireDefault(_CastIronActions);
+var _ControlPanelActions = require('../action/ControlPanelActions');
 
-var _CastIronService = require('../service/CastIronService');
-
-var _CastIronService2 = _interopRequireDefault(_CastIronService);
+var _ControlPanelActions2 = _interopRequireDefault(_ControlPanelActions);
 
 var _Constants = require('../util/Constants');
 
@@ -32,10 +30,7 @@ var _Constants2 = _interopRequireDefault(_Constants);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Singleton service
-
-
-// Reflux store
+// Reflux action
 class States extends _reflux2.default.Component {
     constructor(props) {
         super(props);
@@ -157,7 +152,7 @@ class States extends _reflux2.default.Component {
                         _react2.default.createElement(
                             'p',
                             { id: 'cgp' },
-                            this.wallet.toEth(this.wallet.gasPrice, 9).toString()
+                            20
                         )
                     )
                 );
@@ -234,22 +229,21 @@ class States extends _reflux2.default.Component {
                         _react2.default.createElement(
                             'p',
                             { id: 'cgp' },
-                            this.wallet.toEth(this.wallet.gasPrice, 9).toString()
+                            20
                         )
                     )
                 );
             }
         };
 
-        this.store = _CastIronStore2.default;
-        this.wallet = _CastIronService2.default.wallet;
+        this.store = _ControlPanelStore2.default;
 
         this.state = {
             unixTime: 123213,
             localTime: null,
             defaultGasPrice: 20
         };
-
+        this.controlPanel = _electron.remote.getGlobal("controlPanel");
         this.getDashInfo = this.getDashInfo.bind(this);
     }
 
@@ -285,13 +279,15 @@ class States extends _reflux2.default.Component {
     }
 
     handleClick() {
-        _CastIronActions2.default.changeView("Receipts");
+        _ControlPanelActions2.default.changeView("Receipts");
     }
 
 }
 
+// Singleton service
+
 // constants utilities
 
 
-// Reflux action
+// Reflux store
 exports.default = States;
