@@ -102,6 +102,7 @@ class MainView extends Reflux.Component {
 					<div className="content">
 						{this.state.currentView == "TokenSettings" ? <TokenSettingsView />
 							: this.state.currentView == "AppLauncher" ? <AppLauncherView /> : <ReceiptsView />}
+							<States />
 					</div>
 				</div>
 			)

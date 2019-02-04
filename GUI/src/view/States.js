@@ -103,7 +103,6 @@ class States extends Reflux.Component {
     }
 
     render = () => {
-        if (this.state.unlocked == false) {
             return (
                 <div className="state slocked">
                     <div className="item tblockheight"><p>Block Height</p></div>
@@ -116,20 +115,6 @@ class States extends Reflux.Component {
                     <div className="item gasprice"><p id="cgp">{20}</p></div>
                 </div>
             )
-        } else {
-            return ( 
-                <div className="state sunlocked">
-                    <div className="item tblockheight" style={{borderBottom: "0px"}}><p>Block Height</p></div>
-                    <div className="item tblockstamp" style={{borderBottom: "0px"}}><p>Block Stamp</p></div>
-                    <div className="item tlocaltime" style={{borderBottom: "0px"}}><p>Local Time</p></div>
-                    <div className="item tgasprice" style={{borderBottom: "0px", borderRight: "2px solid white"}}><p>Gas Price</p></div>
-                    <div className="item blockheight" style={{borderLeft: "2px solid white"}}><p id="cbh" >{this.state.blockHeight}</p></div>
-                    <div className="item blockstamp"><p id="cbs">{this.state.blockTime}</p></div>
-                    <div className="item localtime"><p id="clt">{String(this.state.localTime).substring(0,24)}</p></div>
-                    <div className="item gasprice"><p id="cgp">{20}</p></div>
-                </div>
-            )
-        }
     }
 }
 

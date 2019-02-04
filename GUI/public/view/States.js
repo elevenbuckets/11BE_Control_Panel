@@ -79,161 +79,97 @@ class States extends _reflux2.default.Component {
         };
 
         this.render = () => {
-            if (this.state.unlocked == false) {
-                return _react2.default.createElement(
+            // if (this.state.unlocked == false) {
+            return _react2.default.createElement(
+                'div',
+                { className: 'state slocked' },
+                _react2.default.createElement(
                     'div',
-                    { className: 'state slocked' },
+                    { className: 'item tblockheight' },
                     _react2.default.createElement(
-                        'div',
-                        { className: 'item tblockheight' },
-                        _react2.default.createElement(
-                            'p',
-                            null,
-                            'Block Height'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'item tblockstamp' },
-                        _react2.default.createElement(
-                            'p',
-                            null,
-                            'Block Stamp'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'item tlocaltime' },
-                        _react2.default.createElement(
-                            'p',
-                            null,
-                            'Local Time'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'item tgasprice' },
-                        _react2.default.createElement(
-                            'p',
-                            null,
-                            'Gas Price'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'item blockheight' },
-                        _react2.default.createElement(
-                            'p',
-                            { id: 'cbh' },
-                            this.state.blockHeight
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'item blockstamp' },
-                        _react2.default.createElement(
-                            'p',
-                            { id: 'cbs' },
-                            this.state.blockTime
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'item localtime' },
-                        _react2.default.createElement(
-                            'p',
-                            { id: 'clt' },
-                            String(this.state.localTime).substring(0, 24)
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'item gasprice' },
-                        _react2.default.createElement(
-                            'p',
-                            { id: 'cgp' },
-                            20
-                        )
+                        'p',
+                        null,
+                        'Block Height'
                     )
-                );
-            } else {
-                return _react2.default.createElement(
+                ),
+                _react2.default.createElement(
                     'div',
-                    { className: 'state sunlocked' },
+                    { className: 'item tblockstamp' },
                     _react2.default.createElement(
-                        'div',
-                        { className: 'item tblockheight', style: { borderBottom: "0px" } },
-                        _react2.default.createElement(
-                            'p',
-                            null,
-                            'Block Height'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'item tblockstamp', style: { borderBottom: "0px" } },
-                        _react2.default.createElement(
-                            'p',
-                            null,
-                            'Block Stamp'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'item tlocaltime', style: { borderBottom: "0px" } },
-                        _react2.default.createElement(
-                            'p',
-                            null,
-                            'Local Time'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'item tgasprice', style: { borderBottom: "0px", borderRight: "2px solid white" } },
-                        _react2.default.createElement(
-                            'p',
-                            null,
-                            'Gas Price'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'item blockheight', style: { borderLeft: "2px solid white" } },
-                        _react2.default.createElement(
-                            'p',
-                            { id: 'cbh' },
-                            this.state.blockHeight
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'item blockstamp' },
-                        _react2.default.createElement(
-                            'p',
-                            { id: 'cbs' },
-                            this.state.blockTime
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'item localtime' },
-                        _react2.default.createElement(
-                            'p',
-                            { id: 'clt' },
-                            String(this.state.localTime).substring(0, 24)
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'item gasprice' },
-                        _react2.default.createElement(
-                            'p',
-                            { id: 'cgp' },
-                            20
-                        )
+                        'p',
+                        null,
+                        'Block Stamp'
                     )
-                );
-            }
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'item tlocaltime' },
+                    _react2.default.createElement(
+                        'p',
+                        null,
+                        'Local Time'
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'item tgasprice' },
+                    _react2.default.createElement(
+                        'p',
+                        null,
+                        'Gas Price'
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'item blockheight' },
+                    _react2.default.createElement(
+                        'p',
+                        { id: 'cbh' },
+                        this.state.blockHeight
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'item blockstamp' },
+                    _react2.default.createElement(
+                        'p',
+                        { id: 'cbs' },
+                        this.state.blockTime
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'item localtime' },
+                    _react2.default.createElement(
+                        'p',
+                        { id: 'clt' },
+                        String(this.state.localTime).substring(0, 24)
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'item gasprice' },
+                    _react2.default.createElement(
+                        'p',
+                        { id: 'cgp' },
+                        20
+                    )
+                )
+            );
+            // } else {
+            //     return ( 
+            //         <div className="state sunlocked">
+            //             <div className="item tblockheight" style={{borderBottom: "0px"}}><p>Block Height</p></div>
+            //             <div className="item tblockstamp" style={{borderBottom: "0px"}}><p>Block Stamp</p></div>
+            //             <div className="item tlocaltime" style={{borderBottom: "0px"}}><p>Local Time</p></div>
+            //             <div className="item tgasprice" style={{borderBottom: "0px", borderRight: "2px solid white"}}><p>Gas Price</p></div>
+            //             <div className="item blockheight" style={{borderLeft: "2px solid white"}}><p id="cbh" >{this.state.blockHeight}</p></div>
+            //             <div className="item blockstamp"><p id="cbs">{this.state.blockTime}</p></div>
+            //             <div className="item localtime"><p id="clt">{String(this.state.localTime).substring(0,24)}</p></div>
+            //             <div className="item gasprice"><p id="cgp">{20}</p></div>
+            //         </div>
+            //     )
+            // }
         };
 
         this.store = _ControlPanelStore2.default;

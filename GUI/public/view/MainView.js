@@ -164,7 +164,8 @@ class MainView extends _reflux2.default.Component {
 				_react2.default.createElement(
 					'div',
 					{ className: 'content' },
-					this.state.currentView == "TokenSettings" ? _react2.default.createElement(_TokenSettingsView2.default, null) : this.state.currentView == "AppLauncher" ? _react2.default.createElement(_AppLauncherView2.default, null) : _react2.default.createElement(_ReceiptsView2.default, null)
+					this.state.currentView == "TokenSettings" ? _react2.default.createElement(_TokenSettingsView2.default, null) : this.state.currentView == "AppLauncher" ? _react2.default.createElement(_AppLauncherView2.default, null) : _react2.default.createElement(_ReceiptsView2.default, null),
+					_react2.default.createElement(_States2.default, null)
 				)
 			);
 		}
