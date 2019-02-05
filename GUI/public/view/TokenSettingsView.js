@@ -405,7 +405,7 @@ class TokenSettingsView extends _reflux2.default.Component {
 		console.log("in TokenSettingsView render()");
 		return _react2.default.createElement(
 			'div',
-			null,
+			{ style: { height: '100%' } },
 			_react2.default.createElement(
 				'div',
 				{ className: 'tokenAction' },

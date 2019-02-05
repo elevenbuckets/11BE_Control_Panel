@@ -88,7 +88,7 @@ class States extends _reflux2.default.Component {
                     _react2.default.createElement(
                         'p',
                         null,
-                        'Block Height'
+                        'Block Height : '
                     )
                 ),
                 _react2.default.createElement(
@@ -97,7 +97,7 @@ class States extends _reflux2.default.Component {
                     _react2.default.createElement(
                         'p',
                         null,
-                        'Block Stamp'
+                        'Block Stamp : '
                     )
                 ),
                 _react2.default.createElement(
@@ -106,7 +106,7 @@ class States extends _reflux2.default.Component {
                     _react2.default.createElement(
                         'p',
                         null,
-                        'Local Time'
+                        'Local Time : '
                     )
                 ),
                 _react2.default.createElement(
@@ -115,7 +115,7 @@ class States extends _reflux2.default.Component {
                     _react2.default.createElement(
                         'p',
                         null,
-                        'Gas Price'
+                        'Gas Price : '
                     )
                 ),
                 _react2.default.createElement(

@@ -94,14 +94,15 @@ h6 {
 
 .content {
   grid-area: content;
-  height: 600px;
 }
 
 .wrapper {
   display: grid;
   grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr 30px;
   grid-template-areas:
    "sidebar content"
+   "sidebar locked";
 }
 
 .sidebarButton{
@@ -110,13 +111,22 @@ h6 {
   width: 100%;
   text-align: right;
   font-size: 35px;
-  padding: 4px;
+  padding: 4px 20px 5px 0px;
 }
 
 .sidebarButton:hover {
   color: #ff4200;
   cursor: pointer;
   font-weight: bold;
+}
+
+.sideLogo {
+ margin: 11px;
+ padding-bottom: 7px;
+ justify-content: left;
+ display: grid;
+ grid-template-columns: 36px 1fr;
+ border-bottom: 2px solid rgba(255,255,255,0.4);
 }
 
 /* Each item in our grid will contain numbers */
@@ -288,7 +298,6 @@ h6 {
   grid-area: list;
   width: 100%;
   height: 100%;
-  max-height: calc(100vh - 50px);
   grid-template-columns: 200px 2fr minmax(400px, 1fr);
   grid-template-rows: 50px 1fr;
   grid-template-areas: 
@@ -468,7 +477,7 @@ h6 {
   align-items: baseline;
   overflow-y: scroll;
   padding-left: 6px;
-  height: 95%;
+  height: 100%;
   background: none;
   border: none;
 }
@@ -600,7 +609,7 @@ h6 {
   grid-auto-rows: 128px;
   grid-gap: 10px;
   height: 100%;
-  width: calc(100vw - 250px);
+  width: 75vw;
 }
 
 .card {
@@ -868,8 +877,6 @@ h6 {
   border: 2px solid white;
   border-top: none;
   width: 100%;
-  min-height: calc(100vh - 100px);
-  max-height: calc(100vh - 100px);
   font-size: 18px;
   font-family: digits;
   grid-area: TxList;
@@ -917,106 +924,120 @@ h6 {
 .state {
   position: relative;
   width: 100%;
-  grid-area: state;
+  grid-area: locked;
   display: grid;
-}
-
-.sunlocked {
-  grid-template-columns: 2fr 2fr 3fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  grid-template-areas: 
-  "tblockheight tblockstamp tlocaltime tgasprice"
-  "blockheight  blockstamp localtime  gasprice";
+  height: 30px;
 }
 
 .slocked {
-  grid-template-columns: 120px 1fr 120px 1fr 120px 3fr 120px 1fr;
+  grid-template-columns: 120px 1fr 120px 1fr 120px 2fr 120px 1fr;
   grid-template-rows: 1fr;
   grid-template-areas: 
   "tblockheight blockheight tblockstamp blockstamp tlocaltime localtime tgasprice gasprice";
 }
 
 .tblockheight {
-  border: 2px solid white;
+  border: 2px solid #34475c;
+  border-left: 0px;
   border-right: 0px;
   border-radius: 0px;
   grid-area: tblockheight;
-  background-color: rgb(34, 169, 202);
+  background-color: #34475c;
   height: 100%;
   width: 100%;
 }
 
 .tblockstamp {
   width: 100%;
-  border: 2px solid white;
+  border: 2px solid #34475c;
   border-right: 0px;
   border-left: 1px solid white;
   border-radius: 0px;
   grid-area: tblockstamp;
-  background-color: rgb(34, 169, 202);
+  background-color: #34475c;
   height: 100%;
 }
 
 .tlocaltime {
   width: 100%;
-  border: 2px solid white;
+  border: 2px solid #34475c;
   border-right: 0px;
   border-left: 1px solid white;
   border-radius: 0px;
   grid-area: tlocaltime;
-  background-color: rgb(34, 169, 202);
+  background-color: #34475c;
   height: 100%;
 }
 
 .tgasprice {
   width: 100%;
-  border: 2px solid white;
+  border: 2px solid #34475c;
   border-right: 0px;
   border-left: 1px solid white;
   border-radius: 0px;
   grid-area: tgasprice;
-  background-color: rgb(34, 169, 202);
+  background-color: #34475c;
   height: 100%;
 }
 
 .blockheight {
   width: 100%;
-  border: 2px solid white;
+  border: 2px solid #34475c;
   border-left: 0px;
   border-right: 1px solid white;
   border-radius: 0px;
   grid-area: blockheight;
+  background-color: #34475c;
   height: 100%;
+}
+
+.blockheight p {
+  color: rgba(250,250,250,0.66);
 }
 
 .blockstamp {
   width: 100%;
-  border: 2px solid white;
+  border: 2px solid #34475c;
   border-left: 0px;
   border-right: 1px solid white;
   border-radius: 0px;
+  background-color: #34475c;
   grid-area: blockstamp;
   height: 100%;
 }
 
+.blockstamp p {
+  color: rgba(250,250,250,0.66);
+}
+
 .localtime {
   width: 100%;
-  border: 2px solid white;
+  border: 2px solid #34475c;
   border-left: 0px;
   border-right: 1px solid white;
   border-radius: 0px;
+  background-color: #34475c;
   grid-area: localtime;
   height: 100%;
 }
 
+.localtime p {
+  color: rgba(250,250,250,0.66);
+}
+
 .gasprice {
   width: 100%;
-  border: 2px solid white;
+  border: 2px solid #34475c;
   border-left: 0px;
-  border-right: 2px solid white;
+  border-right: 0px;
   border-radius: 0px;
+  background-color: #34475c;
   grid-area: gasprice;
   height: 100%;
+}
+
+.gasprice p {
+  color: rgba(250,250,250,0.66);
 }
 
 

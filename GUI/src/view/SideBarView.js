@@ -32,15 +32,18 @@ class SideBarView extends Reflux.Component {
 		//console.log("In MainView render()");
 		return (
             <div className="sidebar">
-			<div className="item" style={{margin: '7px'}}>
-				<img src="assets/icon/11be_logo.png" style={{width: '80px', alignSelf: 'right'}} />
+			<div className="sideLogo">
+				<img src="assets/icon/11be_logo.png" style={{width: '37px'}} />
+				<p style={{color: "white", fontSize: "23px", textAlign: "center", margin: "6px 0px 6px 0px"}}> ElevenBuckets </p>
 			</div>
-            		<div className="sidebarButton" style={{color: this.props.currentView === 'Receipts' ? '#ff4200' : 'white'}} 
-			   onClick={this.updateView.bind(this, 'Receipts')}>Receipts</div>
+			<div className="sidebarButton" style={{color: this.props.currentView === 'AppLauncher' ? '#ff4200' : 'white'}}
+			   onClick={this.updateView.bind(this, 'AppLauncher')}>dApps</div>
 			<div className="sidebarButton" style={{color: this.props.currentView === 'TokenSettings' ? '#ff4200' : 'white'}}
 			   onClick={this.updateView.bind(this, 'TokenSettings')}>Tokens</div>
-			<div className="sidebarButton" style={{color: this.props.currentView === 'AppLauncher' ? '#ff4200' : 'white'}}
-			   onClick={this.updateView.bind(this, 'AppLauncher')}>App Store</div>
+            		<div className="sidebarButton" style={{color: this.props.currentView === 'Receipts' ? '#ff4200' : 'white'}} 
+			   onClick={this.updateView.bind(this, 'Receipts')}>Receipts</div>
+
+
             </div>
 		)
 

@@ -341,7 +341,7 @@ class TokenSettingsView extends Reflux.Component {
 	render() {
 		console.log("in TokenSettingsView render()");
 		return (
-			<div>
+			<div style={{height: '100%'}}>
 				<div className="tokenAction">
 
 					<input type="button" className="button tokenActionButtonNew" value='New' onClick={this.handleTokenActionUpdate.bind(this, "New")} />
