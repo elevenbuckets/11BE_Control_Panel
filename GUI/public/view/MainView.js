@@ -60,8 +60,8 @@ class MainView extends _reflux2.default.Component {
 	constructor(props) {
 		super(props);
 
-		this.updateState = (key, e) => {
-			this.setState({ [key]: e.target.value });
+		this.updateState = (key, view) => {
+			this.setState({ [key]: view });
 		};
 
 		this.passAccRef = () => {
@@ -160,7 +160,7 @@ class MainView extends _reflux2.default.Component {
 			return _react2.default.createElement(
 				'div',
 				{ className: 'wrapper' },
-				_react2.default.createElement(_SideBarView2.default, { updateView: this.updateState.bind(this, "currentView") }),
+				_react2.default.createElement(_SideBarView2.default, { currentView: this.state.currentView, updateView: this.updateState.bind(this, "currentView") }),
 				_react2.default.createElement(
 					'div',
 					{ className: 'content' },

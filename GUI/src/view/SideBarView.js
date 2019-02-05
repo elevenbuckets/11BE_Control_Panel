@@ -19,25 +19,28 @@ class SideBarView extends Reflux.Component {
 		this.store = ControlPanelStore;
 	}
 
-	updateState = (key, e) => {
-		this.setState({ [key]: e.target.value });
+	updateView = (view) =>
+	{
+		this.props.updateView(view);
 	}
 
 	passAccRef = () => {
 		return ReactDOM.findDOMNode(this.refs.Accounts).firstChild;
 	}
 
-	updateView = view =>{
-		this.props.updateView(view);
-	}
-
 	render() {
-		console.log("In MainView render()");
+		//console.log("In MainView render()");
 		return (
             <div className="sidebar">
-            <input type="button" className="sidebarButton" value="Receipts" onClick={this.updateView}/>
-			<input type="button" className="sidebarButton" value="TokenSettings" onClick={this.updateView}/>
-			<input type="button" className="sidebarButton" value="AppLauncher" onClick={this.updateView}/>
+			<div className="item" style={{margin: '7px'}}>
+				<img src="assets/icon/11be_logo.png" style={{width: '80px', alignSelf: 'right'}} />
+			</div>
+            		<div className="sidebarButton" style={{color: this.props.currentView === 'Receipts' ? '#ff4200' : 'white'}} 
+			   onClick={this.updateView.bind(this, 'Receipts')}>Receipts</div>
+			<div className="sidebarButton" style={{color: this.props.currentView === 'TokenSettings' ? '#ff4200' : 'white'}}
+			   onClick={this.updateView.bind(this, 'TokenSettings')}>Tokens</div>
+			<div className="sidebarButton" style={{color: this.props.currentView === 'AppLauncher' ? '#ff4200' : 'white'}}
+			   onClick={this.updateView.bind(this, 'AppLauncher')}>App Store</div>
             </div>
 		)
 
