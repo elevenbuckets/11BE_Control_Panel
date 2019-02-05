@@ -53,6 +53,11 @@ class SideBarView extends _reflux2.default.Component {
 			{ className: 'sidebar' },
 			_react2.default.createElement(
 				'div',
+				{ className: 'item', style: { textAlign: 'center', margin: '5px' } },
+				_react2.default.createElement('img', { src: 'assets/icon/11be_logo.png', style: { width: '80px', alignSelf: 'right' } })
+			),
+			_react2.default.createElement(
+				'div',
 				{ className: 'sidebarButton', style: { color: this.props.currentView === 'Receipts' ? '#ff4200' : 'white' },
 					onClick: this.updateView.bind(this, 'Receipts') },
 				'Receipts'

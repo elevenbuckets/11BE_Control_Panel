@@ -32,6 +32,9 @@ class SideBarView extends Reflux.Component {
 		//console.log("In MainView render()");
 		return (
             <div className="sidebar">
+			<div className="item" style={{margin: '7px'}}>
+				<img src="assets/icon/11be_logo.png" style={{width: '80px', alignSelf: 'right'}} />
+			</div>
             		<div className="sidebarButton" style={{color: this.props.currentView === 'Receipts' ? '#ff4200' : 'white'}} 
 			   onClick={this.updateView.bind(this, 'Receipts')}>Receipts</div>
 			<div className="sidebarButton" style={{color: this.props.currentView === 'TokenSettings' ? '#ff4200' : 'white'}}

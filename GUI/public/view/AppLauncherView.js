@@ -36,7 +36,7 @@ class AppLauncherView extends _reflux2.default.Component {
 
 				const subprocess = spawn(path.join(topdir, 'node_modules', '.bin', 'electron'), ['.'], {
 					cwd: topdir,
-					env: { DISPLAY: process.env.DISPLAY, XAUTHORITY: process.env.XAUTHORITY, configDir },
+					env: { DISPLAY: process.env.DISPLAY, XAUTHORITY: process.env.XAUTHORITY, configDir, PATH: process.env.PATH },
 					detached: true,
 					stdio: 'ignore'
 				});
