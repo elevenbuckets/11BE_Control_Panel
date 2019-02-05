@@ -35,29 +35,40 @@ class SideBarView extends _reflux2.default.Component {
 	constructor(props) {
 		super(props);
 
-		this.updateState = (key, e) => {
-			this.setState({ [key]: e.target.value });
+		this.updateView = view => {
+			this.props.updateView(view);
 		};
 
 		this.passAccRef = () => {
 			return _reactDom2.default.findDOMNode(this.refs.Accounts).firstChild;
 		};
 
-		this.updateView = view => {
-			this.props.updateView(view);
-		};
-
 		this.store = _ControlPanelStore2.default;
 	}
 
 	render() {
-		console.log("In MainView render()");
+		//console.log("In MainView render()");
 		return _react2.default.createElement(
 			'div',
 			{ className: 'sidebar' },
-			_react2.default.createElement('input', { type: 'button', className: 'sidebarButton', value: 'Receipts', onClick: this.updateView }),
-			_react2.default.createElement('input', { type: 'button', className: 'sidebarButton', value: 'TokenSettings', onClick: this.updateView }),
-			_react2.default.createElement('input', { type: 'button', className: 'sidebarButton', value: 'AppLauncher', onClick: this.updateView })
+			_react2.default.createElement(
+				'div',
+				{ className: 'sidebarButton', style: { color: this.props.currentView === 'Receipts' ? '#ff4200' : 'white' },
+					onClick: this.updateView.bind(this, 'Receipts') },
+				'Receipts'
+			),
+			_react2.default.createElement(
+				'div',
+				{ className: 'sidebarButton', style: { color: this.props.currentView === 'TokenSettings' ? '#ff4200' : 'white' },
+					onClick: this.updateView.bind(this, 'TokenSettings') },
+				'Tokens'
+			),
+			_react2.default.createElement(
+				'div',
+				{ className: 'sidebarButton', style: { color: this.props.currentView === 'AppLauncher' ? '#ff4200' : 'white' },
+					onClick: this.updateView.bind(this, 'AppLauncher') },
+				'App Store'
+			)
 		);
 	}
 }

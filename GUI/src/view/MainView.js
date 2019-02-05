@@ -33,8 +33,8 @@ class MainView extends Reflux.Component {
 
 	}
 
-	updateState = (key, e) => {
-		this.setState({ [key]: e.target.value });
+	updateState = (key, view) => {
+		this.setState({ [key]: view });
 	}
 
 	passAccRef = () => {
@@ -98,7 +98,7 @@ class MainView extends Reflux.Component {
 			document.body.style.background = "#f4f0fa";
 			return (
 				<div className="wrapper">
-					<SideBarView updateView={this.updateState.bind(this, "currentView")} />
+					<SideBarView currentView={this.state.currentView} updateView={this.updateState.bind(this, "currentView")} />
 					<div className="content">
 						{this.state.currentView == "TokenSettings" ? <TokenSettingsView />
 							: this.state.currentView == "AppLauncher" ? <AppLauncherView /> : <ReceiptsView />}
