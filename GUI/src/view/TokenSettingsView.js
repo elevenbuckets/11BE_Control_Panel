@@ -355,7 +355,7 @@ class TokenSettingsView extends Reflux.Component {
 
 					<br style={{ border: '2px solid white' }} />
 					<table className="tokenTitleTable">
-						<tbody>
+					        <thead>
 							<tr>
 								<td width='10%' style={{ borderRight: '2px solid rgb(17,31,47)' }}>Select</td>
 								<td width='10%' style={{ borderRight: '2px solid rgb(17,31,47)' }}>Symbol</td>
@@ -365,6 +365,8 @@ class TokenSettingsView extends Reflux.Component {
 								<td width='10%' style={{ borderRight: '2px solid rgb(17,31,47)' }}>Catgory</td>
 								<td width='10%'>Watched</td>
 							</tr>
+                                                </thead>
+						<tbody>
 							<tr hidden={!(this.state.tokenAction === "New")} style={{ backgroundColor: "rgb(34, 169, 202)" }}>
 								<td width='10%'>N/A</td>
 								<td width='10%'><input type='text' size='3'
@@ -422,8 +424,8 @@ class TokenSettingsView extends Reflux.Component {
 						</tbody>
 					</table>
 				</div>
-
 				<div className="TKList">
+
 					<table style={{ width: "100%" }}>
 						<tbody>
 							{this.getTokenDisplay()}
