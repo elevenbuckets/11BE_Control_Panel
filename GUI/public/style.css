@@ -138,11 +138,10 @@ h6 {
   display: grid;
   justify-content: center;
   align-items: center;
-  border: 5px solid rgba(0, 0, 0, 0.03);
+  border: 5px solid var(--background);
   border-radius: 6px;
   font-size: 35px;
   color: white;
-  //background-color: rgba(0, 0, 0, 0.03)
 }
 
 .item p {
@@ -624,6 +623,7 @@ h6 {
   grid-gap: 10px;
   height: 100%;
   width: 75vw;
+  margin: 20px 0px 0px 20px;
 }
 
 .card {

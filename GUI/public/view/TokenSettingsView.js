@@ -422,7 +422,7 @@ class TokenSettingsView extends _reflux2.default.Component {
 					'table',
 					{ className: 'tokenTitleTable' },
 					_react2.default.createElement(
-						'tbody',
+						'thead',
 						null,
 						_react2.default.createElement(
 							'tr',
@@ -462,7 +462,11 @@ class TokenSettingsView extends _reflux2.default.Component {
 								{ width: '10%' },
 								'Watched'
 							)
-						),
+						)
+					),
+					_react2.default.createElement(
+						'tbody',
+						null,
 						_react2.default.createElement(
 							'tr',
 							{ hidden: !(this.state.tokenAction === "New"), style: { backgroundColor: "rgb(34, 169, 202)" } },
