@@ -78,6 +78,12 @@ class SideBarView extends _reflux2.default.Component {
 				{ className: 'sidebarButton', style: { color: this.props.currentView === 'Receipts' ? '#ff4200' : 'white' },
 					onClick: this.updateView.bind(this, 'Receipts') },
 				'Receipts'
+			),
+			_react2.default.createElement(
+				'div',
+				{ className: 'sidebarButton', style: { color: this.props.currentView === 'AccountManager' ? '#ff4200' : 'white' },
+					onClick: this.updateView.bind(this, 'AccountManager') },
+				'Account Manager'
 			)
 		);
 	}

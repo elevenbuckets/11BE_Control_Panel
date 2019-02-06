@@ -19,8 +19,7 @@ class SideBarView extends Reflux.Component {
 		this.store = ControlPanelStore;
 	}
 
-	updateView = (view) =>
-	{
+	updateView = (view) => {
 		this.props.updateView(view);
 	}
 
@@ -42,8 +41,8 @@ class SideBarView extends Reflux.Component {
 			   onClick={this.updateView.bind(this, 'TokenSettings')}>Tokens</div>
             		<div className="sidebarButton" style={{color: this.props.currentView === 'Receipts' ? '#ff4200' : 'white'}} 
 			   onClick={this.updateView.bind(this, 'Receipts')}>Receipts</div>
-
-
+<div className="sidebarButton" style={{ color: this.props.currentView === 'AccountManager' ? '#ff4200' : 'white' }}
+					onClick={this.updateView.bind(this, 'AccountManager')}>Accounts</div>
             </div>
 		)
 
