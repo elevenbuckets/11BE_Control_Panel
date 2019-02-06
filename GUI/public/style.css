@@ -88,7 +88,7 @@ h6 {
 
 .sidebar{
   grid-area: sidebar;
-  min-height: 100vh;
+  min-height: calc(100vh - 30px);
   max-height: 100vh;
   background-color:#34475c;
  
@@ -105,16 +105,34 @@ h6 {
   grid-template-rows: 1fr 30px;
   grid-template-areas:
    "sidebar content"
-   "sidebar locked";
+   "version locked";
+}
+
+.version {
+  grid-area: version;
+  color: white;
+  background-color: #34475c;
+  border: 5px solid #34475c;
+  border-right: 1px solid white;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.version p {
+  font-size: 16px;
+  height: 100%;
+  margin: 0px;
+  text-align: center;
 }
 
 .sidebarButton{
   color: white;
-  background-color:#34475c;
+  background-color: #34475c;
   width: 100%;
   text-align: right;
-  font-size: 35px;
-  padding: 4px 20px 5px 0px;
+  font-size: 2.5vw;
+  padding: 0.5vh 20px 5px 0px;
 }
 
 .sidebarButton:hover {
@@ -128,7 +146,7 @@ h6 {
  padding-bottom: 7px;
  justify-content: left;
  display: grid;
- grid-template-columns: 36px 1fr;
+ grid-template-columns: 46px 1fr;
  border-bottom: 2px solid rgba(255,255,255,0.4);
 }
 
@@ -958,7 +976,7 @@ h6 {
 
 .tblockheight {
   border: 2px solid #34475c;
-  border-left: 0px;
+  border-left: 1px solid white;
   border-right: 0px;
   border-radius: 0px;
   grid-area: tblockheight;

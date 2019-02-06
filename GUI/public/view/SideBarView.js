@@ -54,10 +54,10 @@ class SideBarView extends _reflux2.default.Component {
 			_react2.default.createElement(
 				'div',
 				{ className: 'sideLogo' },
-				_react2.default.createElement('img', { src: 'assets/icon/11be_logo.png', style: { width: '37px' } }),
+				_react2.default.createElement('img', { src: 'assets/icon/11be_logo.png', style: { width: '2.75vw' } }),
 				_react2.default.createElement(
 					'p',
-					{ style: { color: "white", fontSize: "23px", textAlign: "center", margin: "6px 0px 6px 0px" } },
+					{ style: { color: "white", fontSize: "1.9vw", textAlign: "center", margin: "6px 0px 6px 0px" } },
 					' ElevenBuckets '
 				)
 			),

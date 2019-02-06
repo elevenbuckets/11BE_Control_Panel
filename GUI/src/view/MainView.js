@@ -99,11 +99,14 @@ class MainView extends Reflux.Component {
 			return (
 				<div className="wrapper">
 					<SideBarView currentView={this.state.currentView} updateView={this.updateState.bind(this, "currentView")} />
+					<div className="item version" style={{border: "5px solid #34475c", borderRadius: '0px', borderRight: "1px solid white"}}>
+						<p> Platform Ver : </p><p style={{color: "rgba(250,250,250,0.66)"}}> {this.state.version} </p>
+					</div>
 					<div className="content">
 						{this.state.currentView == "TokenSettings" ? <TokenSettingsView />
 							: this.state.currentView == "AppLauncher" ? <AppLauncherView /> : <ReceiptsView />}
-							<States />
 					</div>
+					<States />
 				</div>
 			)
 		}

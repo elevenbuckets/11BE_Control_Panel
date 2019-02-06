@@ -33,8 +33,8 @@ class SideBarView extends Reflux.Component {
 		return (
             <div className="sidebar">
 			<div className="sideLogo">
-				<img src="assets/icon/11be_logo.png" style={{width: '37px'}} />
-				<p style={{color: "white", fontSize: "23px", textAlign: "center", margin: "6px 0px 6px 0px"}}> ElevenBuckets </p>
+				<img src="assets/icon/11be_logo.png" style={{width: '2.75vw'}} />
+				<p style={{color: "white", fontSize: "1.9vw", textAlign: "center", margin: "6px 0px 6px 0px"}}> ElevenBuckets </p>
 			</div>
 			<div className="sidebarButton" style={{color: this.props.currentView === 'AppLauncher' ? '#ff4200' : 'white'}}
 			   onClick={this.updateView.bind(this, 'AppLauncher')}>dApps</div>

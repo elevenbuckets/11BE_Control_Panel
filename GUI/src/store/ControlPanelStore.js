@@ -31,13 +31,14 @@ class ControlPanelStore extends Reflux.Store {
 				configured: true,
 				Qs: [],
 				receipts: {},
-				watchedTokenSymbolList: []
+				watchedTokenSymbolList: [],
+				version: null
 			}
 
 		this.listenables = ControlPanelActions;
 		this.controlPanel = remote.getGlobal('controlPanel');
 
-
+		this.setState({version: '1.0.0-alpha'});
 		this.controlPanel.client.subscribe('ethstats');
 		this.setState({ gasPrice: this.controlPanel.configs.defaultGasPrice });
 
