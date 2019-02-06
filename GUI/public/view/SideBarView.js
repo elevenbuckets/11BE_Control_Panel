@@ -53,7 +53,7 @@ class SideBarView extends _reflux2.default.Component {
 			{ className: 'sidebar' },
 			_react2.default.createElement(
 				'div',
-				{ className: 'item', style: { textAlign: 'center', margin: '5px' } },
+				{ className: 'item', style: { margin: '7px' } },
 				_react2.default.createElement('img', { src: 'assets/icon/11be_logo.png', style: { width: '80px', alignSelf: 'right' } })
 			),
 			_react2.default.createElement(
@@ -73,6 +73,12 @@ class SideBarView extends _reflux2.default.Component {
 				{ className: 'sidebarButton', style: { color: this.props.currentView === 'AppLauncher' ? '#ff4200' : 'white' },
 					onClick: this.updateView.bind(this, 'AppLauncher') },
 				'App Store'
+			),
+			_react2.default.createElement(
+				'div',
+				{ className: 'sidebarButton', style: { color: this.props.currentView === 'AccountManager' ? '#ff4200' : 'white' },
+					onClick: this.updateView.bind(this, 'AccountManager') },
+				'Account Manager'
 			)
 		);
 	}
