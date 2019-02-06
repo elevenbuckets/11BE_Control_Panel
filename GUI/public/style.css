@@ -358,19 +358,21 @@ h6 {
   /* font-family: digits; */
   background: rgb(34, 169, 202);
   text-align: center;
+  border-collapse: collapse;
   color: #34475c;
-  /* border: 7px solid rgb(34, 169, 202); */
 }
 
-.ReceiptMainTable thead th{
-  border-radius: 7px solid;
+.ReceiptMainTable th{
   background: rgb(34, 169, 202);
+  border-top: 7px solid rgb(34, 169, 202);
+  border-bottom: 7px solid rgb(34, 169, 202);
+  border-spacing: 0px;
   color: white;
 }
 
 .ReceiptMainTable tr:nth-child(odd) {
   background-color: var(--oddrow);
-  color: black;
+  color: #34475c;
 }
 
 .ReceiptMainTable tr:nth-child(even) {
@@ -386,13 +388,13 @@ h6 {
 
 .ReceiptToolTipArea input {
   margin: 15px; 
-  font-family: digits;
+  /* font-family: digits; */
   border: 0px;
   background-color: rgba(0, 0, 0, 0);
   width: 90%; 
   font-size: 16px;
   text-align: center;
-  color: white;
+  color: #34475c;
 }
 
 .SettingView {
@@ -727,7 +729,7 @@ h6 {
 /* default button style */
 .button {
   background-color: rgba(0, 0, 0, 0);
-  border: 2px solid white;
+  border: 2px solid grey;
   color: #34475c;
   padding: 2px 4px;
   text-align: center;
@@ -741,6 +743,7 @@ h6 {
 
 .button:disabled {
   color: #dddddd;
+  border: 2px solid #dddddd;
   pointer-events: none;
 }
 
@@ -915,7 +918,7 @@ h6 {
   border-top: none;
   width: 100%;
   font-size: 18px;
-  font-family: digits;
+  /* font-family: digits; */
   grid-area: TxList;
   text-align: center;
   background-color: var(--background);
