@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import Reflux from 'reflux';
 import { remote } from 'electron';
+import fs from 'fs';
 
 // Reflux store
 import ControlPanelStore from '../store/ControlPanelStore';

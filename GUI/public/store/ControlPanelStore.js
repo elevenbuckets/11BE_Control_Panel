@@ -203,7 +203,7 @@ class ControlPanelStore extends _reflux2.default.Store {
 
 	onMasterUpdate(value) {
 
-		this.controlPanel.client.call('unlock', [value]).then(rc => {
+		this.controlPanel.unlockMaster(value).then(rc => {
 			this.controlPanel.hasPass().then(data => {
 				this.setState({ unlocked: data });
 			});

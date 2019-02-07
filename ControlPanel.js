@@ -15,8 +15,9 @@ class ControlPanel extends BladeIronClient {
 		this.TokenList = this.configs.tokens; // just a list;
 		this.TokenInfo = {};
 		this.newJobsHandler = null;
-		this.topDir = null;
-		this.accMgr = new accMgr(require(path.join(process.cwd(), '.local', 'bootstrap_config.json')).configDir);
+
+		this.topDir = this.configs.topDir || require(path.join(process.cwd(), '.local', 'bootstrap_config.json')).configDir;
+		this.accMgr = new accMgr(this.topDir);
 
 		this.toWei = (eth, decimals) => this.toBigNumber(String(eth)).times(this.toBigNumber(10 ** decimals)).floor();
 		this.toEth = (wei, decimals) => this.toBigNumber(String(wei)).div(this.toBigNumber(10 ** decimals));

@@ -15,9 +15,9 @@ var _reflux2 = _interopRequireDefault(_reflux);
 
 var _electron = require('electron');
 
-var _AcctMgrService = require('../service/AcctMgrService');
+var _fs = require('fs');
 
-var _AcctMgrService2 = _interopRequireDefault(_AcctMgrService);
+var _fs2 = _interopRequireDefault(_fs);
 
 var _ControlPanelStore = require('../store/ControlPanelStore');
 
@@ -102,7 +102,7 @@ class AccountsView extends _AlertModalUser2.default {
 			this.variable = undefined;
 
 			// sanity check
-			if (!fs.existsSync(kp) || typeof kp === 'undefined') {
+			if (!_fs2.default.existsSync(kp) || typeof kp === 'undefined') {
 				this.setState({ waiting: false });
 				this.openModal("Import Failed!");
 				return false;
@@ -210,7 +210,8 @@ class AccountsView extends _AlertModalUser2.default {
 			currentAccSettings: 'old'
 		};
 		this.storeKeys = [];
-		this.accMgr = _AcctMgrService2.default.accMgr;
+		let cp = _electron.remote.getGlobal('controlPanel');
+		this.accMgr = cp.accMgr;
 		this.keypath = undefined;
 		this.variable = undefined;
 	}
