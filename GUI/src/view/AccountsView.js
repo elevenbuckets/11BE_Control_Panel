@@ -4,8 +4,6 @@ import React, { Component } from 'react';
 import Reflux from 'reflux';
 import { remote } from 'electron';
 
-import AcctMgrService from '../service/AcctMgrService';
-
 // Reflux store
 import ControlPanelStore from '../store/ControlPanelStore';
 import ControlPanelActions from '../action/ControlPanelActions';
@@ -28,7 +26,7 @@ class AccountsView extends AlertModalUser {
 		}
 		this.storeKeys = [
 		];
-        this.accMgr = AcctMgrService.accMgr;
+	this.accMgr = remote.getGlobal('controlPanel').accMgr;
         this.keypath = undefined;
 		this.variable = undefined;
 	}

@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const ethUtils = require('ethereumjs-utils');
 const rpc = require('rpc-websockets').Client;
+const accMgr = require('accMgr/Accounts');
 
 // 11BE BladeIron Client API
 const BladeIronClient = require('bladeiron_api');
@@ -15,6 +16,7 @@ class ControlPanel extends BladeIronClient {
 		this.TokenInfo = {};
 		this.newJobsHandler = null;
 		this.topDir = null;
+		this.accMgr = new accMgr(require(path.join(process.cwd(), '.local', 'bootstrap_config.json')).configDir);
 
 		this.toWei = (eth, decimals) => this.toBigNumber(String(eth)).times(this.toBigNumber(10 ** decimals)).floor();
 		this.toEth = (wei, decimals) => this.toBigNumber(String(wei)).div(this.toBigNumber(10 ** decimals));
@@ -130,8 +132,17 @@ class ControlPanel extends BladeIronClient {
 			}
 		}
 
-		this.hasPass = () =>{
+		this.hasPass = () => {
 			return this.client.call("hasPass");
+		}
+
+		this.unlockMaster = (variable) =>
+		{
+			return this.client.call('unlock', [variable])
+				   .then((rc) => {
+					this.accMgr.password(variable);
+					return rc;
+				   })
 		}
 	}
 }
