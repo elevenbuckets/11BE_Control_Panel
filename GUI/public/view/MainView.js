@@ -50,12 +50,13 @@ var _Login = require('./Login');
 
 var _Login2 = _interopRequireDefault(_Login);
 
+var _AccountsView = require('./AccountsView');
+
+var _AccountsView2 = _interopRequireDefault(_AccountsView);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Views
-
-
-// Reflux store
+// Reflux actions
 class MainView extends _reflux2.default.Component {
 	constructor(props) {
 		super(props);
@@ -180,7 +181,7 @@ class MainView extends _reflux2.default.Component {
 				_react2.default.createElement(
 					'div',
 					{ className: 'content' },
-					this.state.currentView == "TokenSettings" ? _react2.default.createElement(_TokenSettingsView2.default, null) : this.state.currentView == "AppLauncher" ? _react2.default.createElement(_AppLauncherView2.default, null) : _react2.default.createElement(_ReceiptsView2.default, null)
+					this.state.currentView == "TokenSettings" ? _react2.default.createElement(_TokenSettingsView2.default, null) : this.state.currentView == "AppLauncher" ? _react2.default.createElement(_AppLauncherView2.default, null) : this.state.currentView == "AccountManager" ? _react2.default.createElement(_AccountsView2.default, null) : _react2.default.createElement(_ReceiptsView2.default, null)
 				),
 				_react2.default.createElement(_States2.default, null)
 			);
@@ -188,5 +189,8 @@ class MainView extends _reflux2.default.Component {
 	}
 }
 
-// Reflux actions
+// Views
+
+
+// Reflux store
 exports.default = MainView;

@@ -18,6 +18,7 @@ import TokenSettingsView from './TokenSettingsView';
 import AppLauncherView from './AppLauncherView';
 import States from './States';
 import Login from './Login';
+import AccountsView from './AccountsView';
 
 class MainView extends Reflux.Component {
 	constructor(props) {
@@ -104,7 +105,8 @@ class MainView extends Reflux.Component {
 					</div>
 					<div className="content">
 						{this.state.currentView == "TokenSettings" ? <TokenSettingsView />
-							: this.state.currentView == "AppLauncher" ? <AppLauncherView /> : <ReceiptsView />}
+							: this.state.currentView == "AppLauncher" ? <AppLauncherView /> 
+							: this.state.currentView == "AccountManager"? <AccountsView/>: <ReceiptsView />}
 					</div>
 					<States />
 				</div>
