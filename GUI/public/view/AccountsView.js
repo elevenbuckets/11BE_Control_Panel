@@ -15,9 +15,9 @@ var _reflux2 = _interopRequireDefault(_reflux);
 
 var _electron = require('electron');
 
-var _Accounts = require('accMgr/Accounts');
+var _AcctMgrService = require('../service/AcctMgrService');
 
-var _Accounts2 = _interopRequireDefault(_Accounts);
+var _AcctMgrService2 = _interopRequireDefault(_AcctMgrService);
 
 var _ControlPanelStore = require('../store/ControlPanelStore');
 
@@ -210,8 +210,7 @@ class AccountsView extends _AlertModalUser2.default {
 			currentAccSettings: 'old'
 		};
 		this.storeKeys = [];
-		this.controlPanel = _electron.remote.getGlobal("controlPanel");
-		this.accMgr = new _Accounts2.default(this.controlPanel.topDir);
+		this.accMgr = _AcctMgrService2.default.accMgr;
 		this.keypath = undefined;
 		this.variable = undefined;
 	}

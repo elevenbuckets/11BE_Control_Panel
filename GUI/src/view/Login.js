@@ -4,8 +4,7 @@
 import Reflux from 'reflux';
 import React from 'react';
 import fs from 'fs';
-import path from 'path';
-import Accounts from 'accMgr/Accounts';
+import AcctMgrService from '../service/AcctMgrService';
 import { remote } from 'electron';
 
 // Reflux store
@@ -32,9 +31,8 @@ class Login extends AlertModalUser {
 			visible: false,
 			sbutton: 'none'
 		};
-
 		this.controlPanel = remote.getGlobal("controlPanel");
-		this.accMgr = new Accounts(this.controlPanel.topDir);
+		this.accMgr = AcctMgrService.accMgr;
 		this.variable = undefined;
 	}
 
@@ -72,6 +70,7 @@ class Login extends AlertModalUser {
 		if (event.keyCode === 13) {
 			let variable = this.refs.mp.value;
 			this.refs.mp.value = '';
+			this.accMgr.password(variable);
 			ControlPanelActions.masterUpdate(variable);
 		}
 	}
