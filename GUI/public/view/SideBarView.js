@@ -53,14 +53,19 @@ class SideBarView extends _reflux2.default.Component {
 			{ className: 'sidebar' },
 			_react2.default.createElement(
 				'div',
-				{ className: 'item', style: { margin: '7px' } },
-				_react2.default.createElement('img', { src: 'assets/icon/11be_logo.png', style: { width: '80px', alignSelf: 'right' } })
+				{ className: 'sideLogo' },
+				_react2.default.createElement('img', { src: 'assets/icon/11be_logo.png', style: { width: '2.75vw' } }),
+				_react2.default.createElement(
+					'p',
+					{ style: { color: "white", fontSize: "1.9vw", textAlign: "center", margin: "6px 0px 6px 0px" } },
+					' ElevenBuckets '
+				)
 			),
 			_react2.default.createElement(
 				'div',
-				{ className: 'sidebarButton', style: { color: this.props.currentView === 'Receipts' ? '#ff4200' : 'white' },
-					onClick: this.updateView.bind(this, 'Receipts') },
-				'Receipts'
+				{ className: 'sidebarButton', style: { color: this.props.currentView === 'AppLauncher' ? '#ff4200' : 'white' },
+					onClick: this.updateView.bind(this, 'AppLauncher') },
+				'dApps'
 			),
 			_react2.default.createElement(
 				'div',
@@ -70,9 +75,9 @@ class SideBarView extends _reflux2.default.Component {
 			),
 			_react2.default.createElement(
 				'div',
-				{ className: 'sidebarButton', style: { color: this.props.currentView === 'AppLauncher' ? '#ff4200' : 'white' },
-					onClick: this.updateView.bind(this, 'AppLauncher') },
-				'App Store'
+				{ className: 'sidebarButton', style: { color: this.props.currentView === 'Receipts' ? '#ff4200' : 'white' },
+					onClick: this.updateView.bind(this, 'Receipts') },
+				'Receipts'
 			),
 			_react2.default.createElement(
 				'div',

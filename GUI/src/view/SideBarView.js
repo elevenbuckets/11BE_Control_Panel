@@ -30,19 +30,20 @@ class SideBarView extends Reflux.Component {
 	render() {
 		//console.log("In MainView render()");
 		return (
-			<div className="sidebar">
-				<div className="item" style={{ margin: '7px' }}>
-					<img src="assets/icon/11be_logo.png" style={{ width: '80px', alignSelf: 'right' }} />
-				</div>
-				<div className="sidebarButton" style={{ color: this.props.currentView === 'Receipts' ? '#ff4200' : 'white' }}
-					onClick={this.updateView.bind(this, 'Receipts')}>Receipts</div>
-				<div className="sidebarButton" style={{ color: this.props.currentView === 'TokenSettings' ? '#ff4200' : 'white' }}
-					onClick={this.updateView.bind(this, 'TokenSettings')}>Tokens</div>
-				<div className="sidebarButton" style={{ color: this.props.currentView === 'AppLauncher' ? '#ff4200' : 'white' }}
-					onClick={this.updateView.bind(this, 'AppLauncher')}>App Store</div>
-				<div className="sidebarButton" style={{ color: this.props.currentView === 'AccountManager' ? '#ff4200' : 'white' }}
-					onClick={this.updateView.bind(this, 'AccountManager')}>Accounts</div>
+            <div className="sidebar">
+			<div className="sideLogo">
+				<img src="assets/icon/11be_logo.png" style={{width: '2.75vw'}} />
+				<p style={{color: "white", fontSize: "1.9vw", textAlign: "center", margin: "6px 0px 6px 0px"}}> ElevenBuckets </p>
 			</div>
+			<div className="sidebarButton" style={{color: this.props.currentView === 'AppLauncher' ? '#ff4200' : 'white'}}
+			   onClick={this.updateView.bind(this, 'AppLauncher')}>dApps</div>
+			<div className="sidebarButton" style={{color: this.props.currentView === 'TokenSettings' ? '#ff4200' : 'white'}}
+			   onClick={this.updateView.bind(this, 'TokenSettings')}>Tokens</div>
+            		<div className="sidebarButton" style={{color: this.props.currentView === 'Receipts' ? '#ff4200' : 'white'}} 
+			   onClick={this.updateView.bind(this, 'Receipts')}>Receipts</div>
+<div className="sidebarButton" style={{ color: this.props.currentView === 'AccountManager' ? '#ff4200' : 'white' }}
+					onClick={this.updateView.bind(this, 'AccountManager')}>Accounts</div>
+            </div>
 		)
 
 	}

@@ -163,10 +163,26 @@ class MainView extends _reflux2.default.Component {
 				_react2.default.createElement(_SideBarView2.default, { currentView: this.state.currentView, updateView: this.updateState.bind(this, "currentView") }),
 				_react2.default.createElement(
 					'div',
+					{ className: 'item version', style: { border: "5px solid #34475c", borderRadius: '0px', borderRight: "1px solid white" } },
+					_react2.default.createElement(
+						'p',
+						null,
+						' Platform Ver : '
+					),
+					_react2.default.createElement(
+						'p',
+						{ style: { color: "rgba(250,250,250,0.66)" } },
+						' ',
+						this.state.version,
+						' '
+					)
+				),
+				_react2.default.createElement(
+					'div',
 					{ className: 'content' },
-					this.state.currentView == "TokenSettings" ? _react2.default.createElement(_TokenSettingsView2.default, null) : this.state.currentView == "AppLauncher" ? _react2.default.createElement(_AppLauncherView2.default, null) : _react2.default.createElement(_ReceiptsView2.default, null),
-					_react2.default.createElement(_States2.default, null)
-				)
+					this.state.currentView == "TokenSettings" ? _react2.default.createElement(_TokenSettingsView2.default, null) : this.state.currentView == "AppLauncher" ? _react2.default.createElement(_AppLauncherView2.default, null) : _react2.default.createElement(_ReceiptsView2.default, null)
+				),
+				_react2.default.createElement(_States2.default, null)
 			);
 		}
 	}

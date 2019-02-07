@@ -105,10 +105,10 @@ class States extends Reflux.Component {
     render = () => {
             return (
                 <div className="state slocked">
-                    <div className="item tblockheight"><p>Block Height</p></div>
-                    <div className="item tblockstamp"><p>Block Stamp</p></div>
-                    <div className="item tlocaltime"><p>Local Time</p></div>
-                    <div className="item tgasprice"><p>Gas Price</p></div>
+                    <div className="item tblockheight"><p>Block Height : </p></div>
+                    <div className="item tblockstamp"><p>Block Stamp : </p></div>
+                    <div className="item tlocaltime"><p>Local Time : </p></div>
+                    <div className="item tgasprice"><p>Gas Price : </p></div>
                     <div className="item blockheight"><p id="cbh" >{this.state.blockHeight}</p></div>
                     <div className="item blockstamp"><p id="cbs">{this.state.blockTime}</p></div>
                     <div className="item localtime"><p id="clt">{String(this.state.localTime).substring(0,24)}</p></div>

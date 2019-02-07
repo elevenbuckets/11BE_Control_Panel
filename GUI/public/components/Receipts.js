@@ -168,49 +168,49 @@ class Receipts extends _reflux2.default.Component {
                 'table',
                 { className: 'ReceiptMainTable' },
                 _react2.default.createElement(
-                    'tbody',
+                    'thead',
                     null,
                     _react2.default.createElement(
                         'tr',
                         null,
                         _react2.default.createElement(
                             'th',
-                            { width: '10%' },
+                            { width: '10%', style: { borderRight: '2px solid rgb(17,31,47)' } },
                             'TxHash'
                         ),
                         _react2.default.createElement(
                             'th',
-                            { width: '10%' },
+                            { width: '10%', style: { borderRight: '2px solid rgb(17,31,47)' } },
                             'From'
                         ),
                         _react2.default.createElement(
                             'th',
-                            { width: '10%' },
+                            { width: '10%', style: { borderRight: '2px solid rgb(17,31,47)' } },
                             'To'
                         ),
                         _react2.default.createElement(
                             'th',
-                            { width: '8%' },
+                            { width: '8%', style: { borderRight: '2px solid rgb(17,31,47)' } },
                             'Type'
                         ),
                         _react2.default.createElement(
                             'th',
-                            { width: '8%' },
+                            { width: '8%', style: { borderRight: '2px solid rgb(17,31,47)' } },
                             'Amount'
                         ),
                         _react2.default.createElement(
                             'th',
-                            { width: '8%' },
+                            { width: '8%', style: { borderRight: '2px solid rgb(17,31,47)' } },
                             'Gas'
                         ),
                         _react2.default.createElement(
                             'th',
-                            { width: '8%' },
+                            { width: '8%', style: { borderRight: '2px solid rgb(17,31,47)' } },
                             'Gas Price'
                         ),
                         _react2.default.createElement(
                             'th',
-                            { width: '8%' },
+                            { width: '8%', style: { borderRight: '2px solid rgb(17,31,47)' } },
                             'Block No.'
                         ),
                         _react2.default.createElement(
@@ -218,7 +218,11 @@ class Receipts extends _reflux2.default.Component {
                             { width: '8%' },
                             'Status'
                         )
-                    ),
+                    )
+                ),
+                _react2.default.createElement(
+                    'tbody',
+                    null,
                     this.receipts()
                 )
             ),

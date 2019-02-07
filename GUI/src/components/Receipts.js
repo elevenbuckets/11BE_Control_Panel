@@ -115,18 +115,20 @@ class Receipts extends Reflux.Component {
         return (
             <div className="ReceiptContainer">
                 <table className="ReceiptMainTable">
-                    <tbody>
+                    <thead>
                         <tr>
-                            <th width='10%'>TxHash</th>
-                            <th width='10%'>From</th>
-                            <th width='10%'>To</th>
-                            <th width='8%'>Type</th>
-                            <th width='8%'>Amount</th>
-                            <th width='8%'>Gas</th>
-                            <th width='8%'>Gas Price</th>
-                            <th width='8%'>Block No.</th>
+                            <th width='10%' style={{ borderRight: '2px solid rgb(17,31,47)' }}>TxHash</th>
+                            <th width='10%' style={{ borderRight: '2px solid rgb(17,31,47)' }}>From</th>
+                            <th width='10%' style={{ borderRight: '2px solid rgb(17,31,47)' }}>To</th>
+                            <th width='8%' style={{ borderRight: '2px solid rgb(17,31,47)' }}>Type</th>
+                            <th width='8%' style={{ borderRight: '2px solid rgb(17,31,47)' }}>Amount</th>
+                            <th width='8%' style={{ borderRight: '2px solid rgb(17,31,47)' }}>Gas</th>
+                            <th width='8%' style={{ borderRight: '2px solid rgb(17,31,47)' }}>Gas Price</th>
+                            <th width='8%' style={{ borderRight: '2px solid rgb(17,31,47)' }}>Block No.</th>
                             <th width='8%'>Status</th>
                         </tr>
+                    </thead>
+                    <tbody>
                         {this.receipts()}
                     </tbody>
                 </table>
