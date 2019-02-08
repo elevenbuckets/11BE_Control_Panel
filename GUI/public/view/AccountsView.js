@@ -210,8 +210,7 @@ class AccountsView extends _AlertModalUser2.default {
 			currentAccSettings: 'old'
 		};
 		this.storeKeys = [];
-		let cp = _electron.remote.getGlobal('controlPanel');
-		this.accMgr = cp.accMgr;
+		this.accMgr = _electron.remote.getGlobal('controlPanel').accMgr;
 		this.keypath = undefined;
 		this.variable = undefined;
 	}
