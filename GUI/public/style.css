@@ -105,7 +105,7 @@ h6 {
   grid-template-rows: 1fr 30px;
   grid-template-areas:
    "sidebar content"
-   "version locked";
+   "version unlocked";
 }
 
 .version {
@@ -430,13 +430,18 @@ h6 {
 .accMgr {
   background-color:rgb(34, 169, 202);
   border: 0px;
+  height: calc(100vh - 30px);
 }
 
 .accSettings {
-  border: 2px solid white;
+  border: 2px solid #34475c;
   background-color: rgba(0, 0, 0, 0);
   width: 100%;
-  height: calc(100vh - 30px);
+  height: 400px;
+}
+
+.accSettings p {
+  color: #34475c;
 }
 
 .accTabs {
@@ -473,7 +478,7 @@ h6 {
   grid-area: napass;
   width: 70%;
   background-color: rgba(0,0,0,0.09);
-  border: 2px solid white;
+  border: 2px solid #34475c;
   font-size: 20px;
   color: white;
 }
@@ -962,19 +967,69 @@ h6 {
   "list";
 }
 
+.list {
+  grid-area: list;
+  border: 5px solid rgba(0,0,0,0);
+  height: calc(100vh - 20px);
+}
+
 .state {
   position: relative;
   width: 100%;
-  grid-area: locked;
-  display: grid;
   height: 30px;
 }
 
 .slocked {
+  grid-area: state;
+  display: grid;
+  grid-template-columns: 120px 1fr 120px 1fr 120px 1fr 120px 2fr 120px 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: 
+  "tversion pversion tblockheight blockheight tblockstamp blockstamp tlocaltime localtime tgasprice gasprice";
+}
+
+.sunlocked {
+  grid-area: unlocked;
+  display: grid;
   grid-template-columns: 120px 1fr 120px 1fr 120px 2fr 120px 1fr;
   grid-template-rows: 1fr;
   grid-template-areas: 
   "tblockheight blockheight tblockstamp blockstamp tlocaltime localtime tgasprice gasprice";
+}
+
+.tversion {
+  border: 2px solid #34475c;
+  border-left: 0px;
+  border-radius: 0px;
+  grid-area: tversion;
+  background-color: #34475c;
+  height: 100%;
+  width: 100%;
+}
+
+.pversion {
+  grid-area: pversion;
+  width: 100%;
+  border: 2px solid #34475c;
+  border-right: 1px solid white;
+  border-radius: 0px;
+  background-color: #34475c;
+  height: 100%;
+}
+
+.pversion p {
+  color: rgba(250,250,250,0.66);
+}
+
+.version {
+  grid-area: version;
+  color: white;
+  background-color: #34475c;
+  border: 5px solid #34475c;
+  border-right: 1px solid white;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .tblockheight {

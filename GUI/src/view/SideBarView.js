@@ -27,6 +27,10 @@ class SideBarView extends Reflux.Component {
 		return ReactDOM.findDOMNode(this.refs.Accounts).firstChild;
 	}
 
+	logOut = () => {
+		return ControlPanelActions.masterUpdate('');
+	}
+
 	render() {
 		//console.log("In MainView render()");
 		return (
@@ -41,8 +45,10 @@ class SideBarView extends Reflux.Component {
 			   onClick={this.updateView.bind(this, 'TokenSettings')}>Tokens</div>
             		<div className="sidebarButton" style={{color: this.props.currentView === 'Receipts' ? '#ff4200' : 'white'}} 
 			   onClick={this.updateView.bind(this, 'Receipts')}>Receipts</div>
-<div className="sidebarButton" style={{ color: this.props.currentView === 'AccountManager' ? '#ff4200' : 'white' }}
-					onClick={this.updateView.bind(this, 'AccountManager')}>Accounts</div>
+			<div className="sidebarButton" style={{ color: this.props.currentView === 'AccountManager' ? '#ff4200' : 'white' }}
+			   onClick={this.updateView.bind(this, 'AccountManager')}>Accounts</div>
+			<div className="sidebarButton" style={{ color: 'white' }}
+			   onClick={this.logOut}>Logout</div>
             </div>
 		)
 
