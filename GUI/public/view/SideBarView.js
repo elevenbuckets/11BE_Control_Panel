@@ -93,7 +93,7 @@ class SideBarView extends _reflux2.default.Component {
 				'div',
 				{ className: 'sidebarButton', style: { color: 'white' },
 					onClick: this.logOut },
-				'Log Out'
+				'Logout'
 			)
 		);
 	}
