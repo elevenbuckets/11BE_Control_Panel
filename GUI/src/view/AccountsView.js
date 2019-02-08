@@ -158,14 +158,14 @@ class AccountsView extends AlertModalUser {
 						<legend className="item accTabs">
 							<input type="button" className="button tabset" value="Create New Account" style=
 								{{
-									backgroundColor: this.state.currentAccSettings === 'new' ? "white" : "rgba(0,0,0,0)",
-									color: this.state.currentAccSettings === 'new' ? "black" : "white"
+									backgroundColor: this.state.currentAccSettings === 'new' ? "#f4f0fa" : "rgba(0,0,0,0)",
+									color: this.state.currentAccSettings === 'new' ? "#34475c" : "#cccccc"
 								}}
 								onClick={this.handleAccChange.bind(this, "new")} />
 							<input type="button" className="button tabset" value="Import Existing Account" style=
 								{{
-									backgroundColor: this.state.currentAccSettings === 'old' ? "white" : "rgba(0,0,0,0)",
-									color: this.state.currentAccSettings === 'old' ? "black" : "white"
+									backgroundColor: this.state.currentAccSettings === 'old' ? "#f4f0fa" : "rgba(0,0,0,0)",
+									color: this.state.currentAccSettings === 'old' ? "#34475c" : "#cccccc"
 								}}
 								onClick={this.handleAccChange.bind(this, "old")} />
 						</legend>

@@ -103,18 +103,36 @@ class States extends Reflux.Component {
     }
 
     render = () => {
+
+	if (this.state.unlocked) {
             return (
-                <div className="state slocked">
-                    <div className="item tblockheight"><p>Block Height : </p></div>
-                    <div className="item tblockstamp"><p>Block Stamp : </p></div>
-                    <div className="item tlocaltime"><p>Local Time : </p></div>
-                    <div className="item tgasprice"><p>Gas Price : </p></div>
-                    <div className="item blockheight"><p id="cbh" >{this.state.blockHeight}</p></div>
-                    <div className="item blockstamp"><p id="cbs">{this.state.blockTime}</p></div>
-                    <div className="item localtime"><p id="clt">{String(this.state.localTime).substring(0,24)}</p></div>
-                    <div className="item gasprice"><p id="cgp">{20}</p></div>
-                </div>
+                  <div className="state sunlocked">
+                      <div className="item tblockheight"><p>Block Height : </p></div>
+                      <div className="item tblockstamp"><p>Block Stamp : </p></div>
+                      <div className="item tlocaltime"><p>Local Time : </p></div>
+                      <div className="item tgasprice"><p>Gas Price : </p></div>
+                      <div className="item blockheight"><p id="cbh" >{this.state.blockHeight}</p></div>
+                      <div className="item blockstamp"><p id="cbs">{this.state.blockTime}</p></div>
+                      <div className="item localtime"><p id="clt">{String(this.state.localTime).substring(0,24)}</p></div>
+                      <div className="item gasprice"><p id="cgp">{20}</p></div>
+                  </div>
             )
+	} else {
+            return (
+                  <div className="state slocked">
+                      <div className="item tversion"><p>Platform Ver. : </p></div>
+                      <div className="item tblockheight"><p>Block Height : </p></div>
+                      <div className="item tblockstamp"><p>Block Stamp : </p></div>
+                      <div className="item tlocaltime"><p>Local Time : </p></div>
+                      <div className="item tgasprice"><p>Gas Price : </p></div>
+                      <div className="item pversion"><p>{this.state.version}</p></div>
+                      <div className="item blockheight"><p id="cbh" >{this.state.blockHeight}</p></div>
+                      <div className="item blockstamp"><p id="cbs">{this.state.blockTime}</p></div>
+                      <div className="item localtime"><p id="clt">{String(this.state.localTime).substring(0,24)}</p></div>
+                      <div className="item gasprice"><p id="cgp">{20}</p></div>
+                  </div>
+            )
+	}
     }
 }
 

@@ -184,13 +184,13 @@ class AccountsView extends _AlertModalUser2.default {
 							'legend',
 							{ className: 'item accTabs' },
 							_react2.default.createElement('input', { type: 'button', className: 'button tabset', value: 'Create New Account', style: {
-									backgroundColor: this.state.currentAccSettings === 'new' ? "white" : "rgba(0,0,0,0)",
-									color: this.state.currentAccSettings === 'new' ? "black" : "white"
+									backgroundColor: this.state.currentAccSettings === 'new' ? "#f4f0fa" : "rgba(0,0,0,0)",
+									color: this.state.currentAccSettings === 'new' ? "#34475c" : "#cccccc"
 								},
 								onClick: this.handleAccChange.bind(this, "new") }),
 							_react2.default.createElement('input', { type: 'button', className: 'button tabset', value: 'Import Existing Account', style: {
-									backgroundColor: this.state.currentAccSettings === 'old' ? "white" : "rgba(0,0,0,0)",
-									color: this.state.currentAccSettings === 'old' ? "black" : "white"
+									backgroundColor: this.state.currentAccSettings === 'old' ? "#f4f0fa" : "rgba(0,0,0,0)",
+									color: this.state.currentAccSettings === 'old' ? "#34475c" : "#cccccc"
 								},
 								onClick: this.handleAccChange.bind(this, "old") })
 						),
@@ -210,8 +210,7 @@ class AccountsView extends _AlertModalUser2.default {
 			currentAccSettings: 'old'
 		};
 		this.storeKeys = [];
-		let cp = _electron.remote.getGlobal('controlPanel');
-		this.accMgr = cp.accMgr;
+		this.accMgr = _electron.remote.getGlobal('controlPanel').accMgr;
 		this.keypath = undefined;
 		this.variable = undefined;
 	}

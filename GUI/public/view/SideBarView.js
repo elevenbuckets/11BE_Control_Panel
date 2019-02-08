@@ -43,6 +43,10 @@ class SideBarView extends _reflux2.default.Component {
 			return _reactDom2.default.findDOMNode(this.refs.Accounts).firstChild;
 		};
 
+		this.logOut = () => {
+			return _ControlPanelActions2.default.masterUpdate('');
+		};
+
 		this.store = _ControlPanelStore2.default;
 	}
 
@@ -84,6 +88,12 @@ class SideBarView extends _reflux2.default.Component {
 				{ className: 'sidebarButton', style: { color: this.props.currentView === 'AccountManager' ? '#ff4200' : 'white' },
 					onClick: this.updateView.bind(this, 'AccountManager') },
 				'Accounts'
+			),
+			_react2.default.createElement(
+				'div',
+				{ className: 'sidebarButton', style: { color: 'white' },
+					onClick: this.logOut },
+				'Log Out'
 			)
 		);
 	}
