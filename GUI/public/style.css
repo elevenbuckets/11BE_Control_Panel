@@ -428,7 +428,7 @@ h6 {
 }
 
 .accMgr {
-  background-color: rgba(0, 0, 0, 0);
+  background-color:rgb(34, 169, 202);
   border: 0px;
   height: calc(100vh - 30px);
 }
