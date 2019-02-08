@@ -9,10 +9,11 @@ const url = require('url');
 
 const rpcport = process.env.rpcport || 3000;
 const rpchost = process.env.rpchost || '127.0.0.1';
-const confdir = process.env.configDir;
+const confdir = process.env.configDir; 
+
+appOpts['topDir'] = confdir;
 console.log(`DEBUG: ${rpcport} ${rpchost}`); console.dir(appOpts);
 const controlPanel = new ControlPanel(rpcport, rpchost, appOpts);
-controlPanel.topDir = confdir;
 
 // Temporary solution before UI is migrated...
 const cfgObjs = {};

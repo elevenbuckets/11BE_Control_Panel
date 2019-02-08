@@ -18,10 +18,6 @@ var _fs = require('fs');
 
 var _fs2 = _interopRequireDefault(_fs);
 
-var _AcctMgrService = require('../service/AcctMgrService');
-
-var _AcctMgrService2 = _interopRequireDefault(_AcctMgrService);
-
 var _electron = require('electron');
 
 var _ControlPanelStore = require('../store/ControlPanelStore');
@@ -88,7 +84,6 @@ class Login extends _AlertModalUser2.default {
 			if (event.keyCode === 13) {
 				let variable = this.refs.mp.value;
 				this.refs.mp.value = '';
-				this.accMgr.password(variable);
 				_ControlPanelActions2.default.masterUpdate(variable);
 			}
 		};
@@ -337,7 +332,7 @@ class Login extends _AlertModalUser2.default {
 			sbutton: 'none'
 		};
 		this.controlPanel = _electron.remote.getGlobal("controlPanel");
-		this.accMgr = _AcctMgrService2.default.accMgr;
+		this.accMgr = this.controlPanel.accMgr;
 		this.variable = undefined;
 	}
 
