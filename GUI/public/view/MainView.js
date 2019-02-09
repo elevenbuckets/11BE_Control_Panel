@@ -81,7 +81,48 @@ class MainView extends _reflux2.default.Component {
 
 	render() {
 		console.log("In MainView render(); syncInProgress = " + this.state.syncInProgress);
-		if (this.state.connected === false) {
+		if (this.state.configured === false) {
+			document.body.style.background = "linear-gradient(-120deg, rgb(17, 31, 47), rgb(24, 156, 195))";
+			return _react2.default.createElement(
+				'div',
+				{ className: 'container locked', style: { background: "none" } },
+				_react2.default.createElement(
+					'div',
+					{ className: 'item list', style: { background: "none" } },
+					_react2.default.createElement(
+						'div',
+						{ style: { border: "2px solid white", padding: "40px", textAlign: "center", background: "none" } },
+						_react2.default.createElement(
+							'p',
+							{ style: { alignSelf: "flex-end", fontSize: "24px" } },
+							'Welcome, dApp developers!'
+						),
+						_react2.default.createElement('br', null),
+						_react2.default.createElement(
+							'p',
+							{ style: { alignSelf: "flex-end", fontSize: "24px" } },
+							'Thank you for trying out ElevenBuckets Build Environment (11BE)!'
+						),
+						_react2.default.createElement('br', null),
+						_react2.default.createElement(
+							'p',
+							{ style: { alignSelf: "flex-end", fontSize: "24px" } },
+							'Please setup the following paths to continue:'
+						),
+						_react2.default.createElement('br', null),
+						_react2.default.createElement(_Login2.default, { updateState: this.updateState,
+							defaultCfgDir: this.state.defaultCfgDir,
+							defaultDataDir: this.state.defaultDataDir,
+							defaultNetID: this.state.defaultNetID,
+							defaultRepoDir: this.state.defaultRepoDir
+						}),
+						this.state.userCfgDone ? _react2.default.createElement('input', { style: { marginTop: "25px" },
+							type: 'button', className: 'button reload', value: 'restart', onClick: this.relaunch }) : _react2.default.createElement('input', { style: { marginTop: "25px" },
+							type: 'button', className: 'button reload', value: 'confirm', onClick: this.setupdone })
+					)
+				)
+			);
+		} else if (this.state.connected === false) {
 			document.body.style.background = "rgb(17, 31, 47)";
 			return _react2.default.createElement(
 				'div',

@@ -28,7 +28,7 @@ class ControlPanelStore extends Reflux.Store {
 				showingBlock: 0,
 				syncInProgress: false,
 				unlocked: false,
-				configured: true,
+				configured: false,
 				Qs: [],
 				receipts: {},
 				watchedTokenSymbolList: [],
@@ -38,7 +38,9 @@ class ControlPanelStore extends Reflux.Store {
 		this.listenables = ControlPanelActions;
 		this.controlPanel = remote.getGlobal('controlPanel');
 
-		this.setState({version: '1.0.0-alpha'});
+		let configured = this.controlPanel.topDir || false;
+
+		this.setState({version: '1.0.0-alpha', configured : configured});
 		this.controlPanel.client.subscribe('ethstats');
 		this.setState({ gasPrice: this.controlPanel.configs.defaultGasPrice });
 
