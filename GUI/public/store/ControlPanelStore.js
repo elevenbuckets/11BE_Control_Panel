@@ -64,73 +64,75 @@ class ControlPanelStore extends _reflux2.default.Store {
 		let configured = this.controlPanel.topDir || false;
 
 		this.setState({ version: '1.0.0-alpha', configured: configured });
-		this.controlPanel.client.subscribe('ethstats');
-		this.setState({ gasPrice: this.controlPanel.configs.defaultGasPrice });
+		if (configured) {
+			this.controlPanel.client.subscribe('ethstats');
+			this.setState({ gasPrice: this.controlPanel.configs.defaultGasPrice });
 
-		this.addressUpdate = () => {
-			if (this.state.lesDelay === true) return; // do nothing, since statusUpdate is doing it already
-			console.log(`DEBUG: address Update is called`);
-			this._count = 0;
-			this._target = this.state.tokenList.length + 1;
-			this._balances = { 'ETH': 0 };
-			this._tokenBalance = [];
+			this.addressUpdate = () => {
+				if (this.state.lesDelay === true) return; // do nothing, since statusUpdate is doing it already
+				console.log(`DEBUG: address Update is called`);
+				this._count = 0;
+				this._target = this.state.tokenList.length + 1;
+				this._balances = { 'ETH': 0 };
+				this._tokenBalance = [];
 
-			this.controlPanel.linkAccount(this.state.address).then(r => {
-				this.setState({ passManaged: { [this.state.address]: r.result } });
-				(0, _loopasync2.default)(['ETH', ...this.state.tokenList], _ControlPanelActions2.default.statusUpdate, 1);
-			}).catch(err => {
-				console.trace(err);
-				//this.setState({address: null});
-				//ControlPanelActions.finishUpdate();
+				this.controlPanel.linkAccount(this.state.address).then(r => {
+					this.setState({ passManaged: { [this.state.address]: r.result } });
+					(0, _loopasync2.default)(['ETH', ...this.state.tokenList], _ControlPanelActions2.default.statusUpdate, 1);
+				}).catch(err => {
+					console.trace(err);
+					//this.setState({address: null});
+					//ControlPanelActions.finishUpdate();
+				});
+			};
+			this.controlPanel.handleStats = stats => {
+				if (stats.connected === false) {
+					return this.setState({ connected: false });
+				} else if (stats.blockHeight === 0) {
+					return this.setState({ wait4peers: true, connected: true });
+				} else if (stats.blockHeight !== stats.highestBlock) {
+					return this.setState({ syncInProgress: true, connected: true, wait4peers: false });
+				} else {
+					this.setState(_extends({}, stats, { wait4peers: false, syncInProgress: false }));
+				}
+
+				// this.controlPanel.allAccounts().then((addrs) => {
+				// 	if (addrs.length !== this.state.accounts.length) this.setState({ accounts: addrs });
+
+				// 	if (this.state.address !== null) {
+				// 		return this.addressUpdate();
+				// 	} else {
+				// 		this.setState({ balances: { 'ETH': 0 }, selected_token_name: '' });
+				// 	}
+				// });
+
+				this.controlPanel.gasPriceEst().then(est => {
+					this.setState({ gasPriceInfo: est, gasPrice: est[this.state.gasPriceOption] });
+				});
+			};
+
+			this.controlPanel.client.on('ethstats', this.controlPanel.handleStats);
+
+			this.handleNewJobs = obj => {
+				_ControlPanelActions2.default.newJobs(obj);
+			};
+
+			this._count;
+			this._target;
+			this.retryTimer;
+			this.controlPanel.handleStats({}); // Init
+			this.controlPanel.watchTokens(this.controlPanel.TokenList).then(rc => {
+				this.controlPanel.syncTokenInfo().then(info => {
+					_ControlPanelActions2.default.watchedTokenUpdate(Object.keys(this.controlPanel.TokenInfo));
+				});
 			});
-		};
-		this.controlPanel.handleStats = stats => {
-			if (stats.connected === false) {
-				return this.setState({ connected: false });
-			} else if (stats.blockHeight === 0) {
-				return this.setState({ wait4peers: true, connected: true });
-			} else if (stats.blockHeight !== stats.highestBlock) {
-				return this.setState({ syncInProgress: true, connected: true, wait4peers: false });
-			} else {
-				this.setState(_extends({}, stats, { wait4peers: false, syncInProgress: false }));
-			}
 
-			// this.controlPanel.allAccounts().then((addrs) => {
-			// 	if (addrs.length !== this.state.accounts.length) this.setState({ accounts: addrs });
-
-			// 	if (this.state.address !== null) {
-			// 		return this.addressUpdate();
-			// 	} else {
-			// 		this.setState({ balances: { 'ETH': 0 }, selected_token_name: '' });
-			// 	}
-			// });
-
-			this.controlPanel.gasPriceEst().then(est => {
-				this.setState({ gasPriceInfo: est, gasPrice: est[this.state.gasPriceOption] });
+			this.controlPanel.client.subscribe('newJobs');
+			this.controlPanel.client.on('newJobs', this.handleNewJobs);
+			this.controlPanel.hasPass().then(data => {
+				this.setState({ unlocked: data });
 			});
-		};
-
-		this.controlPanel.client.on('ethstats', this.controlPanel.handleStats);
-
-		this.handleNewJobs = obj => {
-			_ControlPanelActions2.default.newJobs(obj);
-		};
-
-		this._count;
-		this._target;
-		this.retryTimer;
-		this.controlPanel.handleStats({}); // Init
-		this.controlPanel.watchTokens(this.controlPanel.TokenList).then(rc => {
-			this.controlPanel.syncTokenInfo().then(info => {
-				_ControlPanelActions2.default.watchedTokenUpdate(Object.keys(this.controlPanel.TokenInfo));
-			});
-		});
-
-		this.controlPanel.client.subscribe('newJobs');
-		this.controlPanel.client.on('newJobs', this.handleNewJobs);
-		this.controlPanel.hasPass().then(data => {
-			this.setState({ unlocked: data });
-		});
+		}
 	}
 
 	// Reflux Action responses

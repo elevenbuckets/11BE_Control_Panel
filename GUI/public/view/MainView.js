@@ -18,6 +18,10 @@ var _reflux = require('reflux');
 
 var _reflux2 = _interopRequireDefault(_reflux);
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
 var _ControlPanelStore = require('../store/ControlPanelStore');
 
 var _ControlPanelStore2 = _interopRequireDefault(_ControlPanelStore);
@@ -25,6 +29,10 @@ var _ControlPanelStore2 = _interopRequireDefault(_ControlPanelStore);
 var _ControlPanelActions = require('../action/ControlPanelActions');
 
 var _ControlPanelActions2 = _interopRequireDefault(_ControlPanelActions);
+
+var _ConfigWriterService = require('../service/ConfigWriterService');
+
+var _ConfigWriterService2 = _interopRequireDefault(_ConfigWriterService);
 
 var _SideBarView = require('./SideBarView');
 
@@ -56,7 +64,20 @@ var _AccountsView2 = _interopRequireDefault(_AccountsView);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+const ipcRenderer = require('electron').ipcRenderer;
+
+// Reflux store
+
+
 // Reflux actions
+
+
+// Service
+
+
+// Views
+
+
 class MainView extends _reflux2.default.Component {
 	constructor(props) {
 		super(props);
@@ -65,8 +86,59 @@ class MainView extends _reflux2.default.Component {
 			this.setState({ [key]: view });
 		};
 
+		this.updateStateForEvent = (key, e) => {
+			this.setState({ [key]: e.target.value });
+		};
+
 		this.passAccRef = () => {
 			return _reactDom2.default.findDOMNode(this.refs.Accounts).firstChild;
+		};
+
+		this.relaunch = () => {
+			ipcRenderer.send('reload', true);
+		};
+
+		this.setupdone = () => {
+			// confine config fields
+			const mainFields = ["configDir"];
+			const castIronFields = ["datadir", "rpcAddr", "ipcPath", "defaultGasPrice", "gasOracleAPI", "condition", "networkID", "tokens", "watchTokens", "passVault"];
+			const ipfsFields = ["lockerpathjs", "repoPathJs", "lockerpathgo", "repoPathGo", "ipfsBinary"];
+
+			// ConfigWriter instances
+			let mainWriter = _ConfigWriterService2.default.getFileWriter("../../../.local/bootstrap_config.json", mainFields);
+			let castIronWriter = _ConfigWriterService2.default.getFileWriter(_path2.default.join(this.state.defaultCfgDir + "/config.json"), castIronFields);
+			let ipfsWriter = _ConfigWriterService2.default.getFileWriter(_path2.default.join(this.state.defaultCfgDir, "/ipfsserv.json"), ipfsFields);
+
+			// internal config update
+			let mainJson = { "configDir": this.state.defaultCfgDir };
+			mainWriter.writeJSON(mainJson);
+
+			// castiron config update
+			let castIronJson = {
+				"datadir": this.state.defaultDataDir,
+				"rpcAddr": "http://127.0.0.1:8545",
+				"ipcPath": _path2.default.join(this.state.defaultDataDir, "geth.ipc"),
+				"defaultGasPrice": "20000000000",
+				"gasOracleAPI": "https://ethgasstation.info/json/ethgasAPI.json",
+				"condition": "sanity",
+				"networkID": this.state.defaultNetID,
+				"passVault": _path2.default.join(this.state.defaultCfgDir, "myArchive.bcup"),
+				"tokens": {},
+				"watchTokens": []
+			};
+
+			castIronWriter.writeJSON(castIronJson);
+
+			// ipfs config update
+			let ipfsJson = {
+				"lockerpathjs": _path2.default.join(this.state.defaultCfgDir, ".ipfslock"),
+				"lockerpathgo": _path2.default.join(this.state.defaultCfgDir, ".ipfslock_go"),
+				"repoPathGo": this.state.defaultRepoDir
+			};
+
+			ipfsWriter.writeJSON(ipfsJson);
+
+			this.setState({ userCfgDone: true });
 		};
 
 		this.store = _ControlPanelStore2.default;
@@ -77,6 +149,8 @@ class MainView extends _reflux2.default.Component {
 		this.state = {
 			currentView: "AppLauncher"
 		};
+
+		this.storeKeys = ["unlocked", "currentView", "modalIsOpen", "scheduleModalIsOpen", "retrying", "rpcfailed", "configured", "userCfgDone", "syncInProgress", "blockHeight", "highestBlock"];
 	}
 
 	render() {
@@ -110,7 +184,7 @@ class MainView extends _reflux2.default.Component {
 							'Please setup the following paths to continue:'
 						),
 						_react2.default.createElement('br', null),
-						_react2.default.createElement(_Login2.default, { updateState: this.updateState,
+						_react2.default.createElement(_Login2.default, { updateState: this.updateStateForEvent,
 							defaultCfgDir: this.state.defaultCfgDir,
 							defaultDataDir: this.state.defaultDataDir,
 							defaultNetID: this.state.defaultNetID,
@@ -230,8 +304,4 @@ class MainView extends _reflux2.default.Component {
 	}
 }
 
-// Views
-
-
-// Reflux store
 exports.default = MainView;

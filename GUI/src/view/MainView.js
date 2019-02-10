@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 const ipcRenderer = require('electron').ipcRenderer;
+import path from 'path';
 
 // Reflux store
 import ControlPanelStore from '../store/ControlPanelStore';
@@ -56,6 +57,10 @@ class MainView extends Reflux.Component {
 		this.setState({ [key]: view });
 	}
 
+	updateStateForEvent = (key, e) => {
+        this.setState({ [key]: e.target.value });
+    }
+
 	passAccRef = () => {
 		return ReactDOM.findDOMNode(this.refs.Accounts).firstChild;
 	}
@@ -70,7 +75,7 @@ class MainView extends Reflux.Component {
 			const ipfsFields = ["lockerpathjs", "repoPathJs", "lockerpathgo", "repoPathGo", "ipfsBinary"];
 	
 		// ConfigWriter instances
-			let mainWriter = ConfigWriterService.getFileWriter("public/.local/bootstrap_config.json", mainFields);
+			let mainWriter = ConfigWriterService.getFileWriter("../../../.local/bootstrap_config.json", mainFields);
 			let castIronWriter = ConfigWriterService.getFileWriter(path.join(this.state.defaultCfgDir + "/config.json"), castIronFields);
 			let ipfsWriter = ConfigWriterService.getFileWriter(path.join(this.state.defaultCfgDir, "/ipfsserv.json"), ipfsFields);
 	
@@ -124,7 +129,7 @@ class MainView extends Reflux.Component {
 							<p style={{ alignSelf: "flex-end", fontSize: "24px" }}>
 								Please setup the following paths to continue:
 				</p><br />
-							<Login updateState={this.updateState}
+							<Login updateState={this.updateStateForEvent}
 								defaultCfgDir={this.state.defaultCfgDir}
 								defaultDataDir={this.state.defaultDataDir}
 								defaultNetID={this.state.defaultNetID}

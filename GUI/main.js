@@ -17,21 +17,27 @@ const controlPanel = new ControlPanel(rpcport, rpchost, appOpts);
 
 // Temporary solution before UI is migrated...
 const cfgObjs = {};
-cfgObjs.geth = require(path.join(confdir, 'config.json'));
-cfgObjs.ipfs = require(path.join(confdir, 'ipfsserv.json'));
+if(confdir){
+	cfgObjs.geth = require(path.join(confdir, 'config.json'));
+	cfgObjs.ipfs = require(path.join(confdir, 'ipfsserv.json'));
+}
 controlPanel.cfgObjs = cfgObjs;
 
 // electron window global object
 let win;
 
 const createWindow = () => {
-	  // Create the browser window.
-	  controlPanel.connectRPC()
-	  .then((rc) => {
-	    	console.log(`DEBUG: connected`);
-		return controlPanel.init('Internal'); 
-	  })
-	  .then(() => {
+		// Create the browser window.
+		let stage = Promise.resolve();
+		if(controlPanel.topDir){
+			stage = controlPanel.connectRPC()
+			.then((rc) => {
+					console.log(`DEBUG: connected`);
+			return controlPanel.init('Internal'); 
+			})
+		}
+		
+	  stage.then(() => {
 	    win = new BrowserWindow({minWidth: 1183, minHeight: 480, resizable: true, icon: path.join(__dirname, 'public', 'assets', 'icon', '11be_logo.png')});
 	    win.setMenu(null);
 	
