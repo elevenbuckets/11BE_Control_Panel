@@ -17,7 +17,10 @@ class ControlPanel extends BladeIronClient {
 		this.newJobsHandler = null;
 
 		this.topDir = this.configs.topDir || require(path.join(process.cwd(), '.local', 'bootstrap_config.json')).configDir;
-		this.accMgr = new accMgr(this.topDir);
+		// If topDir is empty, then this is for set up, we do not need account manager for setting up.
+		if(this.topDir){
+			this.accMgr = new accMgr(this.topDir);
+		}
 
 		this.toWei = (eth, decimals) => this.toBigNumber(String(eth)).times(this.toBigNumber(10 ** decimals)).floor();
 		this.toEth = (wei, decimals) => this.toBigNumber(String(wei)).div(this.toBigNumber(10 ** decimals));
@@ -92,10 +95,6 @@ class ControlPanel extends BladeIronClient {
 				let cwd = process.cwd();
 				let topdir = path.join(cwd, 'dapps', this.appName, 'GUI');
 				let configDir = require(path.join(cwd, '.local', 'bootstrap_config.json')).configDir;
-				console.log("in launch GUI...")
-				console.log(cwd)
-				console.log(topdir)
-				console.log(configDir)
 				const subprocess = spawn(path.join(topdir, 'node_modules', '.bin', 'electron'), ['.'], {
 					cwd: topdir,
 					env: { DISPLAY: process.env.DISPLAY, XAUTHORITY: process.env.XAUTHORITY,  PATH: process.env.PATH, configDir },
