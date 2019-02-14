@@ -97,7 +97,10 @@ class ControlPanel extends BladeIronClient {
 				let configDir = require(path.join(cwd, '.local', 'bootstrap_config.json')).configDir;
 				const subprocess = spawn(path.join(topdir, 'node_modules', '.bin', 'electron'), ['.'], {
 					cwd: topdir,
-					env: { DISPLAY: process.env.DISPLAY, XAUTHORITY: process.env.XAUTHORITY,  PATH: process.env.PATH, configDir },
+					env: { DISPLAY: process.env.DISPLAY, 
+					       XAUTHORITY: process.env.XAUTHORITY, 
+					       PATH: process.env.PATH, 
+					       rpcport: this.rpcport, rpchost: this.rpchost, configDir },
 					detached: true,
 					stdio: 'ignore'
 				});

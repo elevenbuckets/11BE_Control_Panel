@@ -3,9 +3,6 @@ import ControlPanelActions from '../action/ControlPanelActions'
 import React from 'react';
 import Reflux from 'reflux';
 
-
-
-
 class AppLauncherView extends Reflux.Component {
 	constructor(props) {
 		super(props);
@@ -23,10 +20,11 @@ class AppLauncherView extends Reflux.Component {
 			cwd = path.join(cwd, "../../..")
 			let topdir = path.join(cwd, 'dapps', appName, 'GUI');
 			let configDir = require(path.join(cwd, '.local', 'bootstrap_config.json')).configDir;
+			let rpchost = require(path.join(configDir, 'config.json')).rpchost || '127.0.0.1';
 
 			const subprocess = spawn(path.join(topdir, 'node_modules', '.bin', 'electron'), ['.'], {
 				cwd: topdir,
-				env: { DISPLAY: process.env.DISPLAY, XAUTHORITY: process.env.XAUTHORITY, configDir, PATH: process.env.PATH },
+				env: { DISPLAY: process.env.DISPLAY, XAUTHORITY: process.env.XAUTHORITY, configDir, PATH: process.env.PATH, rpchost },
 				detached: true,
 				stdio: 'ignore'
 			});
