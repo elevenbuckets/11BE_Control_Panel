@@ -20,7 +20,7 @@ class ReceiptsView extends Reflux.Component {
         this.state = {
             selectedQ: ""
         };
-        this.storeKeys=["receipts", "Qs"]
+        this.storeKeys = ["receipts", "Qs"]
 
         this.getReceipts = this.getReceipts.bind(this);
 
@@ -28,7 +28,7 @@ class ReceiptsView extends Reflux.Component {
 
     componentDidMount = () => {
         if (this.state.Qs.length > 0 && this.state.selectedQ === "") {
-            this.setState({selectedQ: [...this.state.Qs].splice(-1)[0]});
+            this.setState({ selectedQ: [...this.state.Qs].splice(-1)[0] });
         }
     }
 
@@ -41,7 +41,7 @@ class ReceiptsView extends Reflux.Component {
             <div className="item ReceiptsLayout">
                 <label className="item RLabel">Queue IDs:</label>
                 <Dropdown className="item ReceiptsDrop" options={this.state.Qs} onChange={this.handleChange}
-                          value={this.state.selectedQ} placeholder={'Please select a Queue ID'} />
+                    value={this.state.selectedQ} placeholder={'Please select a Queue ID'} />
                 <Receipts receipts={this.getReceipts()} />
             </div>
         )

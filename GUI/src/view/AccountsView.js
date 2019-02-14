@@ -17,22 +17,22 @@ class AccountsView extends AlertModalUser {
 	constructor(props) {
 		super(props);
 		this.store = ControlPanelStore;
-        
-        
+
+
 		this.state = {
 			reveal: false,
 			reveal2: false,
 			waiting: false,
-            currentAccSettings: 'old'
+			currentAccSettings: 'old'
 		}
 		this.storeKeys = [
 		];
-	this.accMgr = remote.getGlobal('controlPanel').accMgr;
-        this.keypath = undefined;
+		this.accMgr = remote.getGlobal('controlPanel').accMgr;
+		this.keypath = undefined;
 		this.variable = undefined;
 	}
 
-    handleNewAcct = (event) => {
+	handleNewAcct = (event) => {
 		let stage = Promise.resolve();
 		let pw = this.variable;
 		this.variable = undefined;
@@ -50,9 +50,9 @@ class AccountsView extends AlertModalUser {
 			.then(() => {
 				return this.updateNew(pw);
 			});
-    }
+	}
 
-    updateNew = (pw) => {
+	updateNew = (pw) => {
 		console.log("calling update now");
 		return this.accMgr.newAccount(pw).then((address) => {
 			this.setState({ waiting: false });
@@ -63,29 +63,29 @@ class AccountsView extends AlertModalUser {
 				this.openModal("Creation Failed");
 			});
 	}
-    
-    handleAccChange = (tabName) => {
-        this.setState({ currentAccSettings: tabName });
-    }
 
-    updatePath = (event) => {
+	handleAccChange = (tabName) => {
+		this.setState({ currentAccSettings: tabName });
+	}
+
+	updatePath = (event) => {
 		console.log(this.refs.vif.files[0].path);
 		this.keypath = this.refs.vif.files[0].path;
-    }
-    
-    updateVar = (event) => {
+	}
+
+	updateVar = (event) => {
 		this.variable = event.target.value;
-    }
-    
+	}
+
 	handleReveal = (event) => {
 		this.setState({ reveal: !this.state.reveal });
-    }
+	}
 
-    handleReveal2 = (event) => {
+	handleReveal2 = (event) => {
 		this.setState({ reveal2: !this.state.reveal2 });
 	}
-    
-    handleImport = (event) => {
+
+	handleImport = (event) => {
 		let kp = this.keypath;
 		let pw = this.variable;
 		this.keypath = undefined;
@@ -114,7 +114,7 @@ class AccountsView extends AlertModalUser {
 			})
 	}
 
-    accountMgr = () => {
+	accountMgr = () => {
 		if (this.state.waiting === true) {
 			return (
 				<div className="item newAccTab">
@@ -148,8 +148,8 @@ class AccountsView extends AlertModalUser {
 							onClick={this.handleNewAcct} />
 					</div>
 				)
-            }
-            
+			}
+
 
 
 			return (
@@ -172,14 +172,14 @@ class AccountsView extends AlertModalUser {
 						{this.state.currentAccSettings === 'new' ? __newAcc()
 							: this.state.currentAccSettings === 'old' ? __oldAcc()
 								: this.setState({ currentAccSettings: 'old' })}
-                    </fieldset>
-                    <AlertModal content={this.state.alertContent} isAlertModalOpen={this.state.isAlertModalOpen} close={this.closeModal} />
+					</fieldset>
+					<AlertModal content={this.state.alertContent} isAlertModalOpen={this.state.isAlertModalOpen} close={this.closeModal} />
 				</div>
 			)
 		}
 	}
 
-	
+
 
 	render() {
 		console.log("in AccountsView render()");

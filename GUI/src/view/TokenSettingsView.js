@@ -341,7 +341,7 @@ class TokenSettingsView extends Reflux.Component {
 	render() {
 		console.log("in TokenSettingsView render()");
 		return (
-			<div style={{height: '100%'}}>
+			<div style={{ height: '100%' }}>
 				<div className="tokenAction">
 
 					<input type="button" className="button tokenActionButtonNew" value='New' onClick={this.handleTokenActionUpdate.bind(this, "New")} />
@@ -355,7 +355,7 @@ class TokenSettingsView extends Reflux.Component {
 
 					<br style={{ border: '2px solid white' }} />
 					<table className="tokenTitleTable">
-					        <thead>
+						<thead>
 							<tr>
 								<td width='10%' style={{ borderRight: '2px solid rgb(17,31,47)' }}>Select</td>
 								<td width='10%' style={{ borderRight: '2px solid rgb(17,31,47)' }}>Symbol</td>
@@ -365,7 +365,7 @@ class TokenSettingsView extends Reflux.Component {
 								<td width='10%' style={{ borderRight: '2px solid rgb(17,31,47)' }}>Catgory</td>
 								<td width='10%'>Watched</td>
 							</tr>
-                                                </thead>
+						</thead>
 						<tbody>
 							<tr hidden={!(this.state.tokenAction === "New")} style={{ backgroundColor: "rgb(34, 169, 202)" }}>
 								<td width='10%'>N/A</td>

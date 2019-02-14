@@ -117,9 +117,9 @@ class Login extends AlertModalUser {
 									padding: "0 5px 0 5px",
 									textAlign: "center"
 								}}
-								defaultValue={this.props.defaultCfgDir} 
-								placeholder="Please choose 11BE top-level config folder"
-								onChange={this.props.updateState.bind(this,"defaultCfgDir")}/></td>
+									defaultValue={this.props.defaultCfgDir}
+									placeholder="Please choose 11BE top-level config folder"
+									onChange={this.props.updateState.bind(this, "defaultCfgDir")} /></td>
 							</tr>
 							<tr>
 								<td style={{ padding: "10px 15px 0px 5px", fontWeight: "bold", textAlign: "center", fontSize: "22px" }}>Geth data folder:</td>
@@ -131,10 +131,10 @@ class Login extends AlertModalUser {
 									color: "white",
 									padding: "0 5px 0 5px",
 									textAlign: "center"
-								}} 
-								defaultValue={this.props.defaultDataDir}
-								placeholder="Please enter geth datadir"
-								onChange={this.props.updateState.bind(this,"defaultDataDir")}/></td>
+								}}
+									defaultValue={this.props.defaultDataDir}
+									placeholder="Please enter geth datadir"
+									onChange={this.props.updateState.bind(this, "defaultDataDir")} /></td>
 							</tr>
 							<tr>
 								<td style={{ padding: "10px 15px 0px 5px", fontWeight: "bold", textAlign: "center", fontSize: "22px" }}>Network ID:</td>
@@ -146,10 +146,10 @@ class Login extends AlertModalUser {
 									color: "white",
 									padding: "0 5px 0 5px",
 									textAlign: "center"
-								}} 
-								defaultValue={this.props.defaultNetID}
-								placeholder="Please enter Ethereum network ID"
-								onChange={this.props.updateState.bind(this,"defaultNetID")}/></td>
+								}}
+									defaultValue={this.props.defaultNetID}
+									placeholder="Please enter Ethereum network ID"
+									onChange={this.props.updateState.bind(this, "defaultNetID")} /></td>
 							</tr>
 							<tr>
 								<td style={{ padding: "10px 15px 0px 5px", fontWeight: "bold", textAlign: "center", fontSize: "22px" }}>IPFS repo folder:</td>
@@ -162,11 +162,11 @@ class Login extends AlertModalUser {
 									padding: "0 5px 0 5px",
 									textAlign: "center"
 								}}
-								defaultValue={this.props.defaultRepoDir} 
-								placeholder="Please enter IPFS repo path (uninitialized)"
-								onChange={this.props.updateState.bind(this,"defaultRepoDir")}/></td>
+									defaultValue={this.props.defaultRepoDir}
+									placeholder="Please enter IPFS repo path (uninitialized)"
+									onChange={this.props.updateState.bind(this, "defaultRepoDir")} /></td>
 							</tr>
-							</tbody>
+						</tbody>
 					</table>
 				</div>
 			)
@@ -174,61 +174,61 @@ class Login extends AlertModalUser {
 			// create new buttercup archive using one time password input
 			return (
 				<div className="item list">
-						<table style={{ border: "2px solid white", backgroundColor: "rgba(255,255,255,0.31)" }}>
-							<tbody>
-								<tr>
-									<td style={{ padding: "25px" }}>
-										<fieldset style=
-											{{
-												display: "inline-block", padding: "20px", textAlign: "center"
-											}}>
-											<legend style={{ fontWeight: 'bold', marginBottom: '3px' }}>Please Enter New Master Password:</legend>
-											<input autoFocus type={this.state.reveal ? "text" : "password"} style={{
-												width: "250px",
-												backgroundColor: "rgba(5,5,5,0.41)",
-												border: "2px solid white",
-												fontSize: "24px",
-												color: "white",
-											}} onChange={this.updateVar} />
-											<input type="button" className="button" value={this.state.reveal ? "Hide" : "Reveal"} style=
-												{{
-													fontSize: "22px",
-													margin: "0 10px 0 10px"
-												}} onClick={this.handleReveal} />
-											<input type="button" className="button" value="Set Master Password" style=
-												{{
-													fontSize: "22px"
-
-												}} onClick={this.handleNewArch} />
-										</fieldset>
-									</td></tr>
-							</tbody></table>
-						<AlertModal content={this.state.alertContent} isAlertModalOpen={this.state.isAlertModalOpen} close={this.closeModal} />
-					</div>
-					)
-		} else {
-			return (
-				<div className="item list">
-						<table style={{ border: "2px solid white", backgroundColor: "rgba(255,255,255,0.11)" }}>
-							<tbody>
-								<tr>
-									<td style={{ padding: "25px", color: 'red' }}>
-										<label style={{ fontWeight: 'bold' }}>Master Password</label>
-									</td></tr>
-								<tr><td style={{ textAlign: "center", margin: "25px" }}>
-									<input autoFocus ref='mp' type='password' style=
+					<table style={{ border: "2px solid white", backgroundColor: "rgba(255,255,255,0.31)" }}>
+						<tbody>
+							<tr>
+								<td style={{ padding: "25px" }}>
+									<fieldset style=
 										{{
-											width: "65%",
-											marginBottom: '35px',
-											backgroundColor: "rgba(0,0,0,0.51)",
+											display: "inline-block", padding: "20px", textAlign: "center"
+										}}>
+										<legend style={{ fontWeight: 'bold', marginBottom: '3px' }}>Please Enter New Master Password:</legend>
+										<input autoFocus type={this.state.reveal ? "text" : "password"} style={{
+											width: "250px",
+											backgroundColor: "rgba(5,5,5,0.41)",
 											border: "2px solid white",
 											fontSize: "24px",
 											color: "white",
-										}} onKeyUp={this.handleEnter} />
+										}} onChange={this.updateVar} />
+										<input type="button" className="button" value={this.state.reveal ? "Hide" : "Reveal"} style=
+											{{
+												fontSize: "22px",
+												margin: "0 10px 0 10px"
+											}} onClick={this.handleReveal} />
+										<input type="button" className="button" value="Set Master Password" style=
+											{{
+												fontSize: "22px"
+
+											}} onClick={this.handleNewArch} />
+									</fieldset>
 								</td></tr>
-							</tbody></table>
-					</div>
-					);
+						</tbody></table>
+					<AlertModal content={this.state.alertContent} isAlertModalOpen={this.state.isAlertModalOpen} close={this.closeModal} />
+				</div>
+			)
+		} else {
+			return (
+				<div className="item list">
+					<table style={{ border: "2px solid white", backgroundColor: "rgba(255,255,255,0.11)" }}>
+						<tbody>
+							<tr>
+								<td style={{ padding: "25px", color: 'red' }}>
+									<label style={{ fontWeight: 'bold' }}>Master Password</label>
+								</td></tr>
+							<tr><td style={{ textAlign: "center", margin: "25px" }}>
+								<input autoFocus ref='mp' type='password' style=
+									{{
+										width: "65%",
+										marginBottom: '35px',
+										backgroundColor: "rgba(0,0,0,0.51)",
+										border: "2px solid white",
+										fontSize: "24px",
+										color: "white",
+									}} onKeyUp={this.handleEnter} />
+							</td></tr>
+						</tbody></table>
+				</div>
+			);
 		}
 	}
 }
