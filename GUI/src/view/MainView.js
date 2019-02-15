@@ -120,14 +120,14 @@ class MainView extends Reflux.Component {
 			return (
 				<div className="container locked" style={{ background: "none" }}>
 					<div className="item list" style={{ background: "none" }}>
-						<div style={{ border: "2px solid white", padding: "40px", textAlign: "center", background: "none" }}>
-							<p style={{ alignSelf: "flex-end", fontSize: "24px" }}>
+						<div style={{ border: "2px solid white", padding: "20px", textAlign: "center", background: "none" }}>
+							<p style={{ alignSelf: "flex-end", fontSize: "20px" }}>
 								Welcome, dApp developers!
 				</p><br />
-							<p style={{ alignSelf: "flex-end", fontSize: "24px" }}>
-								Thank you for trying out ElevenBuckets Build Environment (11BE)!
+							<p style={{ alignSelf: "flex-end", fontSize: "20px" }}>
+								Thank you for trying out ElevenBuckets Environment (11BE)!
 				</p><br />
-							<p style={{ alignSelf: "flex-end", fontSize: "24px" }}>
+							<p style={{ alignSelf: "flex-end", fontSize: "20px" }}>
 								Please setup the following paths to continue:
 				</p><br />
 							<Login updateState={this.updateStateForEvent}
@@ -138,9 +138,9 @@ class MainView extends Reflux.Component {
 							/>
 							{
 								this.state.userCfgDone ? <input style={{ marginTop: "25px" }}
-									type="button" className="button reload" value="restart" onClick={this.relaunch} />
+									type="button" className="button reload" style={{ color: "white" }} value="restart" onClick={this.relaunch} />
 									: <input style={{ marginTop: "25px" }}
-										type="button" className="button reload" value="confirm" onClick={this.setupdone} />
+										type="button" className="button reload"  style={{ color: "white" }} value="confirm" onClick={this.setupdone} />
 							}
 						</div>
 					</div>

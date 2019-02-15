@@ -165,22 +165,22 @@ class MainView extends _reflux2.default.Component {
 					{ className: 'item list', style: { background: "none" } },
 					_react2.default.createElement(
 						'div',
-						{ style: { border: "2px solid white", padding: "40px", textAlign: "center", background: "none" } },
+						{ style: { border: "2px solid white", padding: "20px", textAlign: "center", background: "none" } },
 						_react2.default.createElement(
 							'p',
-							{ style: { alignSelf: "flex-end", fontSize: "24px" } },
+							{ style: { alignSelf: "flex-end", fontSize: "20px" } },
 							'Welcome, dApp developers!'
 						),
 						_react2.default.createElement('br', null),
 						_react2.default.createElement(
 							'p',
-							{ style: { alignSelf: "flex-end", fontSize: "24px" } },
-							'Thank you for trying out ElevenBuckets Build Environment (11BE)!'
+							{ style: { alignSelf: "flex-end", fontSize: "20px" } },
+							'Thank you for trying out ElevenBuckets Environment (11BE)!'
 						),
 						_react2.default.createElement('br', null),
 						_react2.default.createElement(
 							'p',
-							{ style: { alignSelf: "flex-end", fontSize: "24px" } },
+							{ style: { alignSelf: "flex-end", fontSize: "20px" } },
 							'Please setup the following paths to continue:'
 						),
 						_react2.default.createElement('br', null),
@@ -191,8 +191,8 @@ class MainView extends _reflux2.default.Component {
 							defaultRepoDir: this.state.defaultRepoDir
 						}),
 						this.state.userCfgDone ? _react2.default.createElement('input', { style: { marginTop: "25px" },
-							type: 'button', className: 'button reload', value: 'restart', onClick: this.relaunch }) : _react2.default.createElement('input', { style: { marginTop: "25px" },
-							type: 'button', className: 'button reload', value: 'confirm', onClick: this.setupdone })
+							type: 'button', className: 'button reload', style: { color: "white" }, value: 'restart', onClick: this.relaunch }) : _react2.default.createElement('input', { style: { marginTop: "25px" },
+							type: 'button', className: 'button reload', style: { color: "white" }, value: 'confirm', onClick: this.setupdone })
 					)
 				)
 			);
