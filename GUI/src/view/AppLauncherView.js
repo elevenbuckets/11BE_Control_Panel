@@ -22,6 +22,12 @@ class AppLauncherView extends Reflux.Component {
 			let configDir = require(path.join(cwd, '.local', 'bootstrap_config.json')).configDir;
 			let rpchost = require(path.join(configDir, 'config.json')).rpchost || '127.0.0.1';
 
+			// const subprocess = spawn(path.join(topdir, 'node_modules', '.bin', 'electron'), ['.'], {
+			// 	cwd: topdir,
+			// 	env: { DISPLAY: process.env.DISPLAY, XAUTHORITY: process.env.XAUTHORITY, configDir, PATH: process.env.PATH, rpchost },
+			// 	detached: true,
+			// 	stdio: 'ignore'
+			// });
 			const subprocess = spawn(path.join(topdir, 'node_modules', '.bin', 'electron'), ['.'], {
 				cwd: topdir,
 				env: { DISPLAY: process.env.DISPLAY, XAUTHORITY: process.env.XAUTHORITY, configDir, PATH: process.env.PATH, rpchost },
@@ -37,7 +43,7 @@ class AppLauncherView extends Reflux.Component {
 	}
 
 	getDappIcons = () => {
-		let dapps = ["Wallet"]
+		let dapps = ["Wallet", "Erebor"]
 
 		return dapps.map((key) => {
 			let src = "../dapps/" + key + "/icon.png";
