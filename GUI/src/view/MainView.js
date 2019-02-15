@@ -48,7 +48,8 @@ class MainView extends Reflux.Component {
 			"userCfgDone",
 			"syncInProgress",
 			"blockHeight",
-			"highestBlock"
+			"highestBlock",
+			"version"
 		];
 
 	}
