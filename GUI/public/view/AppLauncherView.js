@@ -16,6 +16,10 @@ var _reflux = require('reflux');
 
 var _reflux2 = _interopRequireDefault(_reflux);
 
+var _ControlPanelStore = require('../store/ControlPanelStore');
+
+var _ControlPanelStore2 = _interopRequireDefault(_ControlPanelStore);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 class AppLauncherView extends _reflux2.default.Component {
@@ -33,7 +37,7 @@ class AppLauncherView extends _reflux2.default.Component {
 				cwd = path.join(cwd, "../../..");
 				let topdir = path.join(cwd, 'dapps', appName, 'GUI');
 				let configDir = require(path.join(cwd, '.local', 'bootstrap_config.json')).configDir;
-				let rpchost = require(path.join(configDir, 'config.json')).rpchost || '127.0.0.1';
+				let rpchost = this.state.rpcHost;
 
 				// const subprocess = spawn(path.join(topdir, 'node_modules', '.bin', 'electron'), ['.'], {
 				// 	cwd: topdir,
@@ -41,13 +45,13 @@ class AppLauncherView extends _reflux2.default.Component {
 				// 	detached: true,
 				// 	stdio: 'ignore'
 				// });
-				const subprocess = spawn(path.join(topdir, 'node_modules', '.bin', 'electron'), ['.'], {
-					cwd: topdir,
+				const subprocess = spawn(path.join(cwd, 'node_modules', '.bin', 'bladecli'), [appName + " autoGUI:true"], {
+					cwd: cwd,
 					env: { DISPLAY: process.env.DISPLAY, XAUTHORITY: process.env.XAUTHORITY, configDir, PATH: process.env.PATH, rpchost },
 					detached: true,
-					stdio: 'ignore'
+					stdio: 'ignore',
+					shell: true
 				});
-
 				subprocess.unref();
 
 				return true;
@@ -84,8 +88,12 @@ class AppLauncherView extends _reflux2.default.Component {
 				)
 			);
 		};
+
+		this.store = _ControlPanelStore2.default;
+		this.storeKeys = ["rpcHost"];
 	}
 
 }
 
+// Reflux store
 exports.default = AppLauncherView;

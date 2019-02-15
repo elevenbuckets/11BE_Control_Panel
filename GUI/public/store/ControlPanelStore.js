@@ -55,7 +55,8 @@ class ControlPanelStore extends _reflux2.default.Store {
 			Qs: [],
 			receipts: {},
 			watchedTokenSymbolList: [],
-			version: null
+			version: null,
+			rpcHost: null
 		};
 
 		this.listenables = _ControlPanelActions2.default;
@@ -66,7 +67,7 @@ class ControlPanelStore extends _reflux2.default.Store {
 		this.setState({ version: '1.0.0-alpha', configured: configured });
 		if (configured) {
 			this.controlPanel.client.subscribe('ethstats');
-			this.setState({ gasPrice: this.controlPanel.configs.defaultGasPrice });
+			this.setState({ gasPrice: this.controlPanel.configs.defaultGasPrice, rpcHost: this.controlPanel.rpchost });
 
 			this.addressUpdate = () => {
 				if (this.state.lesDelay === true) return; // do nothing, since statusUpdate is doing it already
