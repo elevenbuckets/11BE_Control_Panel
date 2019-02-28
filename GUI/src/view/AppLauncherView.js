@@ -3,9 +3,16 @@ import ControlPanelActions from '../action/ControlPanelActions'
 import React from 'react';
 import Reflux from 'reflux';
 
+// Reflux store
+import ControlPanelStore from "../store/ControlPanelStore";
+
 class AppLauncherView extends Reflux.Component {
 	constructor(props) {
 		super(props);
+		this.store = ControlPanelStore;
+		this.storeKeys = [
+			"rpcHost"
+		];
 	}
 
 
@@ -20,15 +27,21 @@ class AppLauncherView extends Reflux.Component {
 			cwd = path.join(cwd, "../../..")
 			let topdir = path.join(cwd, 'dapps', appName, 'GUI');
 			let configDir = require(path.join(cwd, '.local', 'bootstrap_config.json')).configDir;
-			let rpchost = require(path.join(configDir, 'config.json')).rpchost || '127.0.0.1';
+			let rpchost = this.state.rpcHost;
 
-			const subprocess = spawn(path.join(topdir, 'node_modules', '.bin', 'electron'), ['.'], {
-				cwd: topdir,
+			// const subprocess = spawn(path.join(topdir, 'node_modules', '.bin', 'electron'), ['.'], {
+			// 	cwd: topdir,
+			// 	env: { DISPLAY: process.env.DISPLAY, XAUTHORITY: process.env.XAUTHORITY, configDir, PATH: process.env.PATH, rpchost },
+			// 	detached: true,
+			// 	stdio: 'ignore'
+			// });
+			const subprocess = spawn(path.join(cwd, 'node_modules', '.bin', 'bladecli') , [appName + " autoGUI:true"] , {
+				cwd: cwd,
 				env: { DISPLAY: process.env.DISPLAY, XAUTHORITY: process.env.XAUTHORITY, configDir, PATH: process.env.PATH, rpchost },
 				detached: true,
-				stdio: 'ignore'
+				stdio: 'ignore',
+				shell: true
 			});
-
 			subprocess.unref();
 
 			return true;
@@ -37,7 +50,7 @@ class AppLauncherView extends Reflux.Component {
 	}
 
 	getDappIcons = () => {
-		let dapps = ["Wallet"]
+		let dapps = ["Wallet", "Erebor"]
 
 		return dapps.map((key) => {
 			let src = "../dapps/" + key + "/icon.png";
