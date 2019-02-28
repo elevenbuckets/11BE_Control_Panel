@@ -33,7 +33,7 @@ class ControlPanelStore extends Reflux.Store {
 				receipts: {},
 				watchedTokenSymbolList: [],
 				version: null,
-				currentView: 'AppLauncher'
+				currentView: 'AppLauncher',
 				rpcHost: null
 			}
 
