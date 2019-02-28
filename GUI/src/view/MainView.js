@@ -29,14 +29,6 @@ class MainView extends Reflux.Component {
 	constructor(props) {
 		super(props);
 		this.store = ControlPanelStore;
-		// this.controlPanel = remote.getGlobal("controlPanel");
-		// this.controlPanel.client.subscribe('newJobs');
-		// this.controlPanel.client.on('newJobs', this.handleNewJobs);
-		// this.controlPanel.syncTokenInfo();
-		this.state = {
-			currentView: "AppLauncher"
-		}
-
 		this.storeKeys = [
 			"unlocked",
 			"currentView",
@@ -59,8 +51,8 @@ class MainView extends Reflux.Component {
 	}
 
 	updateStateForEvent = (key, e) => {
-		this.setState({ [key]: e.target.value });
-	}
+        this.setState({ [key]: e.target.value });
+    }
 
 	passAccRef = () => {
 		return ReactDOM.findDOMNode(this.refs.Accounts).firstChild;
@@ -70,47 +62,47 @@ class MainView extends Reflux.Component {
 
 	setupdone = () => {
 		// confine config fields
-		const mainFields = ["configDir"];
-		const castIronFields = ["datadir", "rpcAddr", "ipcPath", "defaultGasPrice", "gasOracleAPI",
-			"condition", "networkID", "tokens", "watchTokens", "passVault"];
-		const ipfsFields = ["lockerpathjs", "repoPathJs", "lockerpathgo", "repoPathGo", "ipfsBinary"];
-
+			const mainFields = ["configDir"];
+			const castIronFields = ["datadir", "rpcAddr", "ipcPath", "defaultGasPrice", "gasOracleAPI",
+			 "condition", "networkID","tokens", "watchTokens", "passVault"];
+			const ipfsFields = ["lockerpathjs", "repoPathJs", "lockerpathgo", "repoPathGo", "ipfsBinary"];
+	
 		// ConfigWriter instances
-		let mainWriter = ConfigWriterService.getFileWriter("../../../.local/bootstrap_config.json", mainFields);
-		let castIronWriter = ConfigWriterService.getFileWriter(path.join(this.state.defaultCfgDir + "/config.json"), castIronFields);
-		let ipfsWriter = ConfigWriterService.getFileWriter(path.join(this.state.defaultCfgDir, "/ipfsserv.json"), ipfsFields);
-
+			let mainWriter = ConfigWriterService.getFileWriter("../../../.local/bootstrap_config.json", mainFields);
+			let castIronWriter = ConfigWriterService.getFileWriter(path.join(this.state.defaultCfgDir + "/config.json"), castIronFields);
+			let ipfsWriter = ConfigWriterService.getFileWriter(path.join(this.state.defaultCfgDir, "/ipfsserv.json"), ipfsFields);
+	
 		// internal config update
-		let mainJson = { "configDir": this.state.defaultCfgDir };
-		mainWriter.writeJSON(mainJson);
-
+			let mainJson = { "configDir": this.state.defaultCfgDir };
+			mainWriter.writeJSON(mainJson);
+	
 		// castiron config update
-		let castIronJson = {
-			"datadir": this.state.defaultDataDir,
-			"rpcAddr": "http://127.0.0.1:8545",
-			"ipcPath": path.join(this.state.defaultDataDir, "geth.ipc"),
-			"defaultGasPrice": "20000000000",
-			"gasOracleAPI": "https://ethgasstation.info/json/ethgasAPI.json",
-			"condition": "sanity",
-			"networkID": this.state.defaultNetID,
-			"passVault": path.join(this.state.defaultCfgDir, "myArchive.bcup"),
-			"tokens": {},
-			"watchTokens": []
-		}
-
-		castIronWriter.writeJSON(castIronJson);
-
+			let castIronJson = {
+				"datadir": this.state.defaultDataDir,
+				"rpcAddr": "http://127.0.0.1:8545",
+				"ipcPath": path.join(this.state.defaultDataDir, "geth.ipc"),
+				"defaultGasPrice": "20000000000",
+				"gasOracleAPI": "https://ethgasstation.info/json/ethgasAPI.json",
+				"condition": "sanity",
+				"networkID": this.state.defaultNetID,
+				"passVault": path.join(this.state.defaultCfgDir, "myArchive.bcup"),
+				"tokens":{},
+				"watchTokens": []
+			}
+	
+			castIronWriter.writeJSON(castIronJson);
+	
 		// ipfs config update
-		let ipfsJson = {
-			"lockerpathjs": path.join(this.state.defaultCfgDir, ".ipfslock"),
-			"lockerpathgo": path.join(this.state.defaultCfgDir, ".ipfslock_go"),
-			"repoPathGo": this.state.defaultRepoDir
-		}
-
-		ipfsWriter.writeJSON(ipfsJson);
-
-		this.setState({ userCfgDone: true })
-	};
+			let ipfsJson = {
+				"lockerpathjs": path.join(this.state.defaultCfgDir, ".ipfslock"),
+				"lockerpathgo": path.join(this.state.defaultCfgDir, ".ipfslock_go"),
+				"repoPathGo": this.state.defaultRepoDir
+			}
+	
+			ipfsWriter.writeJSON(ipfsJson);
+	
+			this.setState({ userCfgDone: true })
+		};
 
 
 	render() {
